@@ -5,7 +5,7 @@ from jogador import Jogador
 from sprite import *
 from pytmx.util_pygame import load_pygame
 from groups import AllSprites
-
+from menu import Menu
 from random import randint
 
 class Jogo:
@@ -32,7 +32,15 @@ class Jogo:
         self.gun_cooldown = 100
 
     def load_images(self):
-       self.bullet_surf = pygame.image.load(join('/home/UFMG.BR/matheusscarv/Downloads/POO-Projeto-de-Jogo/images/weapons/fire.png')).convert_alpha()
+        # Caminho absoluto para o diretório raiz do projeto
+        base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+        # Constrói o caminho absoluto para a imagem
+        image_path = os.path.join(base_path, 'images', 'weapons', 'fire.png')
+
+        # Carrega a imagem usando o caminho absoluto
+        self.bullet_surf = pygame.image.load(image_path).convert_alpha()
+        #self.bullet_surf = pygame.image.load(join('/home/UFMG.BR/matheusscarv/Downloads/POO-Projeto-de-Jogo/images/weapons/fire.png')).convert_alpha()
 
     def input(self):
         if pygame.mouse.get_pressed()[0] and self.can_shoot:
@@ -48,8 +56,11 @@ class Jogo:
                 self.can_shoot = True
 
     def setup(self):
-
-        map_path = os.path.abspath(join('/home/UFMG.BR/matheusscarv/Downloads/POO-Projeto-de-Jogo/code/maps/firstMap.tmx'))
+        
+        base_path =os.path.dirname(__file__)
+        map_path = os.path.join(base_path, 'maps',"firstMap.tmx")
+        map_path = os.path.abspath(map_path) 
+        #map_path = os.path.abspath(join('/home/UFMG.BR/matheusscarv/Downloads/POO-Projeto-de-Jogo/code/maps/firstMap.tmx'))
         map = load_pygame(map_path)
         for x, y, image in map.get_layer_by_name("grass").tiles():
            Sprite((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
@@ -76,45 +87,44 @@ class Jogo:
                 
 
     def run(self):  
-        while self.menu:
-            dt = self.clock.tick(60) / 1000
-            keys = pygame.key.get_pressed()
+        # Cria o menu e exibe a tela de menu
+        menu = Menu(self.screen)
+        menu.display_menu_options()  # Exibe o menu até que o jogador pressione Enter
 
-            #pygame.QUIT signifa clicar no X da tela
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.menu = False
-                elif keys[pygame.K_RETURN]:
-                    self.menu = False
-                    self.running = True
+        # Após sair do menu, o jogo começa
+        self.running = True
 
-            #desenha e atualiza o jogo
-            self.screen.fill('black')
-            pygame.display.update()
-       
-        
+        while self.menu:  # Loop do menu
+            self.menu = menu.display_menu_options()  # Exibe o menu até que o jogador pressione Start ou Quit
+            if not self.menu:  # Se o menu foi encerrado
+                self.running = True
+                self.setup()  # Configura o jogo após o menu
+
+
         while self.running:
-            dt = self.clock.tick(60) / 1000
+                dt = self.clock.tick(60) / 1000
 
-            #pygame.QUIT signifa clicar no X da tela
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
+    
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        self.running = False
+                
+                #update
+                self.gun_timer()
+                self.input()
+                self.all_sprites.update(dt)
+
+                #desenha e atualiza o jogo
+                self.screen.fill('black')
+                self.all_sprites.draw(self.player.rect.center)
+                pygame.display.update()
             
-            #update
-            self.gun_timer()
-            self.input()
-            self.all_sprites.update(dt)
-
-            #desenha e atualiza o jogo
-            self.screen.fill('black')
-            self.all_sprites.draw(self.player.rect.center)
-            pygame.display.update()
-        
-        
-        
-        
+            
+            
+            
         pygame.quit()
+            
+        
 
 
 jogo = Jogo()

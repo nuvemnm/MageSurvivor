@@ -6,7 +6,6 @@ from pytmx.util_pygame import load_pygame
 from groups import AllSprites
 
 
-
 class Sprite(pygame.sprite.Sprite):
     def __init__(self, pos, surf, groups):
         super().__init__(groups)
@@ -35,7 +34,15 @@ class Gun(pygame.sprite.Sprite):
 
         # sprite setup
         super(). __init__(groups)
-        self.gun_surf = pygame.image.load(join('/home/UFMG.BR/matheusscarv/Downloads/POO-Projeto-de-Jogo/images/weapons/spot.png'))
+        # Caminho absoluto para o diretório raiz do projeto
+        base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+        # Constrói o caminho absoluto para a imagem
+        image_path = os.path.join(base_path, 'images', 'weapons', 'spot.png')
+
+        # Carrega a imagem usando o caminho absoluto
+        self.gun_surf = pygame.image.load(image_path).convert_alpha()
+        #self.gun_surf = pygame.image.load(join('/home/UFMG.BR/matheusscarv/Downloads/POO-Projeto-de-Jogo/images/weapons/spot.png'))
         self.image = self.gun_surf
         self.rect = self.image.get_rect(center = self.player.rect.center + self.player_direction * self.distance)
 

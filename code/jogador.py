@@ -1,10 +1,15 @@
 from config import *
 from os.path import join
+import os
 
 class Jogador(pygame.sprite.Sprite):
     def __init__(self, position: int, groups, collision_sprites):
         super().__init__(groups) 
-        self.image = pygame.image.load('/home/UFMG.BR/matheusscarv/Downloads/POO-Projeto-de-Jogo/images/personagem/magomenor.png').convert_alpha()
+        
+        base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+        image_path = os.path.join(base_path, 'images', 'personagem', 'magomenor.png')
+        self.image = pygame.image.load(image_path).convert_alpha()
+
         self.rect = self.image.get_rect(topleft = position)
 
         #movimento
@@ -20,10 +25,15 @@ class Jogador(pygame.sprite.Sprite):
         self.direction.y = int(keys[pygame.K_DOWN] or keys[pygame.K_s]) - int(keys[pygame.K_UP]or keys[pygame.K_w])
         #normaliza velocidade diagonal
         self.direction = self.direction.normalize() if self.direction else self.direction
-        if keys[pygame.K_RIGHT]:
-            self.image = pygame.image.load('/home/UFMG.BR/matheusscarv/Downloads/POO-Projeto-de-Jogo/images/personagem/magomenor-direita.png').convert_alpha()
-        elif keys[pygame.K_LEFT]:
-            self.image = pygame.image.load('/home/UFMG.BR/matheusscarv/Downloads/POO-Projeto-de-Jogo/images/personagem/magomenor.png').convert_alpha()
+        if (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
+            base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+            image_path = os.path.join(base_path, 'images', 'personagem', 'magomenor-direita.png')
+            self.image = pygame.image.load(image_path).convert_alpha()
+        elif (keys[pygame.K_LEFT]or keys[pygame.K_a]):
+            base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+            image_path = os.path.join(base_path, 'images', 'personagem', 'magomenor.png')
+            self.image = pygame.image.load(image_path).convert_alpha()
+    
 
     def move(self, dt):
         self.hitbox.x += self.direction.x * self.speed * dt 

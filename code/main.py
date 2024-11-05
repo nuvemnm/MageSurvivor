@@ -54,11 +54,17 @@ class Jogo:
         self.bullet_surf = pygame.image.load(image_path).convert_alpha()
         #self.bullet_surf = pygame.image.load(join('/home/UFMG.BR/matheusscarv/Downloads/POO-Projeto-de-Jogo/images/weapons/fire.png')).convert_alpha()
 
-        folders =list(walk(join('images','inimigos')))[0][1]
+        folders =list(walk(join('C:\\UFMG\\02-2024\\POO\\MageSurvivor\\images\\inimigos')))
+        if folders:
+            folders = folders[0][1]  # Obtém apenas as subpastas
+            print("Pastas encontradas:", folders)
+        else:
+            folders = []
+            print("Nenhuma pasta encontrada dentro de 'images/inimigos'.")
 
         self.enemy_frames={}
         for folder in folders:
-            for folder_path,_,file_names in walk(join('images','inimigos', folder)):
+            for folder_path,_,file_names in walk(join('C:\\UFMG\\02-2024\\POO\\MageSurvivor\\images\\inimigos', folder)):
                 self.enemy_frames[folder]=[]
                 for file_name in sorted(file_names,key=lambda name: int(name.split('.')[0])):
                     full_path = join(folder_path,file_name)

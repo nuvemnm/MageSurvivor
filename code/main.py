@@ -89,21 +89,20 @@ class Jogo:
     def run(self):  
         # Cria o menu e exibe a tela de menu
         menu = Menu(self.screen)
-        menu.display_menu_options()  # Exibe o menu até que o jogador pressione Enter
+        self.running = False
+    
+        while not self.running:
+            menu.display_menu()
+            result = menu.handle_menu_events()
 
-        # Após sair do menu, o jogo começa
-        self.running = True
-
-        while self.menu:  # Loop do menu
-            self.menu = menu.display_menu_options()  # Exibe o menu até que o jogador pressione Start ou Quit
-            if not self.menu:  # Se o menu foi encerrado
+            if result == 1:
                 self.running = True
-                self.setup()  # Configura o jogo após o menu
+
+            pygame.display.flip()#Serve para atulizar "limpar" a tela
 
 
         while self.running:
                 dt = self.clock.tick(60) / 1000
-
     
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:

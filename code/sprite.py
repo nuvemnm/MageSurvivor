@@ -4,7 +4,7 @@ from config import *
 from math import atan2, degrees
 from pytmx.util_pygame import load_pygame
 from groups import AllSprites
-
+from enemy import Enemy
 
 class Sprite(pygame.sprite.Sprite):
     def __init__(self, pos, surf, groups):
@@ -86,14 +86,25 @@ class Bullet(pygame.sprite.Sprite):
         if pygame.time.get_ticks() - self.spawn_time >= self.lifetime:
             self.kill()
 
-class Enemy(pygame.sprite.Sprite): 
+class Enemy(pygame.sprite.Sprite): #depois de testar tem q tirar a classe daqui
     def __init__(self, pos, frames, groups, player, collision_sprites):
         super().__init__(groups)
         self.player = player
+    
+        self.frames, self.frames_index =frames,0
+        self.image =self.frames[self.frames_index]
+        self.animation_speed=6
+
+        self.rect=self.image.get_frect(center=pos)
+        self.hitbox_rect=self.rect.inflate(-20,-40)
+        self.collision_sprites=collision_sprites
+        self.direction =pygame.Vector2()
+        self.speed=350
+
 """
 
 CRIEI UM ARQUIVO PRA CLASSE MAP FAVOR UTILIZAR SE POSSIVEL RS 
-class Map():
+class Map(): 
     def __init__(self, level):
         self.level = level
     

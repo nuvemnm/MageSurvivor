@@ -69,10 +69,10 @@ class Menu:
                 exit()
         
         elif self.menu_type == "login": #IMPLEMENTAR LOGICA DE CRIAR LOGIN E DE RECUPERAR JOGO SALVO
-            if self.selected_option == 2:  # Voltar para o menu principal
-                self.menu_type = "main"
+            if self.selected_option == 0: #login com sucesso começa o jogo
+                return 1
             else:
-                self.menu_type = "magias"
+                self.menu_type = "main"
 
         elif self.menu_type == "magias":
             if self.selected_option == 3:  # Voltar para o menu principal

@@ -86,11 +86,13 @@ class Bullet(pygame.sprite.Sprite):
         if pygame.time.get_ticks() - self.spawn_time >= self.lifetime:
             self.kill()
 
-class Enemy(pygame.sprite.Sprite): #COLOCAR EM UM ARQUIVO SEPARADO
+class Enemy(pygame.sprite.Sprite): 
     def __init__(self, pos, frames, groups, player, collision_sprites):
         super().__init__(groups)
         self.player = player
 """
+
+CRIEI UM ARQUIVO PRA CLASSE MAP FAVOR UTILIZAR SE POSSIVEL RS 
 class Map():
     def __init__(self, level):
         self.level = level

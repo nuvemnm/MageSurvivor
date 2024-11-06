@@ -4,7 +4,7 @@ from groups import AllSprites
 from jogador import Jogador
 
 class Enemy(pygame.sprite.Sprite): 
-    def __init__(self, pos, frames, groups, player, collision_sprites):
+    def __init__(self, pos, frames, groups, player, collision_sprites, bullet_sprites):
         super().__init__(groups)
         self.player = player
     
@@ -15,6 +15,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect=self.image.get_rect(center=pos)
         self.hitbox_rect=self.rect.inflate(-20,-40)
         self.collision_sprites=collision_sprites
+        self.bullet_sprites = bullet_sprites
         self.direction = pygame.Vector2()
         self.speed=150
 
@@ -28,7 +29,7 @@ class Enemy(pygame.sprite.Sprite):
         self.direction = None
         zero = player_pos == enemy_pos
         if zero:
-            print("0")
+            #print("0")
             self.direction = 0
         else:
             self.direction = (player_pos - enemy_pos).normalize()
@@ -60,6 +61,9 @@ class Enemy(pygame.sprite.Sprite):
                         self.hitbox_rect.top = sprite.rect.bottom
                     if self.direction.y > 0:
                         self.hitbox_rect.bottom = sprite.rect.top
+        for sprite in self.bullet_sprites: 
+            if sprite.rect.colliderect(self.hitbox_rect):
+                self.kill()
 
 
     def update(self, dt):

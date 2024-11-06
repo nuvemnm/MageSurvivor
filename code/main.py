@@ -78,7 +78,7 @@ class Jogo:
     def input(self):
         if pygame.mouse.get_pressed()[0] and self.can_shoot:
             pos = self.gun.rect.center + self.gun.player_direction * 50
-            Bullet(self.bullet_surf, pos, self.gun.player_direction, (self.all_sprites, self.bullet_sprites))
+            Bullet(self.bullet_surf, pos, self.gun.player_direction, (self.all_sprites, self.bullet_sprites), self.enemy_sprites)
             self.can_shoot = False
             self.shoot_time = pygame.time.get_ticks()
 
@@ -144,7 +144,7 @@ class Jogo:
                     if event.type == pygame.QUIT:
                         self.running = False
                     if event.type ==self.enemy_event:
-                        Enemy(choice(self.spawn_positions),choice(list(self.enemy_frames.values())),(self.all_sprites,self.enemy_sprites),self.player, self.collision_sprites)
+                        Enemy(choice(self.spawn_positions),choice(list(self.enemy_frames.values())),(self.all_sprites,self.enemy_sprites),self.player, self.collision_sprites, self.bullet_sprites)
                 
                 #update
                 self.gun_timer()

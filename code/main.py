@@ -115,7 +115,7 @@ class Jogo:
                 self.player = Jogador((obj.x, obj.y), self.all_sprites, self.collision_sprites)
                 self.gun = Gun(self.player, self.all_sprites)
             else:
-                self.spawn_positions.append((obj.x,obj.y))
+                self.spawn_positions.append((obj.x,obj.y))  
 
         print("Posições de spawn carregadas:", self.spawn_positions)
 
@@ -141,7 +141,7 @@ class Jogo:
                     if event.type == pygame.QUIT:
                         self.running = False
                     if event.type ==self.enemy_event:
-                        Enemy(choice(self.spawn_positions),choice(list(self.enemy_frames.values())),(self.all_sprites,self.enemy_sprites),self.player,self.collision_sprites)
+                        Enemy(choice(self.spawn_positions),choice(list(self.enemy_frames.values())),(self.all_sprites,self.enemy_sprites),self.player, self.collision_sprites)
                 
                 #update
                 self.gun_timer()

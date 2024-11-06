@@ -24,7 +24,7 @@ class Enemy(pygame.sprite.Sprite):
 
     def move(self, dt):
         player_pos = pygame.Vector2(self.player.rect.center)
-        enemy_pos = pygame.Vector2(self.rect.center)    
+        enemy_pos = pygame.Vector2(self.rect.center) 
         self.direction = None
         zero = player_pos == enemy_pos
         if zero:
@@ -39,11 +39,13 @@ class Enemy(pygame.sprite.Sprite):
             self.collision('vertical')
             self.rect.center = self.hitbox_rect.center
 
-        #self.hitbox_rect.x += self.direction.x * self.speed *dt
-        #self.collision('horizontal')
-        #self.hitbox_rect.y += self.direction.y * self.speed *dt
-        #self.collision('vertical')
-        #self.rect.center = self.hitbox_rect.center
+        """
+        self.hitbox_rect.x += self.direction.x * self.speed *dt
+        self.collision('horizontal')
+        self.hitbox_rect.y += self.direction.y * self.speed *dt
+        self.collision('vertical')
+        self.rect.center = self.hitbox_rect.center
+        """   
 
     def collision(self, direction):
         for sprite in self.collision_sprites:

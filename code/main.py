@@ -6,7 +6,7 @@ from sprite import *
 from pytmx.util_pygame import load_pygame
 from groups import AllSprites
 from menu import Menu
-from random import randint
+from random import randint,choice
 
 class Jogo:
     def __init__(self):
@@ -23,13 +23,25 @@ class Jogo:
         self.all_sprites = AllSprites()
         self.collision_sprites = pygame.sprite.Group()
         self.bullet_sprites = pygame.sprite.Group()
+        self.enemy_sprites = pygame.sprite.Group()
 
-        self.setup()
+       
 
         #gun timer
         self.can_shoot = True
         self.shoot_time = 0
         self.gun_cooldown = 100
+
+        #enemy timer
+        self.enemy_event=pygame.event.custom_type()
+        pygame.time.set_timer(self.enemy_event,300)
+        self.spawn_positions=[]
+
+        self.load_images()
+        self.setup()
+        if not self.spawn_positions:
+            print("Erro: Nenhuma posição de spawn foi carregada!")
+
 
     def load_images(self):
         # Caminho absoluto para o diretório raiz do projeto
@@ -41,6 +53,24 @@ class Jogo:
         # Carrega a imagem usando o caminho absoluto
         self.bullet_surf = pygame.image.load(image_path).convert_alpha()
         #self.bullet_surf = pygame.image.load(join('/home/UFMG.BR/matheusscarv/Downloads/POO-Projeto-de-Jogo/images/weapons/fire.png')).convert_alpha()
+
+        folders =list(walk(join('C:\\UFMG\\02-2024\\POO\\MageSurvivor\\images\\inimigos')))
+        if folders:
+            folders = folders[0][1]  # Obtém apenas as subpastas
+            print("Pastas encontradas:", folders)
+        else:
+            folders = []
+            print("Nenhuma pasta encontrada dentro de 'images/inimigos'.")
+
+        self.enemy_frames={}
+        for folder in folders:
+            for folder_path,_,file_names in walk(join('C:\\UFMG\\02-2024\\POO\\MageSurvivor\\images\\inimigos', folder)):
+                self.enemy_frames[folder]=[]
+                for file_name in sorted(file_names,key=lambda name: int(name.split('.')[0])):
+                    full_path = join(folder_path,file_name)
+                    surf =pygame.image.load(full_path).convert_alpha()
+                    self.enemy_frames[folder].append(surf)
+
 
     def input(self):
         if pygame.mouse.get_pressed()[0] and self.can_shoot:
@@ -84,7 +114,10 @@ class Jogo:
             if obj.name == 'player':
                 self.player = Jogador((obj.x, obj.y), self.all_sprites, self.collision_sprites)
                 self.gun = Gun(self.player, self.all_sprites)
-                
+            else:
+                self.spawn_positions.append((obj.x,obj.y))  
+
+        print("Posições de spawn carregadas:", self.spawn_positions)
 
     def run(self):  
         # Cria o menu e exibe a tela de menu
@@ -107,6 +140,8 @@ class Jogo:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         self.running = False
+                    if event.type ==self.enemy_event:
+                        Enemy(choice(self.spawn_positions),choice(list(self.enemy_frames.values())),(self.all_sprites,self.enemy_sprites),self.player, self.collision_sprites)
                 
                 #update
                 self.gun_timer()
@@ -120,11 +155,9 @@ class Jogo:
             
             
             
-            
         pygame.quit()
             
         
-
 
 jogo = Jogo()
 jogo.run()

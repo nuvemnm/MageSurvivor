@@ -1,6 +1,6 @@
 from sprite import *
 from pytmx.util_pygame import load_pygame
-from groups import AllSprites
+from groups import *
 from jogador import Jogador
 
 class Enemy(pygame.sprite.Sprite): 

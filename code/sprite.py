@@ -3,7 +3,7 @@ from os.path import join
 from config import *
 from math import atan2, degrees
 from pytmx.util_pygame import load_pygame
-from groups import AllSprites
+from groups import *
 from enemy import Enemy
 
 class Sprite(pygame.sprite.Sprite):

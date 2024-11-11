@@ -2,10 +2,10 @@ import os
 from os.path import join
 from os import walk
 from config import *
-from jogador import Jogador
+from jogador import *
 from sprite import *
 from pytmx.util_pygame import load_pygame
-from groups import *
+from groups import AllSprites
 from menu import Menu
 from random import randint,choice
 
@@ -19,13 +19,13 @@ class Jogo:
         self.menu = True
         self.running = False
         self.load_images()
+        self.spawnEnemy()
 
         #grupo
         self.all_sprites = AllSprites()
         self.collision_sprites = pygame.sprite.Group()
         self.bullet_sprites = pygame.sprite.Group()
         self.enemy_sprites = pygame.sprite.Group()
-        self.player_sprite = PlayerSprite()
 
        
 
@@ -36,7 +36,7 @@ class Jogo:
 
         #enemy timer
         self.enemy_event=pygame.event.custom_type()
-        pygame.time.set_timer(self.enemy_event,300)
+        pygame.time.set_timer(self.enemy_event, 300)
         self.spawn_positions=[]
 
         self.load_images()
@@ -91,7 +91,7 @@ class Jogo:
 
     def setup(self):
         
-        base_path =os.path.dirname(__file__)
+        base_path = os.path.dirname(__file__)
         map_path = os.path.join(base_path, 'maps',"firstMap.tmx")
         map_path = os.path.abspath(map_path) 
         #map_path = os.path.abspath(join('/home/UFMG.BR/matheusscarv/Downloads/POO-Projeto-de-Jogo/code/maps/firstMap.tmx'))
@@ -116,12 +116,15 @@ class Jogo:
 
         for obj in map.get_layer_by_name('Entities'):
             if obj.name == 'player':
-                self.player = Jogador((obj.x, obj.y), self.player_sprite, self.collision_sprites)
+                self.player = Jogador((obj.x, obj.y), self.all_sprites, self.collision_sprites, self.enemy, self.enemy_sprites)
                 self.gun = Gun(self.player, self.all_sprites)
             else:
                 self.spawn_positions.append((obj.x,obj.y))  
 
         print("Posições de spawn carregadas:", self.spawn_positions)
+
+    def spawnEnemy(self):
+       self.enemy = Enemy(choice(self.spawn_positions),choice(list(self.enemy_frames.values())),(self.all_sprites,self.enemy_sprites),self.player, self.collision_sprites, self.bullet_sprites)
 
     def run(self):  
         # Cria o menu e exibe a tela de menu
@@ -144,19 +147,17 @@ class Jogo:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         self.running = False
-                    if event.type ==self.enemy_event:
-                        Enemy(choice(self.spawn_positions),choice(list(self.enemy_frames.values())),(self.all_sprites,self.enemy_sprites),self.player, self.collision_sprites, self.bullet_sprites)
+                    if event.type == self.enemy_event:
+                        self.spawnEnemy()
                 
                 #update
                 self.gun_timer()
                 self.input()
                 self.all_sprites.update(dt)
-                self.player_sprite.update(dt)
 
                 #desenha e atualiza o jogo
                 self.screen.fill('black')
                 self.all_sprites.draw(self.player.rect.center)
-                self.player_sprite.draw(self.player.rect.center)
                 pygame.display.update()
             
             

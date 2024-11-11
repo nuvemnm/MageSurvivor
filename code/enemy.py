@@ -1,3 +1,4 @@
+"""
 from sprite import *
 from pytmx.util_pygame import load_pygame
 from groups import *
@@ -18,6 +19,7 @@ class Enemy(pygame.sprite.Sprite):
         self.bullet_sprites = bullet_sprites
         self.direction = pygame.Vector2()
         self.speed=150
+        self.damage = 5
 
     def animate(self, dt):
         self.frames_index += self.animation_speed * dt
@@ -40,13 +42,13 @@ class Enemy(pygame.sprite.Sprite):
             self.collision('vertical')
             self.rect.center = self.hitbox_rect.center
 
-        """
+    
         self.hitbox_rect.x += self.direction.x * self.speed *dt
         self.collision('horizontal')
         self.hitbox_rect.y += self.direction.y * self.speed *dt
         self.collision('vertical')
         self.rect.center = self.hitbox_rect.center
-        """   
+         
 
     def collision(self, direction):
         for sprite in self.collision_sprites:
@@ -71,3 +73,4 @@ class Enemy(pygame.sprite.Sprite):
         self.animate(dt)
 
     
+"""

@@ -5,7 +5,7 @@ from config import *
 from jogador import *
 from sprite import *
 from pytmx.util_pygame import load_pygame
-from groups import AllSprites
+from groups import *
 from menu import Menu
 from random import randint,choice
 
@@ -19,10 +19,11 @@ class Jogo:
         self.menu = True
         self.running = False
         self.load_images()
-        self.spawnEnemy()
+        
 
         #grupo
         self.all_sprites = AllSprites()
+        self.player_sprites = PlayerSprite()
         self.collision_sprites = pygame.sprite.Group()
         self.bullet_sprites = pygame.sprite.Group()
         self.enemy_sprites = pygame.sprite.Group()
@@ -39,7 +40,6 @@ class Jogo:
         pygame.time.set_timer(self.enemy_event, 300)
         self.spawn_positions=[]
 
-        self.load_images()
         self.setup()
         if not self.spawn_positions:
             print("Erro: Nenhuma posição de spawn foi carregada!")
@@ -72,14 +72,14 @@ class Jogo:
                 self.enemy_frames[folder]=[]
                 for file_name in sorted(file_names,key=lambda name: int(name.split('.')[0])):
                     full_path = join(folder_path,file_name)
-                    surf =pygame.image.load(full_path).convert_alpha()
+                    surf = pygame.image.load(full_path).convert_alpha()
                     self.enemy_frames[folder].append(surf)
 
 
     def input(self):
         if pygame.mouse.get_pressed()[0] and self.can_shoot:
-            pos = self.gun.rect.center + self.gun.player_direction * 50
-            Bullet(self.bullet_surf, pos, self.gun.player_direction, (self.all_sprites, self.bullet_sprites), self.enemy_sprites)
+            pos = self.player.rect.center + self.gun.player_direction * 20
+            self.bullet = Bullet(self.bullet_surf, pos, self.gun.player_direction, (self.all_sprites, self.bullet_sprites), self.enemy_sprites, 10)
             self.can_shoot = False
             self.shoot_time = pygame.time.get_ticks()
 
@@ -116,15 +116,15 @@ class Jogo:
 
         for obj in map.get_layer_by_name('Entities'):
             if obj.name == 'player':
-                self.player = Jogador((obj.x, obj.y), self.all_sprites, self.collision_sprites, self.enemy, self.enemy_sprites)
+                self.player = Jogador((obj.x, obj.y), self.player_sprites, self.collision_sprites, self.enemy_sprites)
                 self.gun = Gun(self.player, self.all_sprites)
             else:
                 self.spawn_positions.append((obj.x,obj.y))  
 
         print("Posições de spawn carregadas:", self.spawn_positions)
 
-    def spawnEnemy(self):
-       self.enemy = Enemy(choice(self.spawn_positions),choice(list(self.enemy_frames.values())),(self.all_sprites,self.enemy_sprites),self.player, self.collision_sprites, self.bullet_sprites)
+    #def spawnEnemy(self):
+    #  self.enemy = Enemy(choice(self.spawn_positions),choice(list(self.enemy_frames.values())),(self.all_sprites,self.enemy_sprites),self.player, self.collision_sprites, self.bullet_sprites)
 
     def run(self):  
         # Cria o menu e exibe a tela de menu
@@ -148,16 +148,18 @@ class Jogo:
                     if event.type == pygame.QUIT:
                         self.running = False
                     if event.type == self.enemy_event:
-                        self.spawnEnemy()
+                        Enemy(choice(self.spawn_positions),choice(list(self.enemy_frames.values())),(self.all_sprites,self.enemy_sprites), self.player, self.player_sprites, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 20)
                 
                 #update
                 self.gun_timer()
                 self.input()
                 self.all_sprites.update(dt)
+                self.player_sprites.update(dt)
 
                 #desenha e atualiza o jogo
                 self.screen.fill('black')
                 self.all_sprites.draw(self.player.rect.center)
+                self.player_sprites.draw(self.player.rect.center)
                 pygame.display.update()
             
             

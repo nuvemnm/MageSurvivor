@@ -4,9 +4,10 @@ import os
 from sprite import *
 from pytmx.util_pygame import load_pygame
 from groups import *
+from itertools import chain
 
 class Jogador(pygame.sprite.Sprite):
-    def __init__(self, position, groups, collision_sprites, enemy, enemy_sprites):
+    def __init__(self, position, groups, collision_sprites, enemy_sprites):
         super().__init__(groups) 
         
         base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -20,7 +21,6 @@ class Jogador(pygame.sprite.Sprite):
         self.speed = 300
         self.__staticLife = 100
         self.dinamicLife = self.__staticLife
-        self.enemy = enemy
         self.collision_sprites = collision_sprites
         self.enemy_sprites = enemy_sprites
         #ajusta tamanho do personagem
@@ -62,12 +62,14 @@ class Jogador(pygame.sprite.Sprite):
                         self.hitbox.top = sprite.rect.bottom
                     if self.direction.y > 0:
                         self.hitbox.bottom = sprite.rect.top
+       
+
+    def takeDamage(self, damage):
         for sprite in self.enemy_sprites:
-            while sprite.rect.colliderect(self.hitbox):
-                self.dinamicLife -= self.enemy.damage
+            if sprite.rect.colliderect(self.hitbox):
+                self.dinamicLife -= damage
                 if self.dinamicLife == 0:
                     self.kill()
-
 
 
     def update(self, dt):
@@ -76,21 +78,24 @@ class Jogador(pygame.sprite.Sprite):
 
 
 class Enemy(pygame.sprite.Sprite): 
-    def __init__(self, pos, frames, groups, player, collision_sprites, bullet_sprites):
+    def __init__(self, pos, frames, groups, player, player_sprites, collision_sprites, bullet_sprites, bullet, damage, dinamicLife):
         super().__init__(groups)
+        self.player_sprites = player_sprites
         self.player = player
+        self.bullet = bullet
     
         self.frames, self.frames_index = frames,0
         self.image = self.frames[self.frames_index]
         self.animation_speed = 6
 
-        self.rect=self.image.get_rect(center=pos)
-        self.hitbox_rect=self.rect.inflate(-20,-40)
-        self.collision_sprites=collision_sprites
+        self.rect = self.image.get_rect(center=pos)
+        self.hitbox_rect = self.rect.inflate(-20,-40)
+        self.collision_sprites = collision_sprites
         self.bullet_sprites = bullet_sprites
         self.direction = pygame.Vector2()
-        self.speed=150
-        self.damage = 5
+        self.speed = 150
+        self.damage = damage
+        self.dinamicLife = dinamicLife
 
     def animate(self, dt):
         self.frames_index += self.animation_speed * dt
@@ -122,7 +127,7 @@ class Enemy(pygame.sprite.Sprite):
         """   
 
     def collision(self, direction):
-        for sprite in self.collision_sprites:
+        for sprite in chain(self.collision_sprites, self.player_sprites):
             if sprite.rect.colliderect(self.hitbox_rect):
                 if direction == 'horizontal':
                     if self.direction.x > 0: 
@@ -136,8 +141,14 @@ class Enemy(pygame.sprite.Sprite):
                         self.hitbox_rect.bottom = sprite.rect.top
         for sprite in self.bullet_sprites: 
             if sprite.rect.colliderect(self.hitbox_rect):
-                self.kill()
+                self.takeDamage()
+        
 
+    def takeDamage(self):
+        if self.dinamicLife != 0:
+            self.dinamicLife -= self.bullet.damage
+        else:
+            self.kill()
 
     def update(self, dt):
         self.move(dt)

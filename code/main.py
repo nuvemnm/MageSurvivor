@@ -3,7 +3,8 @@ import time
 from os.path import join
 from os import walk
 from config import *
-from jogador import *
+from jogador import Jogador
+from enemy import Enemy
 from sprite import *
 from pytmx.util_pygame import load_pygame
 from groups import *
@@ -43,9 +44,12 @@ class Jogo:
         self.spawn_positions=[]
 
         #player event
+        self.player  = None
         self.player_event = pygame.event.custom_type()
         self.death_event = pygame.event.custom_type()
         
+        #gun event
+        self.gun_event = pygame.event.custom_type()
 
         self.setup()
         if not self.spawn_positions:
@@ -84,7 +88,8 @@ class Jogo:
                     self.enemy_frames[folder].append(surf)
 
 
-    def input(self):
+    def input(self, player):
+        self.player = player
         if pygame.mouse.get_pressed()[0] and self.can_shoot:
             pos = self.player.rect.center + self.gun.player_direction * 20
             self.bullet = Bullet(self.bullet_surf, pos, self.gun.player_direction, (self.all_sprites, self.bullet_sprites), self.enemy_sprites, 10)
@@ -125,7 +130,7 @@ class Jogo:
         for obj in map.get_layer_by_name('Entities'):
             #if obj.name == 'player':
                 #self.spawn_position.append(obj.x, obj.y)
-                self.gun = Gun(self.player, self.all_sprites)
+               #self.gun = Gun(self.player, self.all_sprites)
             #else:
                 self.spawn_positions.append((obj.x,obj.y))  
 
@@ -170,6 +175,9 @@ class Jogo:
                     if event.type == self.player_event:
                         self.player = Jogador(self.spawn_positions, self.player_sprites, self.collision_sprites, self.enemy_sprites, self.enemy)
 
+                    if event.type == self.gun_event:
+                        self.gun = Gun(self.player, self.all_sprites)
+
                     if event.type == self.enemy_event:
                         if elapsed_time >= 0:
                             self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['bat'],(self.all_sprites,self.enemy_sprites), self.player, self.player_sprites, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 600)
@@ -184,7 +192,7 @@ class Jogo:
                 
                 #update
                 self.gun_timer()
-                self.input()
+                self.input(self.player)
                 self.all_sprites.update(dt)
                 self.player_sprites.update(dt)
                 #self.bullet_collision()

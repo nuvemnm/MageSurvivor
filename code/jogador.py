@@ -5,9 +5,10 @@ from sprite import *
 from pytmx.util_pygame import load_pygame
 from groups import *
 from itertools import chain
+from enemy import Enemy
 
 class Jogador(pygame.sprite.Sprite):
-    def __init__(self, position, groups, collision_sprites, enemy_sprites, enemy):
+    def __init__(self, position, groups, collision_sprites, enemy_sprites):
         super().__init__(groups) 
         
         base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -23,10 +24,10 @@ class Jogador(pygame.sprite.Sprite):
         self.dinamicLife = self.__staticLife
         self.collision_sprites = collision_sprites
         self.enemy_sprites = enemy_sprites
-        self.enemy = enemy
         #ajusta tamanho do personagem
         self.hitbox = self.rect.inflate(-30, -30)
         self.alive = True
+        self.enemy = Enemy()
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -84,7 +85,7 @@ class Jogador(pygame.sprite.Sprite):
         self.input()
         self.move(dt)
 
-
+"""
 class Enemy(pygame.sprite.Sprite): 
     def __init__(self, pos, frames, groups, player, player_sprites, collision_sprites, bullet_sprites, bullet, damage, dinamicLife):
         super().__init__(groups)
@@ -96,7 +97,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image = self.frames[self.frames_index]
         self.animation_speed = 6
 
-        self.rect = self.image.get_rect(center=pos)
+        self.rect = self.image.get_rect(center = pos)
         self.hitbox_rect = self.rect.inflate(-20,-40)
         self.collision_sprites = collision_sprites
         self.bullet_sprites = bullet_sprites
@@ -127,14 +128,13 @@ class Enemy(pygame.sprite.Sprite):
             self.collision('vertical')
             self.rect.center = self.hitbox_rect.center
 
-        """
+        
         self.hitbox_rect.x += self.direction.x * self.speed *dt
         self.collision('horizontal')
         self.hitbox_rect.y += self.direction.y * self.speed *dt
         self.collision('vertical')
         self.rect.center = self.hitbox_rect.center
-        """   
-
+        
     def collision(self, direction):
         for sprite in chain(self.collision_sprites, self.player_sprites):
             if sprite.rect.colliderect(self.hitbox_rect):
@@ -167,5 +167,5 @@ class Enemy(pygame.sprite.Sprite):
     def update(self, dt):
         self.move(dt)
         self.animate(dt)
-
     
+"""

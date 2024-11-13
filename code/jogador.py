@@ -7,7 +7,7 @@ from groups import *
 from itertools import chain
 
 class Jogador(pygame.sprite.Sprite):
-    def __init__(self, position, groups, collision_sprites, enemy_sprites):
+    def __init__(self, position, groups, collision_sprites, enemy_sprites, enemy):
         super().__init__(groups) 
         
         base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -19,12 +19,14 @@ class Jogador(pygame.sprite.Sprite):
         #movimento
         self.direction = pygame.Vector2()
         self.speed = 300
-        self.__staticLife = 100
+        self.__staticLife = 10000
         self.dinamicLife = self.__staticLife
         self.collision_sprites = collision_sprites
         self.enemy_sprites = enemy_sprites
+        self.enemy = enemy
         #ajusta tamanho do personagem
         self.hitbox = self.rect.inflate(-30, -30)
+        self.alive = True
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -62,15 +64,21 @@ class Jogador(pygame.sprite.Sprite):
                         self.hitbox.top = sprite.rect.bottom
                     if self.direction.y > 0:
                         self.hitbox.bottom = sprite.rect.top
-       
-
-    def takeDamage(self, damage):
         for sprite in self.enemy_sprites:
             if sprite.rect.colliderect(self.hitbox):
-                self.dinamicLife -= damage
-                if self.dinamicLife == 0:
-                    self.kill()
+                self.takeDamage()
 
+    def takeDamage(self):
+        for sprite in self.enemy_sprites:
+            if sprite.rect.colliderect(self.hitbox):
+                self.dinamicLife -= self.enemy.damage
+                if self.dinamicLife == 0:
+                    self.kill_self()
+    
+
+    def kill_self(self):
+        self.alive = False
+        self.kill()
 
     def update(self, dt):
         self.input()
@@ -96,6 +104,7 @@ class Enemy(pygame.sprite.Sprite):
         self.speed = 150
         self.damage = damage
         self.dinamicLife = dinamicLife
+        self.alive = True
 
     def animate(self, dt):
         self.frames_index += self.animation_speed * dt
@@ -149,7 +158,11 @@ class Enemy(pygame.sprite.Sprite):
             self.dinamicLife = self.dinamicLife - self.bullet.damage
             print(self.dinamicLife)
         else:
-            self.kill()
+            self.kill_self()
+
+    def kill_self(self):
+        self.alive = False
+        self.kill()
 
     def update(self, dt):
         self.move(dt)

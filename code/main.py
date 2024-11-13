@@ -1,4 +1,5 @@
 import os
+import time
 from os.path import join
 from os import walk
 from config import *
@@ -52,13 +53,13 @@ class Jogo:
         # Constrói o caminho absoluto para a imagem
         image_path = os.path.join(base_path, 'images', 'weapons', 'fire.png')
         # Constrói o caminho absoluto para os inimigos
-        folder_path = os.path.join(base_path, 'images','inimigos')
+        subfolder_path = os.path.join(base_path, 'images','inimigos')
 
         # Carrega a imagem usando o caminho absoluto
         self.bullet_surf = pygame.image.load(image_path).convert_alpha()
         #self.bullet_surf = pygame.image.load(join('/home/UFMG.BR/matheusscarv/Downloads/POO-Projeto-de-Jogo/images/weapons/fire.png')).convert_alpha()
 
-        folders =list(walk(folder_path))
+        folders =list(walk(subfolder_path))
         if folders:
             folders = folders[0][1]  # Obtém apenas as subpastas
             print("Pastas encontradas:", folders)
@@ -68,7 +69,7 @@ class Jogo:
 
         self.enemy_frames={}
         for folder in folders:
-            for folder_path,_,file_names in walk(join(folder_path, folder)):
+            for folder_path,_,file_names in walk(join(subfolder_path, folder)):
                 self.enemy_frames[folder]=[]
                 for file_name in sorted(file_names,key=lambda name: int(name.split('.')[0])):
                     full_path = join(folder_path,file_name)
@@ -125,9 +126,18 @@ class Jogo:
 
     #def spawnEnemy(self):
     #  self.enemy = Enemy(choice(self.spawn_positions),choice(list(self.enemy_frames.values())),(self.all_sprites,self.enemy_sprites),self.player, self.collision_sprites, self.bullet_sprites)
-
+    """
+    def bullet_collision(self):
+        if self.bullet_sprites:
+            for bullet in self.bullet_sprites:
+                collision_sprites = pygame.sprite.spritecollide(bullet, self.enemy_sprites, False)
+    """
+                
+    
+    
     def run(self):  
         # Cria o menu e exibe a tela de menu
+        init_time = time.time()
         menu = Menu(self.screen)
         self.running = False
     
@@ -143,18 +153,22 @@ class Jogo:
 
         while self.running:
                 dt = self.clock.tick(60) / 1000
+                actual_time = time.time()
+                elapsed_time = actual_time - init_time
     
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         self.running = False
                     if event.type == self.enemy_event:
-                        Enemy(choice(self.spawn_positions),choice(list(self.enemy_frames.values())),(self.all_sprites,self.enemy_sprites), self.player, self.player_sprites, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 20)
+                        if elapsed_time >= 0:
+                            Enemy(choice(self.spawn_positions),choice(list(self.enemy_frames.values())),(self.all_sprites,self.enemy_sprites), self.player, self.player_sprites, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 600)
                 
                 #update
                 self.gun_timer()
                 self.input()
                 self.all_sprites.update(dt)
                 self.player_sprites.update(dt)
+                #self.bullet_collision()
 
                 #desenha e atualiza o jogo
                 self.screen.fill('black')

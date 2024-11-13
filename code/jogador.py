@@ -24,7 +24,7 @@ class Jogador(pygame.sprite.Sprite):
         self.collision_sprites = collision_sprites
         self.enemy_sprites = enemy_sprites
         #ajusta tamanho do personagem
-        self.hitbox = self.rect.inflate(-15, -30)
+        self.hitbox = self.rect.inflate(-30, -30)
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -84,7 +84,7 @@ class Enemy(pygame.sprite.Sprite):
         self.player = player
         self.bullet = bullet
     
-        self.frames, self.frames_index = frames,0
+        self.frames, self.frames_index = frames, 0
         self.image = self.frames[self.frames_index]
         self.animation_speed = 6
 
@@ -146,7 +146,8 @@ class Enemy(pygame.sprite.Sprite):
 
     def takeDamage(self):
         if self.dinamicLife != 0:
-            self.dinamicLife -= self.bullet.damage
+            self.dinamicLife = self.dinamicLife - self.bullet.damage
+            print(self.dinamicLife)
         else:
             self.kill()
 

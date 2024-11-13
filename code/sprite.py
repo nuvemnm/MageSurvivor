@@ -74,7 +74,13 @@ class Bullet(pygame.sprite.Sprite):
         self.direction = direction
         self.speed = 100
         self.damage = damage
-
+    
+    def update(self, dt):
+        self.rect.center += self.direction * self.speed * dt
+        if pygame.time.get_ticks() - self.spawn_time >= self.lifetime:
+            self.kill()
+    
+"""
     def collision(self):
         for sprite in self.enemy_sprites:
             if sprite.rect.colliderect(self.rect):
@@ -88,12 +94,8 @@ class Bullet(pygame.sprite.Sprite):
         else:
             self.image = pygame.transform.rotozoom(self.bullet_surf, abs(angle), 1)
             self.image = pygame.transform.flip(self.image, False, True)
+"""
 
-    def update(self, dt):
-        self.rect.center += self.direction * self.speed * dt
-        self.collision()
-        if pygame.time.get_ticks() - self.spawn_time >= self.lifetime:
-            self.kill()
 
 """
 class Enemy(pygame.sprite.Sprite): #depois de testar tem q tirar a classe daqui

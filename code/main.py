@@ -136,14 +136,6 @@ class Jogo:
                 self.gun = Gun(self.player, self.all_sprites)
             else:
                 self.spawn_positions.append((obj.x,obj.y))
-                """
-                if elapsed_time >= 0:
-                    self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['bat'],(self.all_sprites,self.enemy_sprites), self.player, self.player_sprites, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 600)
-                if elapsed_time >= 5:
-                    self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['wolf'],(self.all_sprites,self.enemy_sprites), self.player, self.player_sprites, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 600)
-                if elapsed_time >= 10:
-                    self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['goblin'],(self.all_sprites,self.enemy_sprites), self.player, self.player_sprites, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 600)  
-                """
 
 
     #def spawnEnemy(self):
@@ -161,9 +153,16 @@ class Jogo:
                             enemy.destroy()
                     bullet.kill()
     
-    #def player_collision(self):
-    #    if pygame.sprite.spritecollide(self.player, self.enemy_sprites, False):
-    #        self.running = False
+    def player_collision(self):
+        if self.enemy_sprites:
+            for enemy in self.enemy_sprites:
+                player_sprites = pygame.sprite.spritecollide(enemy, self.player_sprites, False, pygame.sprite.collide_mask)
+                if player_sprites:
+                    for player in player_sprites:
+                        player.dinamicLife -= enemy.damage
+                        print(player.dinamicLife)
+                        if player.dinamicLife <=0:
+                            self.running = False
     
     
     def run(self):  
@@ -216,7 +215,7 @@ class Jogo:
                 self.all_sprites.update(dt)
                 self.player_sprites.update(dt)
                 self.bullet_collision()
-                #self.player_collision()
+                self.player_collision()
 
                 #desenha e atualiza o jogo
                 self.screen.fill('black')

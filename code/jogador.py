@@ -20,7 +20,7 @@ class Jogador(pygame.sprite.Sprite):
         #movimento
         self.direction = pygame.Vector2()
         self.speed = 300
-        self.__staticLife = 10000
+        self.__staticLife = 1000
         self.dinamicLife = self.__staticLife
         self.collision_sprites = collision_sprites
         self.enemy_sprites = enemy_sprites
@@ -80,9 +80,7 @@ class Jogador(pygame.sprite.Sprite):
     """
     
 
-    def kill_self(self):
-        self.alive = False
-        self.kill()
+   
 
     def update(self, dt):
         self.input()

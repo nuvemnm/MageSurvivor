@@ -10,6 +10,7 @@ from pytmx.util_pygame import load_pygame
 from groups import *
 from menu import Menu
 from random import randint,choice
+from itertools import chain
 
 class Jogo:
     def __init__(self):
@@ -21,7 +22,6 @@ class Jogo:
         self.menu = True
         self.running = False
         self.load_images()
-        self.enemy = None
         
 
         #grupo
@@ -41,15 +41,14 @@ class Jogo:
         #enemy timer
         self.enemy_event = pygame.event.custom_type()
         pygame.time.set_timer(self.enemy_event, 300)
-        self.spawn_positions=[]
+        self.spawn_positions = []
 
         #player event
-        self.player  = None
-        self.player_event = pygame.event.custom_type()
-        self.death_event = pygame.event.custom_type()
+        #self.player_event = pygame.event.custom_type()
+        #self.death_event = pygame.event.custom_type()
         
         #gun event
-        self.gun_event = pygame.event.custom_type()
+        #self.gun_event = pygame.event.custom_type()
 
         self.setup()
         if not self.spawn_positions:
@@ -69,7 +68,7 @@ class Jogo:
         self.bullet_surf = pygame.image.load(image_path).convert_alpha()
         #self.bullet_surf = pygame.image.load(join('/home/UFMG.BR/matheusscarv/Downloads/POO-Projeto-de-Jogo/images/weapons/fire.png')).convert_alpha()
 
-        folders =list(walk(subfolder_path))
+        folders = list(walk(subfolder_path))
         if folders:
             folders = folders[0][1]  # Obtém apenas as subpastas
             print("Pastas encontradas:", folders)
@@ -78,18 +77,17 @@ class Jogo:
             folders = []
             print("Nenhuma pasta encontrada dentro de 'images/inimigos'.")
 
-        self.enemy_frames={}
+        self.enemy_frames = {}
         for folder in folders:
             for folder_path,_,file_names in walk(join(subfolder_path, folder)):
-                self.enemy_frames[folder]=[]
-                for file_name in sorted(file_names,key=lambda name: int(name.split('.')[0])):
+                self.enemy_frames[folder] = []
+                for file_name in sorted(file_names,key = lambda name: int(name.split('.')[0])):
                     full_path = join(folder_path,file_name)
                     surf = pygame.image.load(full_path).convert_alpha()
                     self.enemy_frames[folder].append(surf)
 
 
-    def input(self, player):
-        self.player = player
+    def input(self):
         if pygame.mouse.get_pressed()[0] and self.can_shoot:
             pos = self.player.rect.center + self.gun.player_direction * 20
             self.bullet = Bullet(self.bullet_surf, pos, self.gun.player_direction, (self.all_sprites, self.bullet_sprites), self.enemy_sprites, 10)
@@ -103,6 +101,11 @@ class Jogo:
                 self.can_shoot = True
 
     def setup(self):
+        """
+        init_time = time.time()
+        actual_time = time.time()
+        elapsed_time = actual_time - init_time
+        """
         
         base_path = os.path.dirname(__file__)
         map_path = os.path.join(base_path, 'maps',"firstMap.tmx")
@@ -121,30 +124,46 @@ class Jogo:
         for x, y, image in map.get_layer_by_name("Objects2").tiles():
             Sprite_test((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
         for x, y, image in map.get_layer_by_name("Details").tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)"""
-
+            Sprite((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
+        """
 
         for obj in map.get_layer_by_name('collisions'):
             collision((obj.x, obj.y), pygame.Surface((obj.width, obj.height)), self.collision_sprites)
 
         for obj in map.get_layer_by_name('Entities'):
-            #if obj.name == 'player':
-                #self.spawn_position.append(obj.x, obj.y)
-               #self.gun = Gun(self.player, self.all_sprites)
-            #else:
-                self.spawn_positions.append((obj.x,obj.y))  
+            if obj.name == 'player':
+                self.player = Jogador((obj.x,obj.y), self.player_sprites, self.collision_sprites, self.enemy_sprites)
+                self.gun = Gun(self.player, self.all_sprites)
+            else:
+                self.spawn_positions.append((obj.x,obj.y))
+                """
+                if elapsed_time >= 0:
+                    self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['bat'],(self.all_sprites,self.enemy_sprites), self.player, self.player_sprites, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 600)
+                if elapsed_time >= 5:
+                    self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['wolf'],(self.all_sprites,self.enemy_sprites), self.player, self.player_sprites, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 600)
+                if elapsed_time >= 10:
+                    self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['goblin'],(self.all_sprites,self.enemy_sprites), self.player, self.player_sprites, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 600)  
+                """
 
-        print("Posições de spawn carregadas:", self.spawn_positions)
 
     #def spawnEnemy(self):
     #  self.enemy = Enemy(choice(self.spawn_positions),choice(list(self.enemy_frames.values())),(self.all_sprites,self.enemy_sprites),self.player, self.collision_sprites, self.bullet_sprites)
-    """
+    
     def bullet_collision(self):
-        if self.bullet_sprites:
+        if self.bullet_sprites: #and self.enemy_sprites:
             for bullet in self.bullet_sprites:
-                collision_sprites = pygame.sprite.spritecollide(bullet, self.enemy_sprites, False)
-    """
-                
+                collision_sprites = pygame.sprite.spritecollide(bullet, self.enemy_sprites, False, pygame.sprite.collide_mask)
+                if collision_sprites:
+                    for enemy in collision_sprites:
+                        enemy.dinamicLife -= bullet.damage
+                        print(enemy.dinamicLife)
+                        if enemy.dinamicLife <= 0:
+                            enemy.destroy()
+                    bullet.kill()
+    
+    #def player_collision(self):
+    #    if pygame.sprite.spritecollide(self.player, self.enemy_sprites, False):
+    #        self.running = False
     
     
     def run(self):  
@@ -171,20 +190,21 @@ class Jogo:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         self.running = False
-
+                    """
                     if event.type == self.player_event:
                         self.player = Jogador(self.spawn_positions, self.player_sprites, self.collision_sprites, self.enemy_sprites, self.enemy)
 
                     if event.type == self.gun_event:
                         self.gun = Gun(self.player, self.all_sprites)
+                    """
 
                     if event.type == self.enemy_event:
                         if elapsed_time >= 0:
-                            self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['bat'],(self.all_sprites,self.enemy_sprites), self.player, self.player_sprites, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 600)
+                            self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['bat'],(self.all_sprites,self.enemy_sprites), self.player, self.player_sprites, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 20)
                         if elapsed_time >= 5:
-                            self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['wolf'],(self.all_sprites,self.enemy_sprites), self.player, self.player_sprites, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 600)
+                            self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['wolf'],(self.all_sprites,self.enemy_sprites), self.player, self.player_sprites, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 40)
                         if elapsed_time >= 10:
-                            self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['goblin'],(self.all_sprites,self.enemy_sprites), self.player, self.player_sprites, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 600)
+                            self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['goblin'],(self.all_sprites,self.enemy_sprites), self.player, self.player_sprites, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 80)
                     
                     if self.player.alive == False:
                         self.running = False
@@ -192,10 +212,11 @@ class Jogo:
                 
                 #update
                 self.gun_timer()
-                self.input(self.player)
+                self.input()
                 self.all_sprites.update(dt)
                 self.player_sprites.update(dt)
-                #self.bullet_collision()
+                self.bullet_collision()
+                #self.player_collision()
 
                 #desenha e atualiza o jogo
                 self.screen.fill('black')

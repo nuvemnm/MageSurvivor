@@ -27,7 +27,7 @@ class Jogador(pygame.sprite.Sprite):
         #ajusta tamanho do personagem
         self.hitbox = self.rect.inflate(-30, -30)
         self.alive = True
-        self.enemy = Enemy()
+        #self.enemy = Enemy()
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -65,16 +65,19 @@ class Jogador(pygame.sprite.Sprite):
                         self.hitbox.top = sprite.rect.bottom
                     if self.direction.y > 0:
                         self.hitbox.bottom = sprite.rect.top
+        """
         for sprite in self.enemy_sprites:
             if sprite.rect.colliderect(self.hitbox):
-                self.takeDamage()
-
+                self.kill()
+        """
+    """
     def takeDamage(self):
         for sprite in self.enemy_sprites:
             if sprite.rect.colliderect(self.hitbox):
                 self.dinamicLife -= self.enemy.damage
                 if self.dinamicLife == 0:
                     self.kill_self()
+    """
     
 
     def kill_self(self):

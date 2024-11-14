@@ -17,16 +17,23 @@ class Enemy(pygame.sprite.Sprite):
         self.frames, self.frames_index = frames, 0
         self.image = self.frames[self.frames_index]
         self.animation_speed = 6
-
+        
+        #rect
         self.rect = self.image.get_rect(center = pos)
         self.hitbox_rect = self.rect.inflate(-20,-40)
         self.collision_sprites = collision_sprites
         self.bullet_sprites = bullet_sprites
         self.direction = pygame.Vector2()
         self.speed = 150
+
+        #life status
         self.damage = damage
         self.dinamicLife = dinamicLife
         self.alive = True
+
+        #timer
+        self.death_time = 0
+        self.death_duration = 400
 
     def animate(self, dt):
         self.frames_index += self.animation_speed * dt
@@ -70,25 +77,44 @@ class Enemy(pygame.sprite.Sprite):
                         self.hitbox_rect.top = sprite.rect.bottom
                     if self.direction.y > 0:
                         self.hitbox_rect.bottom = sprite.rect.top
+        """
         for sprite in self.bullet_sprites: 
             if sprite.rect.colliderect(self.hitbox_rect):
                 self.takeDamage()
+        """
         
 
+    """
     def takeDamage(self):
         if self.dinamicLife != 0:
             self.dinamicLife = self.dinamicLife - self.bullet.damage
             print(self.dinamicLife)
+            return False
         else:
-            self.kill_self()
+            #self.kill_self()
+            return True
 
     def kill_self(self):
         self.alive = False
         self.kill()
+    """
+
+    def destroy(self):
+        self.death_time = pygame.time.get_ticks()
+        surf = pygame.mask.from_surface(self.frames[0]).to_surface()
+        surf.set_colorkey('black')
+        self.image = surf
+
+    def death_timer(self):
+        if pygame.time.get_ticks() - self.death_time >= self.death_duration:
+            self.kill()
 
     def update(self, dt):
-        self.move(dt)
-        self.animate(dt)
+        if self.death_time == 0:
+            self.move(dt)
+            self.animate(dt)
+        else:
+            self.death_timer()
 
 """
 class Enemy(pygame.sprite.Sprite): 

@@ -24,7 +24,7 @@ class Enemy(pygame.sprite.Sprite):
         self.collision_sprites = collision_sprites
         self.bullet_sprites = bullet_sprites
         self.direction = pygame.Vector2()
-        self.speed = 150
+        self.speed = 50
 
         #life status
         self.damage = damage

@@ -43,6 +43,7 @@ class Jogo:
         self.enemy_event = pygame.event.custom_type()
         pygame.time.set_timer(self.enemy_event, 700)
         self.spawn_positions = []
+        self.upgrade_timer = 0
 
         #player event
         #self.player_event = pygame.event.custom_type()
@@ -183,11 +184,11 @@ class Jogo:
             pygame.display.flip()#Serve para atulizar "limpar" a tela
 
         while self.running:
-            keys = pygame.key.get_pressed()
+            #keys = pygame.key.get_pressed()
             dt = self.clock.tick(60) / 1000
             actual_time = time.time()
             elapsed_time = actual_time - init_time
-            
+            timer = 0
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
@@ -204,7 +205,9 @@ class Jogo:
                     self.running = False
             
             #update
-            if not keys[pygame.K_p]:
+            if self.player.level == self.player.actual_level:
+                
+                self.player.leveling()
                 self.gun_timer()
                 self.all_sprites.update(dt)
                 self.player_sprites.update(dt)
@@ -215,8 +218,17 @@ class Jogo:
                 self.all_sprites.draw(self.player.rect.center)
                 self.player_sprites.draw(self.player.rect.center)
                 pygame.display.update()
-            self.input()
+            else:
+                self.player.upgrade_menu(self.screen)
 
+           
+            self.upgrade_timer += dt
+            #print(self.upgrade_timer)
+            if self.upgrade_timer >= 2:
+                self.player.level = self.player.actual_level 
+                self.upgrade_timer = 0
+            
+            self.input()
             self.screen.fill('black')
             
 

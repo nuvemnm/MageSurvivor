@@ -7,6 +7,7 @@ from groups import *
 from itertools import chain
 from enemy import Enemy
 import time
+from config import *
 
 class Jogador(pygame.sprite.Sprite):
     def __init__(self, position, groups, collision_sprites, enemy_sprites):
@@ -30,6 +31,7 @@ class Jogador(pygame.sprite.Sprite):
         self.hitbox = self.rect.inflate(-30, -30)
         self.alive = True
         self.experience = 0
+        
         #self.upgrade()
         #self.enemy = Enemy()
 
@@ -84,14 +86,35 @@ class Jogador(pygame.sprite.Sprite):
                         self.hitbox.bottom = sprite.rect.top
         """
     
+    def leveling(self):
+        experience_threshold = 10
+        while self.experience >= experience_threshold:
+            self.actual_level += 1
+            self.__staticLife += 20
+
+            self.experience -= experience_threshold
+            experience_threshold +=20
+            print(self.experience)
+            print(experience_threshold)
+            print(self.actual_level)
+            print(self.dinamicLife)
+
+    def upgrade_menu(self, screen):
+        print("alguma coisa")
+        font = pygame.font.Font(None, 74)
+        # Dimensões e posição da aba
+        menu_width, menu_height = 300, 200
+        menu_x = (screen.get_width() - menu_width) // 2
+        menu_y = (screen.get_height() - menu_height) // 2
+
+        # Janela de upgrade (no centro)
+        pygame.draw.rect(screen, (50, 50, 50), (menu_x, menu_y, menu_width, menu_height))
+        pygame.draw.rect(screen, (255, 255, 255), (menu_x, menu_y, menu_width, menu_height), 3)
+
+        # Título da aba
+        title_text = font.render("Escolha um Upgrade", True, (255, 255, 255))
+        screen.blit(title_text, (menu_x + 20, menu_y + 20))
     """
-    def takeDamage(self):
-        for sprite in self.enemy_sprites:
-            if sprite.rect.colliderect(self.hitbox):
-                self.dinamicLife -= self.enemy.damage
-                if self.dinamicLife == 0:
-                    self.kill_self()
-    
     def upgrade(self):
         #tempo limite para upar
         
@@ -107,16 +130,6 @@ class Jogador(pygame.sprite.Sprite):
             else:
                 return False
 
-    def leveling(self):
-        for exp in range(30, 300, 20):
-            yield exp
-            print(exp)
-        
-        if self.experience >= exp:
-            self.actual_level += 1
-            self.__staticLife += 20
-            #print(self.dinamicLife)
-            print(self.__staticLife)
     """
 
     def update(self, dt):

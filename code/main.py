@@ -22,6 +22,7 @@ class Jogo:
         self.menu = True
         self.running = False
         self.load_images()
+        self.pause = False
         
 
         #grupo
@@ -40,7 +41,7 @@ class Jogo:
 
         #enemy timer
         self.enemy_event = pygame.event.custom_type()
-        pygame.time.set_timer(self.enemy_event, 300)
+        pygame.time.set_timer(self.enemy_event, 700)
         self.spawn_positions = []
 
         #player event
@@ -148,11 +149,11 @@ class Jogo:
                 if collision_sprites:
                     for enemy in collision_sprites:
                         enemy.dinamicLife -= bullet.damage
-                        print(enemy.dinamicLife)
+                        #print(enemy.dinamicLife)
                         if enemy.dinamicLife <= 0:
                             enemy.destroy()
                     bullet.kill()
-    
+    """
     def player_collision(self):
         if self.enemy_sprites:
             for enemy in self.enemy_sprites:
@@ -163,6 +164,7 @@ class Jogo:
                         print(player.dinamicLife)
                         if player.dinamicLife <=0:
                             self.running = False
+    """
     
     
     def run(self):  
@@ -180,49 +182,45 @@ class Jogo:
 
             pygame.display.flip()#Serve para atulizar "limpar" a tela
 
-
         while self.running:
-                dt = self.clock.tick(60) / 1000
-                actual_time = time.time()
-                elapsed_time = actual_time - init_time
-    
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        self.running = False
-                    """
-                    if event.type == self.player_event:
-                        self.player = Jogador(self.spawn_positions, self.player_sprites, self.collision_sprites, self.enemy_sprites, self.enemy)
-
-                    if event.type == self.gun_event:
-                        self.gun = Gun(self.player, self.all_sprites)
-                    """
-
-                    if event.type == self.enemy_event:
-                        if elapsed_time >= 0:
-                            self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['bat'],(self.all_sprites,self.enemy_sprites), self.player, self.player_sprites, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 20)
-                        if elapsed_time >= 5:
-                            self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['wolf'],(self.all_sprites,self.enemy_sprites), self.player, self.player_sprites, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 40)
-                        if elapsed_time >= 10:
-                            self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['goblin'],(self.all_sprites,self.enemy_sprites), self.player, self.player_sprites, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 80)
-                    
-                    if self.player.alive == False:
-                        self.running = False
-                        
+            
+            keys = pygame.key.get_pressed()
+            dt = self.clock.tick(60) / 1000
+            actual_time = time.time()
+            elapsed_time = actual_time - init_time
+            
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
+                 
+                if event.type == self.enemy_event:
+                    if elapsed_time >= 0:
+                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['bat'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 20)
+                    if elapsed_time >= 5:
+                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['wolf'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 40)
+                    if elapsed_time >= 10:
+                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['goblin'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 80)
                 
-                #update
+                if self.player.alive == False:
+                    self.running = False
+
+            #update
+            if not keys[pygame.K_p]:
                 self.gun_timer()
-                self.input()
                 self.all_sprites.update(dt)
                 self.player_sprites.update(dt)
                 self.bullet_collision()
-                self.player_collision()
+                #self.player_collision()
 
                 #desenha e atualiza o jogo
-                self.screen.fill('black')
                 self.all_sprites.draw(self.player.rect.center)
                 self.player_sprites.draw(self.player.rect.center)
                 pygame.display.update()
+            self.input()
+
+            self.screen.fill('black')
             
+
             
             
         pygame.quit()

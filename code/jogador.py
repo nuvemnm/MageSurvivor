@@ -1,9 +1,15 @@
 from config import *
 from os.path import join
 import os
+from sprite import *
+from pytmx.util_pygame import load_pygame
+from groups import *
+from itertools import chain
+from enemy import Enemy
+import time
 
 class Jogador(pygame.sprite.Sprite):
-    def __init__(self, position: int, groups, collision_sprites):
+    def __init__(self, position, groups, collision_sprites, enemy_sprites):
         super().__init__(groups) 
         
         base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -11,13 +17,21 @@ class Jogador(pygame.sprite.Sprite):
         self.image = pygame.image.load(image_path).convert_alpha()
 
         self.rect = self.image.get_rect(topleft = position)
-
+        self.level = 1
+        self.actual_level = 1
         #movimento
         self.direction = pygame.Vector2()
         self.speed = 300
+        self.__staticLife = 10
+        self.dinamicLife = self.__staticLife
         self.collision_sprites = collision_sprites
+        self.enemy_sprites = enemy_sprites
         #ajusta tamanho do personagem
-        self.hitbox = self.rect.inflate(-15, -30)
+        self.hitbox = self.rect.inflate(-30, -30)
+        self.alive = True
+        self.experience = 0
+        #self.upgrade()
+        #self.enemy = Enemy()
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -55,7 +69,57 @@ class Jogador(pygame.sprite.Sprite):
                         self.hitbox.top = sprite.rect.bottom
                     if self.direction.y > 0:
                         self.hitbox.bottom = sprite.rect.top
+        """
+        for sprite in self.enemy_sprites:
+            if sprite.rect.colliderect(self.hitbox):
+                if direction == 'horizontal':
+                    if self.direction.x > 0: 
+                        self.hitbox.right = sprite.rect.left
+                    if self.direction.x < 0:
+                        self.hitbox.left = sprite.rect.right
+                else:
+                    if self.direction.y < 0:
+                        self.hitbox.top = sprite.rect.bottom
+                    if self.direction.y > 0:
+                        self.hitbox.bottom = sprite.rect.top
+        """
+    
+    """
+    def takeDamage(self):
+        for sprite in self.enemy_sprites:
+            if sprite.rect.colliderect(self.hitbox):
+                self.dinamicLife -= self.enemy.damage
+                if self.dinamicLife == 0:
+                    self.kill_self()
+    
+    def upgrade(self):
+        #tempo limite para upar
+        
+        actual_time = time.time()
+        limit_time = actual_time - init_time
+        
+        
+
+        
+        
+        while limit_time <= 5:
+                return True
+            else:
+                return False
+
+    def leveling(self):
+        for exp in range(30, 300, 20):
+            yield exp
+            print(exp)
+        
+        if self.experience >= exp:
+            self.actual_level += 1
+            self.__staticLife += 20
+            #print(self.dinamicLife)
+            print(self.__staticLife)
+    """
 
     def update(self, dt):
         self.input()
         self.move(dt)
+

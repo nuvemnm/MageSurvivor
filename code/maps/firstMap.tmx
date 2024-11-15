@@ -104,25 +104,25 @@
 </data>
  </layer>
  <objectgroup id="3" name="Entities">
-  <object id="1" name="player" x="594.667" y="542.667">
+  <object id="1" name="player" x="621.465" y="630.506">
    <point/>
   </object>
-  <object id="6" name="enemies" x="991.663" y="228.514">
+  <object id="6" name="enemies" x="1046.75" y="441.413">
    <point/>
   </object>
-  <object id="8" name="enemies" x="573.44" y="825.667">
+  <object id="8" name="enemies" x="627.037" y="1013.26">
    <point/>
   </object>
-  <object id="9" name="enemies" x="144.438" y="286.72">
+  <object id="9" name="enemies" x="226.322" y="429.645">
    <point/>
   </object>
-  <object id="10" name="enemies" x="519.545" y="228.514">
+  <object id="10" name="enemies" x="631.205" y="280.622">
    <point/>
   </object>
-  <object id="11" name="enemies" x="267.318" y="1017.53">
+  <object id="11" name="enemies" x="234.564" y="849.295">
    <point/>
   </object>
-  <object id="12" name="enemies" x="1039.09" y="739.436">
+  <object id="12" name="enemies" x="1065.89" y="813.876">
    <point/>
   </object>
  </objectgroup>

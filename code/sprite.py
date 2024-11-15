@@ -4,7 +4,7 @@ from config import *
 from math import atan2, degrees
 from pytmx.util_pygame import load_pygame
 from groups import AllSprites
-from enemy import Enemy
+from jogador import *
 
 class Sprite(pygame.sprite.Sprite):
     def __init__(self, pos, surf, groups):
@@ -60,17 +60,32 @@ class Gun(pygame.sprite.Sprite):
         self.rect.center = self.player.rect.center + self.player_direction * self.distance
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, surf, pos, direction, groups):
+    def __init__(self, surf, pos, direction, groups, enemy_sprites, damage):
         super().__init__(groups)
         #self.player = player
         #self.bullet_surf = pygame.image.load(join('/home/UFMG.BR/matheusscarv/Downloads/POO-Projeto-de-Jogo/images/weapons/fire.png')).convert_alpha()
         self.image = surf
         self.rect = self.image.get_rect(center = pos)
+        #self.hitbox_rect = self.rect.inflate(-2,-2)
+        self.enemy_sprites = enemy_sprites
         self.spawn_time = pygame.time.get_ticks()
         self.lifetime = 5000
 
         self.direction = direction
         self.speed = 100
+        self.damage = damage
+    
+    def update(self, dt):
+        self.rect.center += self.direction * self.speed * dt
+        if pygame.time.get_ticks() - self.spawn_time >= self.lifetime:
+            self.kill()
+    
+"""
+    def collision(self):
+        for sprite in self.enemy_sprites:
+            if sprite.rect.colliderect(self.rect):
+                self.kill()
+
         
     def rotate_magic(self):
         angle = degrees(atan2(self.player_direction.x, self.player_direction.y)) - 90
@@ -79,12 +94,8 @@ class Bullet(pygame.sprite.Sprite):
         else:
             self.image = pygame.transform.rotozoom(self.bullet_surf, abs(angle), 1)
             self.image = pygame.transform.flip(self.image, False, True)
+"""
 
-    def update(self, dt):
-        self.rect.center += self.direction * self.speed * dt
-
-        if pygame.time.get_ticks() - self.spawn_time >= self.lifetime:
-            self.kill()
 
 """
 class Enemy(pygame.sprite.Sprite): #depois de testar tem q tirar a classe daqui

@@ -103,8 +103,9 @@ class Enemy(pygame.sprite.Sprite):
     def death_timer(self):
         if pygame.time.get_ticks() - self.death_time >= self.death_duration:
             self.kill()
+            #aumenta xp do jogador
             self.player.experience += 10
-            print(self.player.experience)
+            #print(self.player.experience)
 
     def update(self, dt):
         if self.death_time == 0:

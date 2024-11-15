@@ -6,6 +6,7 @@ from pytmx.util_pygame import load_pygame
 from groups import *
 from itertools import chain
 from enemy import Enemy
+import time
 
 class Jogador(pygame.sprite.Sprite):
     def __init__(self, position, groups, collision_sprites, enemy_sprites):
@@ -16,11 +17,12 @@ class Jogador(pygame.sprite.Sprite):
         self.image = pygame.image.load(image_path).convert_alpha()
 
         self.rect = self.image.get_rect(topleft = position)
-
+        self.level = 1
+        self.actual_level = 1
         #movimento
         self.direction = pygame.Vector2()
         self.speed = 300
-        self.__staticLife = 10000
+        self.__staticLife = 10
         self.dinamicLife = self.__staticLife
         self.collision_sprites = collision_sprites
         self.enemy_sprites = enemy_sprites
@@ -91,15 +93,31 @@ class Jogador(pygame.sprite.Sprite):
                     self.kill_self()
     
     def upgrade(self):
-        self.font = pygame.font.Font(None, 74)
-        self.selected_option = -1
-        self.options = ["Melhorar Dano", "Melhorar vida"]
+        #tempo limite para upar
+        
+        actual_time = time.time()
+        limit_time = actual_time - init_time
+        
+        
 
-        width = self.screen.get_width()
-        height = self.screen.get_height()
+        
+        
+        while limit_time <= 5:
+                return True
+            else:
+                return False
+
+    def leveling(self):
+        for exp in range(30, 300, 20):
+            yield exp
+            print(exp)
+        
+        if self.experience >= exp:
+            self.actual_level += 1
+            self.__staticLife += 20
+            #print(self.dinamicLife)
+            print(self.__staticLife)
     """
-
-   
 
     def update(self, dt):
         self.input()

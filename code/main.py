@@ -183,7 +183,6 @@ class Jogo:
             pygame.display.flip()#Serve para atulizar "limpar" a tela
 
         while self.running:
-            
             keys = pygame.key.get_pressed()
             dt = self.clock.tick(60) / 1000
             actual_time = time.time()
@@ -203,7 +202,7 @@ class Jogo:
                 
                 if self.player.alive == False:
                     self.running = False
-
+            
             #update
             if not keys[pygame.K_p]:
                 self.gun_timer()

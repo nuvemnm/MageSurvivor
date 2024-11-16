@@ -52,9 +52,9 @@ class UpgradeMenu:
 
     def handle_menu_selection(self):
         if self.menu_type == "main":
-            if self.selected_option == 0:  # New Game
+            if self.selected_option == 0: 
                 return 0
-            elif self.selected_option == 1:  # Login
+            elif self.selected_option == 1: 
                 return 1 
 
 

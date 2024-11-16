@@ -11,7 +11,7 @@ from config import *
 from upgrade_menu import UpgradeMenu
 
 class Jogador(pygame.sprite.Sprite):
-    def __init__(self, position, groups, collision_sprites, enemy_sprites):
+    def __init__(self, position, groups, collision_sprites, enemy_sprites, bullet):
         super().__init__(groups) 
         
         base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -28,6 +28,7 @@ class Jogador(pygame.sprite.Sprite):
         self.dinamicLife = self.staticLife
         self.collision_sprites = collision_sprites
         self.enemy_sprites = enemy_sprites
+        self.bullet = bullet
         #ajusta tamanho do personagem
         self.hitbox = self.rect.inflate(-30, -30)
         self.alive = True

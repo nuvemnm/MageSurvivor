@@ -134,7 +134,7 @@ class Jogo:
 
         for obj in map.get_layer_by_name('Entities'):
             if obj.name == 'player':
-                self.player = Jogador((obj.x,obj.y), self.player_sprites, self.collision_sprites, self.enemy_sprites)
+                self.player = Jogador((obj.x,obj.y), self.player_sprites, self.collision_sprites, self.enemy_sprites, self.bullet)
                 self.gun = Gun(self.player, self.all_sprites)
             else:
                 self.spawn_positions.append((obj.x,obj.y))
@@ -188,7 +188,7 @@ class Jogo:
             dt = self.clock.tick(60) / 1000
             actual_time = time.time()
             elapsed_time = actual_time - init_time
-            timer = 0
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
@@ -200,7 +200,12 @@ class Jogo:
                         self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['wolf'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 40)
                     if elapsed_time >= 10:
                         self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['goblin'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 80)
-                
+                    
+                    """
+                    if elapsed_time >= 0:
+                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['boss'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 80)
+                    """
+                        
                 if self.player.alive == False:
                     self.running = False
             
@@ -220,8 +225,7 @@ class Jogo:
                 pygame.display.update()
             else:
                 self.player.upgrade_menu(self.screen)
-                pygame.display.flip()
-                   
+                pygame.display.flip()   
 
            
             self.upgrade_timer += dt

@@ -8,6 +8,7 @@ from itertools import chain
 from enemy import Enemy
 import time
 from config import *
+from upgrade_menu import UpgradeMenu
 
 class Jogador(pygame.sprite.Sprite):
     def __init__(self, position, groups, collision_sprites, enemy_sprites):
@@ -23,8 +24,8 @@ class Jogador(pygame.sprite.Sprite):
         #movimento
         self.direction = pygame.Vector2()
         self.speed = 300
-        self.__staticLife = 10
-        self.dinamicLife = self.__staticLife
+        self.staticLife = 10
+        self.dinamicLife = self.staticLife
         self.collision_sprites = collision_sprites
         self.enemy_sprites = enemy_sprites
         #ajusta tamanho do personagem
@@ -34,6 +35,7 @@ class Jogador(pygame.sprite.Sprite):
         
         #self.upgrade()
         #self.enemy = Enemy()
+    
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -90,7 +92,6 @@ class Jogador(pygame.sprite.Sprite):
         experience_threshold = 10
         while self.experience >= experience_threshold:
             self.actual_level += 1
-            self.__staticLife += 20
 
             self.experience -= experience_threshold
             experience_threshold +=20
@@ -100,20 +101,15 @@ class Jogador(pygame.sprite.Sprite):
             print(self.dinamicLife)
 
     def upgrade_menu(self, screen):
-        print("alguma coisa")
-        font = pygame.font.Font(None, 74)
-        # Dimensões e posição da aba
-        menu_width, menu_height = 300, 200
-        menu_x = (screen.get_width() - menu_width) // 2
-        menu_y = (screen.get_height() - menu_height) // 2
+        self.menu = UpgradeMenu(screen, ["+20 de vida", "+10 de dano"])
+        self.menu.display_menu(["+20 de vida", "+10 de dano"])
+        result = self.menu.handle_menu_events()
+        if result == 0:
+            self.staticLife += 20
+            print(self.staticLife)
+        else:
+            return 0
 
-        # Janela de upgrade (no centro)
-        pygame.draw.rect(screen, (50, 50, 50), (menu_x, menu_y, menu_width, menu_height))
-        pygame.draw.rect(screen, (255, 255, 255), (menu_x, menu_y, menu_width, menu_height), 3)
-
-        # Título da aba
-        title_text = font.render("Escolha um Upgrade", True, (255, 255, 255))
-        screen.blit(title_text, (menu_x + 20, menu_y + 20))
     """
     def upgrade(self):
         #tempo limite para upar

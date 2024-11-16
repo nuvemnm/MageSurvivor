@@ -171,7 +171,7 @@ class Jogo:
     def run(self):  
         # Cria o menu e exibe a tela de menu
         init_time = time.time()
-        menu = Menu(self.screen)
+        menu = Menu(self.screen, ("New game", "Login", "Quit"))
         self.running = False
     
         while not self.running:
@@ -220,11 +220,13 @@ class Jogo:
                 pygame.display.update()
             else:
                 self.player.upgrade_menu(self.screen)
+                pygame.display.flip()
+                   
 
            
             self.upgrade_timer += dt
             #print(self.upgrade_timer)
-            if self.upgrade_timer >= 2:
+            if self.upgrade_timer >= 10:
                 self.player.level = self.player.actual_level 
                 self.upgrade_timer = 0
             

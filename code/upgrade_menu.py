@@ -1,9 +1,6 @@
 import pygame
-from magias.magia_raio import Magia_raio
-from magias.magia_fogo import Magia_fogo
-from magias.magia_gelo import Magia_gelo
 
-class Menu:
+class UpgradeMenu:
     def __init__(self, screen, options):
         self.screen = screen
         self.font = pygame.font.Font(None, 74)
@@ -16,19 +13,14 @@ class Menu:
         text_surface = font.render(text, True, (255, 255, 255))
         self.screen.blit(text_surface, position)
 
-    def display_menu(self):
+    def display_menu(self, options):
         width = self.screen.get_width()
         height = self.screen.get_height()
 
         if self.menu_type == "main":
             title = "MageSurvivor"
-            self.options = ["New game", "Login", "Exit"]
-        elif self.menu_type == "login":
-            title = "Insira seu login e senha:"
-            self.options = ["Confirm", "Back"]
-        elif self.menu_type == "magias":
-            title = "Escolha sua magia:"
-            self.options = ["Magia de fogo", "Magia de gelo", "Magia de raio", "Back"]
+            self.options = options
+
 
         self.screen.fill("black")
         self.display(title, 80, (width // 3.4, height // 4))
@@ -61,33 +53,8 @@ class Menu:
     def handle_menu_selection(self):
         if self.menu_type == "main":
             if self.selected_option == 0:  # New Game
-                self.menu_type ="login"# IMPLEMENTAR LOGICA DE CRIAR CONTA 
+                return 0
             elif self.selected_option == 1:  # Login
-                self.menu_type = "login" #RETORNAR JOGO SALVO
-            elif self.selected_option == 2:  # Quit game
-                pygame.quit()
-                exit()
-        
-        elif self.menu_type == "login": #IMPLEMENTAR LOGICA DE CRIAR LOGIN E DE RECUPERAR JOGO SALVO
-            if self.selected_option == 1:  # Voltar para o menu principal
-                self.menu_type = "main"
-            else:
-                self.menu_type = "magias"
-
-        elif self.menu_type == "magias":
-            if self.selected_option == 3:  # Voltar para o menu principal
-                self.menu_type = "main"
-            else: #IMPLEMENTAR A LOGICA DE ESCOLHA DAS MAGIAS AQUI
-                if self.selected_option==0:
-                    magia = Magia_fogo()
-                    return 1
-                elif self.selected_option==1:
-                    magia = Magia_gelo()
-                    return 1
-                elif self.selected_option==2:
-                    magia = Magia_raio()
-                    return 1
-                
-        return None
+                return 1 
 
 

@@ -32,12 +32,12 @@ class Jogo:
         self.all_sprites = AllSprites()
         self.player_sprites = PlayerSprite()
         self.collision_sprites = pygame.sprite.Group()
-        self.bullet_sprites = pygame.sprite.Group()
+        self.bullet_sprites = BulletSprites()
         self.enemy_sprites = pygame.sprite.Group()
 
         #enemy timer
         self.enemy_event = pygame.event.custom_type()
-        pygame.time.set_timer(self.enemy_event, 700)
+        pygame.time.set_timer(self.enemy_event, 10000)
         self.spawn_positions = []
 
         #player event
@@ -192,7 +192,9 @@ class Jogo:
                 #desenha e atualiza o jogo
                 self.all_sprites.draw(self.player.rect.center)
                 self.player_sprites.draw(self.player.rect.center)
-                self.bullet_sprites.draw(self.player.rect.center)
+                print(f"player rect: {self.player.rect.center}")
+                print(f"screen rect: {self.screen}")
+
                 pygame.display.update()
             self.input()
 

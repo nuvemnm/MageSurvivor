@@ -166,12 +166,12 @@ class Jogo:
                         if player.dinamicLife <=0:
                             self.running = False
     """
-    def upgrade(self, result):
-        if result == 0:
+    def upgrade(self, option):
+        if option == 0:
             self.player.staticLife += 20
             self.upgrade_timer = 10
             print("vida aumentada para: " + str(self.player.staticLife))
-        if result == 1:
+        if option == 1:
             self.bullet_damage += 10
             self.bullet.damage = self.bullet_damage
             self.upgrade_timer = 10
@@ -239,8 +239,8 @@ class Jogo:
                 self.player_sprites.draw(self.player.rect.center)
                 pygame.display.update()
             else:
-                result = self.player.upgrade_menu(self.screen)
-                self.upgrade(result)
+                option = self.player.upgrade_menu(self.screen)
+                self.upgrade(option)
                 pygame.display.flip()   
 
            

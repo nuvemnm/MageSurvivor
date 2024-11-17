@@ -132,8 +132,8 @@ class Jogador(pygame.sprite.Sprite):
             if(mouse_direction.length() > 0):
                 mouse_direction = mouse_direction.normalize()
             
-            bullet_initial_pos = self.rect.center + mouse_direction * 2
-            print(f"player pos: {player_pos}, mouse_direction: {mouse_direction}")
+            bullet_initial_pos = self.rect.center
+            print(f"player pos: {player_pos}, mouse_direction: {mouse_direction}, bullet_initial_pos: {bullet_initial_pos}")
             self.spell.shoot(bullet_initial_pos, mouse_direction,self.enemy_sprites)
             
             self.can_shoot = False

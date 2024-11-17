@@ -159,6 +159,7 @@ class Jogo:
             else:
                 pygame.display.flip()
                 self.running = True
+
         while self.running:
             keys = pygame.key.get_pressed()
             dt = self.clock.tick(60) / 1000
@@ -181,19 +182,17 @@ class Jogo:
                     self.running = False
             
             #update
-            if not keys[pygame.K_p]:                
-                self.all_sprites.update(dt)
-                self.player_sprites.update(dt)
-                
-                for bullet in self.bullet_sprites:
-                    bullet.update()
-                #self.player_collision()
-
-                #desenha e atualiza o jogo
+            if not keys[pygame.K_p]:       
                 self.all_sprites.draw(self.player.rect.center)
                 self.player_sprites.draw(self.player.rect.center)
-                print(f"player rect: {self.player.rect.center}")
-                print(f"screen rect: {self.screen}")
+                self.bullet_sprites.draw(self.player.rect.center)
+
+
+                self.all_sprites.update(dt)
+                self.player_sprites.update(dt)
+                self.bullet_sprites.update(dt)
+
+                #self.player_collision()
 
                 pygame.display.update()
             self.input()

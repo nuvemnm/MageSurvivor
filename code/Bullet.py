@@ -17,19 +17,22 @@ class Bullet(pygame.sprite.Sprite):
         print(f"bullet spawn pos: {pos}")
         self.enemy_sprites = enemy_sprites
 
-        #self.hitbox_rect = self.rect.inflate(-2,-2)
+        # self.hitbox_rect = self.rect.inflate(-2,-2)
         self.spawn_time = pygame.time.get_ticks()
         self.lifetime = 5000
 
         self.direction = direction
-        self.speed = 5
+        self.speed = 0.1
         self.damage = damage
     
-    def update(self):
+    def move(self, dt):
+        self.rect.x += self.rect.x * self.speed * dt 
+        self.rect.y += self.rect.y * self.speed * dt 
+
+    def update(self,dt):
         # Movimenta a bala
-        self.rect.x += self.direction.x * self.speed
-        self.rect.y += self.direction.y * self.speed
-        
+        self.move(dt)
+
         self.check_collision(self.enemy_sprites)
         # Remove a bala após seu tempo de vida
         if pygame.time.get_ticks() - self.spawn_time > self.lifetime:

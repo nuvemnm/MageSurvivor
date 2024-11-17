@@ -6,10 +6,11 @@ from pytmx.util_pygame import load_pygame
 from groups import *
 from itertools import chain
 from enemy import Enemy
+from magias.magia import Spell
 import time
 
 class Jogador(pygame.sprite.Sprite):
-    def __init__(self, position, groups, collision_sprites, enemy_sprites):
+    def __init__(self, position, groups, collision_sprites, enemy_sprites, bullet_sprites):
         super().__init__(groups) 
         
         base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -26,10 +27,13 @@ class Jogador(pygame.sprite.Sprite):
         self.dinamicLife = self.__staticLife
         self.collision_sprites = collision_sprites
         self.enemy_sprites = enemy_sprites
+        self.bullet_sprites = bullet_sprites
         #ajusta tamanho do personagem
         self.hitbox = self.rect.inflate(-30, -30)
         self.alive = True
         self.experience = 0
+        self.spell = Spell(self,self.bullet_sprites)
+        self.can_shoot = True
         #self.upgrade()
         #self.enemy = Enemy()
 
@@ -118,8 +122,30 @@ class Jogador(pygame.sprite.Sprite):
             #print(self.dinamicLife)
             print(self.__staticLife)
     """
+    def shoot(self):
+        if self.can_shoot == True:
+            print("funcao SHOOT")
+            mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
+            player_pos = self.rect.center
+            mouse_direction = mouse_pos - player_pos
+
+            if(mouse_direction.length() > 0):
+                mouse_direction = mouse_direction.normalize()
+            
+            bullet_initial_pos = self.rect.center + mouse_direction * 2
+            print(f"player pos: {player_pos}, mouse_direction: {mouse_direction}")
+            self.spell.shoot(bullet_initial_pos, mouse_direction,self.enemy_sprites)
+            
+            self.can_shoot = False
+            self.shoot_time = pygame.time.get_ticks()
+
 
     def update(self, dt):
         self.input()
         self.move(dt)
+        # Verifica se 0.5 segundos passaram desde o último disparo
+        if not self.can_shoot:
+            current_time = pygame.time.get_ticks()
+            if current_time - self.shoot_time >= 500:  # 500 milissegundos = 0.5 segundos
+                self.can_shoot = True  # Permite o próximo disparo
 

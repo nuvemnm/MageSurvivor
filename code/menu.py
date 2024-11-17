@@ -1,7 +1,4 @@
 import pygame
-from magias.magia_raio import Magia_raio
-from magias.magia_fogo import Magia_fogo
-from magias.magia_gelo import Magia_gelo
 
 class Menu:
     def __init__(self, screen):
@@ -79,13 +76,10 @@ class Menu:
                 self.menu_type = "main"
             else: #IMPLEMENTAR A LOGICA DE ESCOLHA DAS MAGIAS AQUI
                 if self.selected_option==0:
-                    magia = Magia_fogo()
                     return 1
                 elif self.selected_option==1:
-                    magia = Magia_gelo()
                     return 1
                 elif self.selected_option==2:
-                    magia = Magia_gelo()
                     return 1
                 
         return None

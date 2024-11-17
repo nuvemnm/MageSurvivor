@@ -59,26 +59,6 @@ class Gun(pygame.sprite.Sprite):
         self.get_direction()
         self.rect.center = self.player.rect.center + self.player_direction * self.distance
 
-class Bullet(pygame.sprite.Sprite):
-    def __init__(self, surf, pos, direction, groups, enemy_sprites, damage):
-        super().__init__(groups)
-        #self.player = player
-        #self.bullet_surf = pygame.image.load(join('/home/UFMG.BR/matheusscarv/Downloads/POO-Projeto-de-Jogo/images/weapons/fire.png')).convert_alpha()
-        self.image = surf
-        self.rect = self.image.get_rect(center = pos)
-        #self.hitbox_rect = self.rect.inflate(-2,-2)
-        self.enemy_sprites = enemy_sprites
-        self.spawn_time = pygame.time.get_ticks()
-        self.lifetime = 5000
-
-        self.direction = direction
-        self.speed = 100
-        self.damage = damage
-    
-    def update(self, dt):
-        self.rect.center += self.direction * self.speed * dt
-        if pygame.time.get_ticks() - self.spawn_time >= self.lifetime:
-            self.kill()
     
 """
     def collision(self):

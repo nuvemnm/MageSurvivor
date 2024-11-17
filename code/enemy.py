@@ -8,7 +8,7 @@ import os
 from itertools import chain
 
 class Enemy(pygame.sprite.Sprite): 
-    def __init__(self, pos, frames, groups, player, collision_sprites, bullet_sprites, bullet, damage, dinamicLife):
+    def __init__(self, pos, frames, groups, player, collision_sprites, bullet_sprites, damage, dinamicLife):
         super().__init__(groups)
         #yself.player_sprites = player_sprites
         self.player = player
@@ -78,21 +78,10 @@ class Enemy(pygame.sprite.Sprite):
                     if self.direction.y > 0:
                         self.hitbox_rect.bottom = sprite.rect.top
         
-
-    """
-    def takeDamage(self):
-        if self.dinamicLife != 0:
-            self.dinamicLife = self.dinamicLife - self.bullet.damage
-            print(self.dinamicLife)
-            return False
-        else:
-            #self.kill_self()
-            return True
-
-    def kill_self(self):
-        self.alive = False
-        self.kill()
-    """
+    def take_damage(self,damage):
+        self.dinamicLife -= damage
+        if self.dinamicLife <= 0:
+            self.destroy()
 
     def destroy(self):
         self.death_time = pygame.time.get_ticks()

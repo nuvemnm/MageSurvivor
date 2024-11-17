@@ -24,3 +24,6 @@ class PlayerSprite(AllSprites):
     def __init__(self):
         super().__init__()
         
+class BulletSprites(AllSprites):
+    def __init__(self):
+        super().__init__()

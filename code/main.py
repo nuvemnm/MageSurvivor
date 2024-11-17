@@ -79,7 +79,7 @@ class Jogo:
 
 
     def input(self):
-        if pygame.mouse.get_pressed()[0] and self.can_shoot:
+        if pygame.mouse.get_pressed()[0]:
             self.player.shoot()
 
 
@@ -192,6 +192,7 @@ class Jogo:
                 #desenha e atualiza o jogo
                 self.all_sprites.draw(self.player.rect.center)
                 self.player_sprites.draw(self.player.rect.center)
+                self.bullet_sprites.draw(self.player.rect.center)
                 pygame.display.update()
             self.input()
 

@@ -5,7 +5,10 @@ class Menu:
         self.screen = screen
         self.font = pygame.font.Font(None, 74)
         self.selected_option = -1  # Nenhuma opção selecionada inicialmente
-        self.options = ["New game", "Login", "Quit"]  # opções iniciais do menu
+        self.mouse_x, self.mouse_y = pygame.mouse.get_pos()
+        self.text_rect = None
+        self.width = self.screen.get_width()
+        self.height = self.screen.get_height()
         self.menu_type = "main"  # Define o menu inicial como o principal
 
     def display(self, text, size, position):
@@ -14,8 +17,6 @@ class Menu:
         self.screen.blit(text_surface, position)
 
     def display_menu(self):
-        width = self.screen.get_width()
-        height = self.screen.get_height()
 
         if self.menu_type == "main":
             title = "MageSurvivor"
@@ -27,23 +28,23 @@ class Menu:
             title = "Escolha sua magia:"
             self.options = ["Magia de fogo", "Magia de gelo", "Magia de raio", "Back"]
 
-        self.screen.fill("blue")
-        self.display(title, 80, (width // 4, height // 4))
+        self.screen.fill("black")
+        self.display(title, 80, (self.width // 3.4, self.height // 4))
 
-        mouse_x, mouse_y = pygame.mouse.get_pos()
+        self.mouse_x, self.mouse_y = pygame.mouse.get_pos()
 
         for index, option in enumerate(self.options):
             text = self.font.render(option, True, (255, 255, 255))
-            text_rect = text.get_rect(center=(width // 2, height // 2 + index * 100))
+            self.text_rect = text.get_rect(center=(self.width // 2, self.height // 2 + index * 100))
 
             # Destaca a opção em que o mouse está
-            if text_rect.collidepoint(mouse_x, mouse_y):
-                pygame.draw.rect(self.screen, (170, 170, 170), text_rect.inflate(20, 20))
+            if self.text_rect.collidepoint(self.mouse_x, self.mouse_y):
+                pygame.draw.rect(self.screen, (170, 170, 170), self.text_rect.inflate(20, 20))
                 self.selected_option = index
             else:
-                pygame.draw.rect(self.screen, (100, 100, 100), text_rect.inflate(20, 20))
+                pygame.draw.rect(self.screen, (100, 100, 100), self.text_rect.inflate(20, 20))
 
-            self.screen.blit(text, text_rect)
+            self.screen.blit(text, self.text_rect)
 
     def handle_menu_events(self):
         for event in pygame.event.get():
@@ -66,7 +67,7 @@ class Menu:
                 exit()
         
         elif self.menu_type == "login": #IMPLEMENTAR LOGICA DE CRIAR LOGIN E DE RECUPERAR JOGO SALVO
-            if self.selected_option == 2:  # Voltar para o menu principal
+            if self.selected_option == 1:  # Voltar para o menu principal
                 self.menu_type = "main"
             else:
                 self.menu_type = "magias"

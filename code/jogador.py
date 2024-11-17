@@ -9,6 +9,8 @@ from itertools import chain
 from enemy import Enemy
 from magias.magia import Spell
 import time
+from config import *
+from upgrade_menu import UpgradeMenu
 
 class Jogador(pygame.sprite.Sprite):
     def __init__(self, position, groups, collision_sprites, enemy_sprites, bullet_sprites):
@@ -24,8 +26,8 @@ class Jogador(pygame.sprite.Sprite):
         #movimento
         self.direction = pygame.Vector2()
         self.speed = 300
-        self.__staticLife = 10
-        self.dinamicLife = self.__staticLife
+        self.staticLife = 10
+        self.dinamicLife = self.staticLife
         self.collision_sprites = collision_sprites
         self.enemy_sprites = enemy_sprites
         self.bullet_sprites = bullet_sprites
@@ -37,6 +39,7 @@ class Jogador(pygame.sprite.Sprite):
         self.can_shoot = True
         #self.upgrade()
         #self.enemy = Enemy()
+    
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -91,14 +94,32 @@ class Jogador(pygame.sprite.Sprite):
                         self.hitbox.bottom = sprite.rect.top
         """
     
+    def leveling(self):
+        experience_threshold = 10
+        while self.experience >= experience_threshold:
+            self.actual_level += 1
+
+            self.experience -= experience_threshold
+            experience_threshold +=20
+            """
+            print(self.experience)
+            print(experience_threshold)
+            print(self.actual_level)
+            print(self.dinamicLife)
+            """
+
+    def upgrade_menu(self, screen):
+        self.menu = UpgradeMenu(screen, ["+20 de vida", "+10 de dano"])
+        self.menu.display_menu(["+20 de vida", "+10 de dano"])
+        result = self.menu.handle_menu_events()
+        if result == 0:
+            return 0
+        elif result == 1:
+            return 1
+        else: 
+            return None
+
     """
-    def takeDamage(self):
-        for sprite in self.enemy_sprites:
-            if sprite.rect.colliderect(self.hitbox):
-                self.dinamicLife -= self.enemy.damage
-                if self.dinamicLife == 0:
-                    self.kill_self()
-    
     def upgrade(self):
         #tempo limite para upar
         
@@ -114,16 +135,6 @@ class Jogador(pygame.sprite.Sprite):
             else:
                 return False
 
-    def leveling(self):
-        for exp in range(30, 300, 20):
-            yield exp
-            print(exp)
-        
-        if self.experience >= exp:
-            self.actual_level += 1
-            self.__staticLife += 20
-            #print(self.dinamicLife)
-            print(self.__staticLife)
     """
 
     def shoot(self):

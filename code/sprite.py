@@ -60,7 +60,7 @@ class Gun(pygame.sprite.Sprite):
         self.rect.center = self.player.rect.center + self.player_direction * self.distance
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, surf, pos, direction, groups, enemy_sprites, damage):
+    def __init__(self, surf, pos, direction, groups, enemy_sprites):
         super().__init__(groups)
         #self.player = player
         #self.bullet_surf = pygame.image.load(join('/home/UFMG.BR/matheusscarv/Downloads/POO-Projeto-de-Jogo/images/weapons/fire.png')).convert_alpha()
@@ -73,7 +73,7 @@ class Bullet(pygame.sprite.Sprite):
 
         self.direction = direction
         self.speed = 100
-        self.damage = damage
+        self.damage = 10
     
     def update(self, dt):
         self.rect.center += self.direction * self.speed * dt

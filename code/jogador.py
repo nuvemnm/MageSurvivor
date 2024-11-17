@@ -11,7 +11,7 @@ from config import *
 from upgrade_menu import UpgradeMenu
 
 class Jogador(pygame.sprite.Sprite):
-    def __init__(self, position, groups, collision_sprites, enemy_sprites, bullet):
+    def __init__(self, position, groups, collision_sprites, enemy_sprites):
         super().__init__(groups) 
         
         base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -28,7 +28,6 @@ class Jogador(pygame.sprite.Sprite):
         self.dinamicLife = self.staticLife
         self.collision_sprites = collision_sprites
         self.enemy_sprites = enemy_sprites
-        self.bullet = bullet
         #ajusta tamanho do personagem
         self.hitbox = self.rect.inflate(-30, -30)
         self.alive = True
@@ -96,20 +95,23 @@ class Jogador(pygame.sprite.Sprite):
 
             self.experience -= experience_threshold
             experience_threshold +=20
+            """
             print(self.experience)
             print(experience_threshold)
             print(self.actual_level)
             print(self.dinamicLife)
+            """
 
     def upgrade_menu(self, screen):
         self.menu = UpgradeMenu(screen, ["+20 de vida", "+10 de dano"])
         self.menu.display_menu(["+20 de vida", "+10 de dano"])
         result = self.menu.handle_menu_events()
         if result == 0:
-            self.staticLife += 20
-            print(self.staticLife)
-        else:
             return 0
+        elif result == 1:
+            return 1
+        else: 
+            return None
 
     """
     def upgrade(self):

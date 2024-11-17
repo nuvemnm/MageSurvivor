@@ -19,7 +19,6 @@ class Jogo:
         pygame.init()
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption('Mage Survivor')
-        self.menu = False
         
         
         self.clock = pygame.time.Clock()
@@ -37,7 +36,7 @@ class Jogo:
 
         #enemy timer
         self.enemy_event = pygame.event.custom_type()
-        pygame.time.set_timer(self.enemy_event, 10000)
+        pygame.time.set_timer(self.enemy_event, 1500)
         self.spawn_positions = []
 
         #player event
@@ -76,11 +75,6 @@ class Jogo:
                     full_path = join(folder_path,file_name)
                     surf = pygame.image.load(full_path).convert_alpha()
                     self.enemy_frames[folder].append(surf)
-
-
-    def input(self):
-        if pygame.mouse.get_pressed()[0]:
-            self.player.shoot()
 
 
     # def gun_timer(self):
@@ -148,7 +142,7 @@ class Jogo:
         self.running = False
     
         while not self.running:
-            if(self.menu == True):
+            if(ENABLE_MENU == True):
                 menu.display_menu()
                 result = menu.handle_menu_events()
 
@@ -195,7 +189,6 @@ class Jogo:
                 #self.player_collision()
 
                 pygame.display.update()
-            self.input()
 
             self.screen.fill('black')
             

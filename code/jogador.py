@@ -1,4 +1,5 @@
-from config import *
+import utils
+
 from os.path import join
 import os
 from sprite import *
@@ -51,7 +52,9 @@ class Jogador(pygame.sprite.Sprite):
             base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
             image_path = os.path.join(base_path, 'images', 'personagem', 'magomenor.png')
             self.image = pygame.image.load(image_path).convert_alpha()
-    
+
+        if pygame.mouse.get_pressed()[0]:
+            self.shoot()
 
     def move(self, dt):
         self.hitbox.x += self.direction.x * self.speed * dt 
@@ -122,18 +125,16 @@ class Jogador(pygame.sprite.Sprite):
             #print(self.dinamicLife)
             print(self.__staticLife)
     """
+
     def shoot(self):
         if self.can_shoot == True:
             print("funcao SHOOT")
-            mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
-            player_pos = self.rect.center
-            mouse_direction = mouse_pos - player_pos
-
+            mouse_direction = utils.get_mouse_direction_relative_to_center()
+            
             if(mouse_direction.length() > 0):
                 mouse_direction = mouse_direction.normalize()
             
             bullet_initial_pos = self.rect.center
-            print(f"player pos: {player_pos}, mouse_direction: {mouse_direction}, bullet_initial_pos: {bullet_initial_pos}")
             self.spell.shoot(bullet_initial_pos, mouse_direction,self.enemy_sprites)
             
             self.can_shoot = False
@@ -143,9 +144,9 @@ class Jogador(pygame.sprite.Sprite):
     def update(self, dt):
         self.input()
         self.move(dt)
-        # Verifica se 0.5 segundos passaram desde o último disparo
+        # Verifica se 0.3 segundos passaram desde o último disparo
         if not self.can_shoot:
             current_time = pygame.time.get_ticks()
-            if current_time - self.shoot_time >= 500:  # 500 milissegundos = 0.5 segundos
-                self.can_shoot = True  # Permite o próximo disparo
+            if current_time - self.shoot_time >= 300:  
+                self.can_shoot = True  
 

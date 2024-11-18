@@ -29,6 +29,7 @@ class Enemy(pygame.sprite.Sprite):
         #life status
         self.damage = damage
         self.dinamicLife = dinamicLife
+        self.staticLife = dinamicLife
         self.alive = True
 
         #timer
@@ -94,6 +95,7 @@ class Enemy(pygame.sprite.Sprite):
             self.kill()
             #aumenta xp do jogador
             self.player.experience += 10
+            self.player.score += 2 * self.staticLife
             return True
 
     def update(self, dt):

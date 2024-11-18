@@ -23,6 +23,11 @@ class Jogador(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft = position)
         self.level = 1
         self.actual_level = 1
+        self.experience = 0
+        self.score = 0
+        self.nickname = None
+        self.password = None
+
         #movimento
         self.direction = pygame.Vector2()
         self.speed = 300
@@ -32,14 +37,12 @@ class Jogador(pygame.sprite.Sprite):
         self.enemy_sprites = enemy_sprites
         self.bullet_sprites = bullet_sprites
         #ajusta tamanho do personagem
+        
         self.hitbox = self.rect.inflate(-30, -30)
         self.alive = True
-        self.experience = 0
         self.spell = Spell(self,self.bullet_sprites)
         self.can_shoot = True
-        #self.upgrade()
-        #self.enemy = Enemy()
-    
+        
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -101,6 +104,7 @@ class Jogador(pygame.sprite.Sprite):
 
             self.experience -= experience_threshold
             experience_threshold +=20
+            print(self.score)
             """
             print(self.experience)
             print(experience_threshold)
@@ -130,23 +134,6 @@ class Jogador(pygame.sprite.Sprite):
 
         return self.upgrade_timer
 
-    """
-    def upgrade(self):
-        #tempo limite para upar
-        
-        actual_time = time.time()
-        limit_time = actual_time - init_time
-        
-        
-
-        
-        
-        while limit_time <= 5:
-                return True
-            else:
-                return False
-
-    """
 
     def shoot(self):
         if self.can_shoot == True:

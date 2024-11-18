@@ -12,6 +12,7 @@ from groups import *
 from menu import Menu
 from random import randint,choice
 from itertools import chain
+from score import Score
 
 class Jogo:
     def __init__(self):
@@ -137,6 +138,8 @@ class Jogo:
                         player.dinamicLife -= enemy.damage
                         print(player.dinamicLife)
                         if player.dinamicLife <=0:
+                            score = Score(self.player)
+                            score.write_score()
                             self.running = False
     
 
@@ -215,8 +218,6 @@ class Jogo:
                         self.boss = Enemy(choice(self.spawn_positions),self.enemy_frames['boss'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
                         self.boss_spawned = True
                         
-                if self.player.alive == False:
-                    self.running = False
             
             
             
@@ -233,7 +234,7 @@ class Jogo:
                 self.all_sprites.update(dt)
                 self.player_sprites.update(dt)
                 self.bullet_sprites.update(dt)
-                
+
                 self.player.leveling()
 
 

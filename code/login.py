@@ -1,40 +1,55 @@
 import pygame
-import sqlite3 
+import os
+from os import join
+from jogador import Jogador
 
-#GPT CRIOPU MAS NAO TESTEI COLOQUEI SO PRA DAR DE EX
 
 class Login:
-    def __init__(self, database_path):
-        self.database_path = database_path
-
-    def create_database(self):
-        # Cria a tabela de usuários se ainda não existir
-        conn = sqlite3.connect(self.database_path)
-        cursor = conn.cursor()
-        cursor.execute('''CREATE TABLE IF NOT EXISTS users (
-                          username TEXT PRIMARY KEY,
-                          password TEXT NOT NULL)''')
-        conn.commit()
-        conn.close()
-
-    def authenticate(self, username, password):
-        # Verifica se o usuário e senha são válidos
-        conn = sqlite3.connect(self.database_path)
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM users WHERE username = ? AND password = ?", (username, password))
-        result = cursor.fetchone()
-        conn.close()
-        return result is not None
-
-    def register_user(self, username, password):
-        # Registra um novo usuário (para teste ou novas contas)
-        conn = sqlite3.connect(self.database_path)
-        cursor = conn.cursor()
+    def __init__(self):
+        self.base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+        self.archive = os.path.join(self.base_path, 'data_login', 'user.txt')
+        self.nickname = None
+        self.password = None
+        self.score = 0
+        
+    
+    def extrair_dados(self, search_name):
         try:
-            cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password))
-            conn.commit()
-            success = True
-        except sqlite3.IntegrityError:
-            success = False  # Usuário já existe
-        conn.close()
-        return success
+            with open(self.archive, 'r', encoding='utf-8') as arquivo:
+                for linha in arquivo:
+                    linha = linha.strip()
+                    if linha:
+                        partes = linha.split(",")
+                        if len(partes) == 3:
+                            nickname, score, _ = partes
+                            if nickname == search_name:
+                                print("Usuário encontrado!")
+                                print(f"Nome: {nickname}")
+                                print(f"Score: {score}")
+                                return True
+
+                # Se terminar o loop sem encontrar o usuário
+                print("Usuário não cadastrado.")
+                return False
+        except FileNotFoundError:
+            print("O arquivo não foi encontrado.")
+            return None
+
+
+    def cadastrar(self):
+        
+        while not self.nickname or not self.password:
+            self.nickname = input("Digite um nickname: ").strip()
+            self.password = input("Digite uma senha: ").strip()
+
+        linha = f"{self.nickname},{self.score},{self.password}\n"
+        if not self.extrair_dados(self.nickname):
+            try:
+                with open(self.archive, 'a', encoding = 'utf-8') as arquivo:
+                    arquivo.write(linha)
+                print(f"Dados salvos com sucesso: {linha.strip()}")
+            except Exception as e:
+                print(f"Erro ao escrever no arquivo: {e}")
+
+
+

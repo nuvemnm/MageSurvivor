@@ -88,7 +88,10 @@ class Menu:
                 pygame.quit()
                 exit()
         
-        elif self.menu_type == "login": #IMPLEMENTAR LOGICA DE CRIAR LOGIN E DE RECUPERAR JOGO SALVO
+        elif self.menu_type == "login": 
+            
+            #IMPLEMENTAR LOGICA DE CRIAR LOGIN E DE RECUPERAR JOGO SALVO
+            
             if self.selected_option == 1:  # Voltar para o menu principal
                 self.menu_type = "main"
             else:

@@ -109,15 +109,20 @@ class Jogador(pygame.sprite.Sprite):
             """
 
     def upgrade_menu(self, screen):
-        self.menu = UpgradeMenu(screen, ["+20 de vida", "+10 de dano"])
-        self.menu.display_menu(["+20 de vida", "+10 de dano"])
-        result = self.menu.handle_menu_events()
+        self.upgrade_timer = 0
+        self.menu = UpgradeMenu(screen)
+        buttons = self.menu.display_menu()
+        result = self.menu.handle_menu_events(buttons)
         if result == 0:
-            return 0
+            self.staticLife += 20
+            self.upgrade_timer = 5
+            print("vida aumentada para: " + str(self.staticLife))
         elif result == 1:
-            return 1
-        else: 
-            return None
+            self.spell.damage += 10
+            self.upgrade_timer = 5
+            print("dano aumentado para: " + str(self.spell.damage))
+            
+        return self.upgrade_timer
 
     """
     def upgrade(self):
@@ -139,7 +144,6 @@ class Jogador(pygame.sprite.Sprite):
 
     def shoot(self):
         if self.can_shoot == True:
-            print("funcao SHOOT")
             mouse_direction = utils.get_mouse_direction_relative_to_center()
             
             if(mouse_direction.length() > 0):

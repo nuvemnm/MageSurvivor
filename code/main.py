@@ -40,6 +40,7 @@ class Jogo:
         pygame.time.set_timer(self.enemy_event, 1500)
         self.spawn_positions = []
         self.upgrade_timer = 0
+        self.aux_timer = 0
 
         #player event
         #self.player_event = pygame.event.custom_type()
@@ -128,17 +129,17 @@ class Jogo:
                         print(player.dinamicLife)
                         if player.dinamicLife <=0:
                             self.running = False
-                            
+    """
     def upgrade(self, option):
         if option == 0:
             self.player.staticLife += 20
             self.upgrade_timer = 10
             print("vida aumentada para: " + str(self.player.staticLife))
         if option == 1:
-            self.bullet_damage += 10
-            self.bullet.damage = self.bullet_damage
+            self.player.spell.damage += 10
             self.upgrade_timer = 10
-            print("dano aumentado para: " + str(self.bullet.damage))
+            print("dano aumentado para: " + str(self.player.spell.damage))
+    """                     
 
     
     def run(self):  
@@ -152,8 +153,8 @@ class Jogo:
 
         while not self.running:
             if(ENABLE_MENU == True):
-                menu.display_menu()
-                result = menu.handle_menu_events()
+                buttons = menu.display_menu()
+                result = menu.handle_menu_events(buttons)
 
                 if result == 1:
                     self.running = True
@@ -164,7 +165,7 @@ class Jogo:
                 self.running = True
 
         while self.running:
-            #keys = pygame.key.get_pressed()
+            keys = pygame.key.get_pressed()
             dt = self.clock.tick(60) / 1000
             actual_time = time.time()
             elapsed_time = actual_time - init_time
@@ -186,7 +187,7 @@ class Jogo:
                 
 
                     if elapsed_time >= 0 and not self.boss_spawned:
-                        self.boss = Enemy(choice(self.spawn_positions),self.enemy_frames['boss'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, self.bullet, 20, 80)
+                        self.boss = Enemy(choice(self.spawn_positions),self.enemy_frames['boss'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
                         self.boss_spawned = True
                         
                 if self.player.alive == False:
@@ -194,7 +195,7 @@ class Jogo:
             
             #update
 
-            if not keys[pygame.K_p] and self.player.level == self.player.actual_level:       
+            if self.player.level == self.player.actual_level:       
                 self.all_sprites.draw(self.player.rect.center)
                 self.player_sprites.draw(self.player.rect.center)
                 self.bullet_sprites.draw(self.player.rect.center)
@@ -206,18 +207,15 @@ class Jogo:
                 self.player.leveling()
 
 
-            elif self.player.level != self.player.actual_level:
-                option = self.player.upgrade_menu(self.screen)
-                self.upgrade(option)
-                pygame.display.flip()   
-
-
-           
-            self.upgrade_timer += dt
-            #print(self.upgrade_timer)
-            if self.upgrade_timer >= 10:
+            else:
+                self.aux_timer = self.player.upgrade_menu(self.screen) 
+                pygame.display.flip()       
+                self.upgrade_timer += dt
+            
+            if self.upgrade_timer >= 5 or self.aux_timer >= 5:
                 self.player.level = self.player.actual_level 
                 self.upgrade_timer = 0
+                self.aux_timer = 0
             
             pygame.display.update()
             self.screen.fill('black')

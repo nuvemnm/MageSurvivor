@@ -234,8 +234,6 @@ class Jogo:
                 self.player_sprites.update(dt)
                 self.bullet_sprites.update(dt)
                 
-                self.player.leveling()
-
 
             else:
                 self.aux_timer = self.player.upgrade_menu(self.screen) 

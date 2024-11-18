@@ -14,8 +14,8 @@ class Spell(pygame.sprite.Sprite):
         self.player = player
     
     def shoot(self, bullet_initial_pos, bullet_direction,enemy_sprites):
-        bullet = Bullet(pos=bullet_initial_pos,direction=bullet_direction,groups=self.bullet_sprites,enemy_sprites=enemy_sprites,damage=self.damage)
-   
+        bullet = Bullet(player=self.player, pos=bullet_initial_pos,direction=bullet_direction,groups=self.bullet_sprites,enemy_sprites=enemy_sprites,damage=self.damage)
+        
 
     
     

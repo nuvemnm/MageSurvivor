@@ -4,7 +4,7 @@ import pygame
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, pos, direction, groups, enemy_sprites, damage):
+    def __init__(self, player, pos, direction, groups, enemy_sprites, damage):
         # Inicializa a bala como pertencente ao grupo bullet_sprites
         super().__init__(groups)
         
@@ -18,6 +18,8 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.x, self.rect.y = pos
 
         self.enemy_sprites = enemy_sprites
+        self.player = player
+
 
         # self.hitbox_rect = self.rect.inflate(-2,-2)
         self.spawn_time = pygame.time.get_ticks()

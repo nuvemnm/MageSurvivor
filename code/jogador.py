@@ -35,6 +35,7 @@ class Jogador(pygame.sprite.Sprite):
         self.hitbox = self.rect.inflate(-30, -30)
         self.alive = True
         self.experience = 0
+        self.experience_threshold = 5
         self.spell = Spell(self,self.bullet_sprites)
         self.can_shoot = True
         #self.upgrade()
@@ -95,18 +96,16 @@ class Jogador(pygame.sprite.Sprite):
         """
     
     def leveling(self):
-        experience_threshold = 10
-        while self.experience >= experience_threshold:
+        print("+1")
+        if self.experience >= self.experience_threshold:
             self.actual_level += 1
+            self.experience -= self.experience_threshold
+            self.experience_threshold +=3
 
-            self.experience -= experience_threshold
-            experience_threshold +=20
-            """
-            print(self.experience)
-            print(experience_threshold)
-            print(self.actual_level)
-            print(self.dinamicLife)
-            """
+            print(f"subiu de nível! nível atual: {self.actual_level}")
+        else:
+            self.experience += 1
+            print(f"experiencia atual: {self.experience}/{self.experience_threshold} ")
 
     def upgrade_menu(self, screen):
         running = True

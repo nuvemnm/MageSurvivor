@@ -12,7 +12,7 @@ from groups import *
 from menu import Menu
 from random import randint,choice
 from itertools import chain
-from score import Score
+#from score import Score
 
 class Jogo:
     def __init__(self):
@@ -138,8 +138,8 @@ class Jogo:
                         player.dinamicLife -= enemy.damage
                         print(player.dinamicLife)
                         if player.dinamicLife <=0:
-                            score = Score(self.player)
-                            score.write_score()
+                            #score = Score(self.player)
+                            #score.write_score()
                             self.running = False
     
 

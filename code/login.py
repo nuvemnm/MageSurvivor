@@ -1,7 +1,8 @@
 import pygame
 import os
-from os import join
-from jogador import Jogador
+from os.path import join
+print(os.__file__)
+#from jogador import Jogador
 
 
 class Login:

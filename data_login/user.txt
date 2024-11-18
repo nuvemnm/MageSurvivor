@@ -1,1 +1,2 @@
 Nickname,Score,Password
+matheus,0,pass

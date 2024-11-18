@@ -115,6 +115,11 @@ class Jogo:
                 self.player = Jogador((obj.x,obj.y), self.player_sprites, self.collision_sprites, self.enemy_sprites, self.bullet_sprites)
             else:
                 self.spawn_positions.append((obj.x,obj.y))
+        
+        #scaled_surf = 
+        #caled_rect = 
+
+        #self.display_surface.blit(scaled_surf, scaled_rect)
 
     #def spawnEnemy(self):
     #  self.enemy = Enemy(choice(self.spawn_positions),choice(list(self.enemy_frames.values())),(self.all_sprites,self.enemy_sprites),self.player, self.collision_sprites, self.bullet_sprites)
@@ -129,19 +134,8 @@ class Jogo:
                         print(player.dinamicLife)
                         if player.dinamicLife <=0:
                             self.running = False
-    """
-    def upgrade(self, option):
-        if option == 0:
-            self.player.staticLife += 20
-            self.upgrade_timer = 10
-            print("vida aumentada para: " + str(self.player.staticLife))
-        if option == 1:
-            self.player.spell.damage += 10
-            self.upgrade_timer = 10
-            print("dano aumentado para: " + str(self.player.spell.damage))
-    """                     
-
     
+
     def run(self):  
         # Cria o menu e exibe a tela de menu
         init_time = time.time()

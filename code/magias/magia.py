@@ -10,7 +10,7 @@ class Spell(pygame.sprite.Sprite):
         # self.projectile_image_path
         ## Cooldown padrão:
         self.cooldown = 80
-        self.damage = 100
+        self.damage = 10
         self.player = player
     
     def shoot(self, bullet_initial_pos, bullet_direction,enemy_sprites):

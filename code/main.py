@@ -18,6 +18,10 @@ class Jogo:
         #setup
         pygame.init()
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+        self.zoom_scale = 1.5
+        self.camera_surface = pygame.Surface(
+            (WINDOW_WIDTH // self.zoom_scale, WINDOW_HEIGHT // self.zoom_scale)
+        )
         pygame.display.set_caption('Mage Survivor')
         
         
@@ -136,6 +140,33 @@ class Jogo:
                             self.running = False
     
 
+    def zoom(self):
+        # Limpa a superfície da câmera
+        self.camera_surface.fill((0, 0, 0))
+
+        # Define o deslocamento da câmera com base no jogador
+        offset_x = self.player.rect.centerx - (WINDOW_WIDTH // (2 * self.zoom_scale))
+        offset_y = self.player.rect.centery - (WINDOW_HEIGHT // (2 * self.zoom_scale))
+
+        # Desenha os grupos de sprites ajustando para a câmera
+        for sprite in chain(self.all_sprites, self.player_sprites, self.bullet_sprites):
+            # Ajusta a posição do sprite para a câmera
+            camera_pos = (
+                sprite.rect.x - offset_x,
+                sprite.rect.y - offset_y,
+            )
+            self.camera_surface.blit(sprite.image, camera_pos)
+
+        # Escala a superfície da câmera para a tela
+        scaled_surface = pygame.transform.scale(
+            self.camera_surface, (WINDOW_WIDTH, WINDOW_HEIGHT)
+        )
+        self.screen.blit(scaled_surface, (0, 0))
+
+        pygame.display.flip()
+
+
+
     def run(self):  
         # Cria o menu e exibe a tela de menu
         init_time = time.time()
@@ -178,7 +209,7 @@ class Jogo:
                     if elapsed_time >= 10:
 
                         self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['goblin'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
-                
+
 
                     if elapsed_time >= 0 and not self.boss_spawned:
                         self.boss = Enemy(choice(self.spawn_positions),self.enemy_frames['boss'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
@@ -187,9 +218,14 @@ class Jogo:
                 if self.player.alive == False:
                     self.running = False
             
+            
+            
             #update
+            if self.player.level == self.player.actual_level:  
+                #aplica zoom na tela
+                self.zoom()
 
-            if self.player.level == self.player.actual_level:       
+                #Desenha todos os sprites
                 self.all_sprites.draw(self.player.rect.center)
                 self.player_sprites.draw(self.player.rect.center)
                 self.bullet_sprites.draw(self.player.rect.center)
@@ -197,7 +233,7 @@ class Jogo:
                 self.all_sprites.update(dt)
                 self.player_sprites.update(dt)
                 self.bullet_sprites.update(dt)
-
+                
                 self.player.leveling()
 
 
@@ -211,7 +247,7 @@ class Jogo:
                 self.upgrade_timer = 0
                 self.aux_timer = 0
             
-            pygame.display.update()
+            #pygame.display.update()
             self.screen.fill('black')
             
 

@@ -109,10 +109,16 @@ class Jogador(pygame.sprite.Sprite):
             """
 
     def upgrade_menu(self, screen):
+        running = True
         self.upgrade_timer = 0
         self.menu = UpgradeMenu(screen)
-        buttons = self.menu.display_menu()
-        result = self.menu.handle_menu_events(buttons)
+
+        while running:
+            buttons = self.menu.display_menu()
+            result = self.menu.handle_menu_events(buttons)
+            if result is not None:
+                running = False
+                
         if result == 0:
             self.staticLife += 20
             self.upgrade_timer = 5
@@ -121,7 +127,7 @@ class Jogador(pygame.sprite.Sprite):
             self.spell.damage += 10
             self.upgrade_timer = 5
             print("dano aumentado para: " + str(self.spell.damage))
-            
+
         return self.upgrade_timer
 
     """

@@ -9,7 +9,6 @@ class Menu:
         self.screen = screen
         self.font = pygame.font.Font(None, 74)
         self.selected_option = -1  # Nenhuma opção selecionada inicialmente
-        self.mouse_pos = pygame.mouse.get_pos()
         self.width = self.screen.get_width()
         self.height = self.screen.get_height()
         self.menu_type = "main"
@@ -69,11 +68,13 @@ class Menu:
                 pygame.quit()
                 exit()
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                self.mouse_pos = pygame.mouse.get_pos()
+                mouse_pos = pygame.mouse.get_pos()
                 for index, (_, rect) in enumerate(buttons):
-                    if rect.collidepoint(self.mouse_pos):
+                    if rect.collidepoint(mouse_pos):
                         self.selected_option = index
-                        print(f"Clique detectado em: {self.mouse_pos}, Botão: {index}")
+                        print(f"Retângulo do botão: {rect}, Posição do mouse: {mouse_pos}")
+
+                        print(f"Clique detectado em: {mouse_pos}, Botão: {index}")
                         return self.handle_menu_selection()
         return None
 

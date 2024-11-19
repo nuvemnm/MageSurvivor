@@ -6,6 +6,7 @@ from os.path import join
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GRAY = (200, 200, 200)
+BLUE = (0, 120, 215)
 
 class Menu:
     def __init__(self, screen):
@@ -18,6 +19,12 @@ class Menu:
         self.button_size = (400, 70)  # Largura e altura dos botões
         self.spacing = 20  # Espaço entre os botões
         self.start_y = 50  # Deslocamento do topo da tela
+        self.user_rect = pygame.Rect((self.width/2)-200, 200, 400, 50)
+        self.password_rect = pygame.Rect((self.width/2)-200, 280, 400, 50)
+        self.user_text = ""
+        self.password_text = ""
+        self.active_input = None
+        
 
     def display(self, text, size, position):
         font = pygame.font.SysFont('Corbel', size)
@@ -53,6 +60,8 @@ class Menu:
             button_texts = ["New Game", "Login", "Exit"]
         elif self.menu_type == "login":
             title = "Insira seu login e senha:"
+            self.desenha()
+            self.login_input()
             button_texts = ["Confirm", "Back"]
         elif self.menu_type == "magias":
             title = "Escolha sua magia:"
@@ -60,7 +69,8 @@ class Menu:
         
         buttons = self.create_buttons(button_texts)
         self.draw_buttons(buttons)
-        self.display(title, 80, (self.width // 3.4, self.height // 4))
+        self.display(title, 80, (self.width // 3.4, self.height // 8))
+        
         pygame.display.flip()  # Atualiza a tela
         return buttons
 
@@ -76,9 +86,34 @@ class Menu:
                     if rect.collidepoint(mouse_pos):
                         self.selected_option = index
                         print(f"Retângulo do botão: {rect}, Posição do mouse: {mouse_pos}")
-
                         print(f"Clique detectado em: {mouse_pos}, Botão: {index}")
                         return self.handle_menu_selection()
+            
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                    if self.user_rect.collidepoint(event.pos):
+                        self.active_input = "user"
+                    elif self.password_rect.collidepoint(event.pos):
+                        self.active_input = "password"
+                    else:
+                        self.active_input = None
+                
+            if event.type == pygame.KEYDOWN:
+                if self.active_input == "user":
+                    #pygame.draw.rect(pygame.draw.rect(self.screen, BLUE, self.user_rect, 2))
+                    if event.key == pygame.K_BACKSPACE:
+                        self.user_text = self.user_text[:-1]
+                    else:
+                        user_text += event.unicode
+
+                elif self.active_input == "password":
+                    #pygame.draw.rect(self.screen, BLUE, self.password_rect, 2)
+                    if event.key == pygame.K_BACKSPACE:
+                        self.password_text = self.password_text[:-1]
+                    else:
+                        self.password_text += event.unicod
+            
+        
+
         return None
 
     def handle_menu_selection(self):
@@ -113,3 +148,76 @@ class Menu:
                     return 1
                 
         return None
+
+
+    def login_input(self):
+        user_rect = pygame.Rect((self.width/2)-200, 200, 400, 50)
+        password_rect = pygame.Rect((self.width/2)-200, 280, 400, 50)
+
+        user_text = ""
+        password_text = ""
+        active_input = None
+
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if user_rect.collidepoint(event.pos):
+                    active_input = "user"
+                elif password_rect.collidepoint(event.pos):
+                    active_input = "password"
+                else:
+                    active_input = None
+        
+            if event.type == pygame.KEYDOWN:
+                if active_input == "user":
+                    if event.key == pygame.K_BACKSPACE:
+                        user_text = user_text[:-1]
+                    else:
+                        user_text += event.unicode
+
+                elif active_input == "password":
+                    if event.key == pygame.K_BACKSPACE:
+                        password_text = password_text[:-1]
+                    else:
+                        password_text += event.unicod
+
+        # Desenhar as caixas de entrada
+        pygame.draw.rect(self.screen, BLUE if active_input == "user" else BLACK, user_rect, 2)
+        pygame.draw.rect(self.screen, BLUE if active_input == "password" else BLACK, password_rect, 2)
+
+        # Renderizar texto
+        user_surface = self.font.render(user_text, True, BLACK)
+        password_surface = self.font.render("*" * len(password_text), True, BLACK)
+
+        # Blitar texto nas caixas
+        self.screen.blit(user_surface, (user_rect.x + 5, user_rect.y + 5))
+        self.screen.blit(password_surface, (password_rect.x + 5, password_rect.y + 5))
+
+        # Mostrar os títulos
+        self.screen.blit(self.font.render("Usuário:", True, BLACK), (200, 200))
+        self.screen.blit(self.font.render("Senha:", True, BLACK), (200, 300))
+
+
+    def desenha(self):
+        user_rect = pygame.Rect((self.width/2)-200, 200, 400, 50)
+        password_rect = pygame.Rect((self.width/2)-200, 280, 400, 50)
+
+        
+        # Desenhar as caixas de entrada
+        pygame.draw.rect(self.screen, BLUE if self.active_input == "user" else BLACK, user_rect, 2)
+        pygame.draw.rect(self.screen, BLUE if self.active_input == "password" else BLACK, password_rect, 2)
+
+        # Renderizar texto
+        user_surface = self.font.render(self.user_text, True, BLACK)
+        password_surface = self.font.render("*" * len(self.password_text), True, BLACK)
+
+        # Blitar texto nas caixas
+        self.screen.blit(user_surface, (self.user_rect.x + 5, self.user_rect.y + 5))
+        self.screen.blit(password_surface, (self.password_rect.x + 5, self.password_rect.y + 5))
+
+        # Mostrar os títulos
+        self.screen.blit(self.font.render("Usuário:", True, BLACK), (200, 200))
+        self.screen.blit(self.font.render("Senha:", True, BLACK), (200, 300))

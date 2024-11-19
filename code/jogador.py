@@ -100,9 +100,14 @@ class Jogador(pygame.sprite.Sprite):
             print("dano aumentado para: " + str(self.spell.damage))
             self.spell.damage += 10
             self.upgrading = False
+        if(stat == "life"):
+            self.staticLife += 20
+            self.dinamicLife += 20
+            print("vida aumentado para: " + str(self.staticLife))
+            self.upgrading = False
 
-        return self.upgrade_timer
-
+        return
+    
     def shoot(self):
         if self.can_shoot == True:
             mouse_direction = utils.get_mouse_direction_relative_to_center()

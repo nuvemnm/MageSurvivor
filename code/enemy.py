@@ -93,7 +93,9 @@ class Enemy(pygame.sprite.Sprite):
         surf.fill((255, 255, 255), special_flags=pygame.BLEND_RGBA_MULT)
         self.image = surf
         self.alive = False
-        self.player.leveling()
+        
+        self.player.leveling(self.staticLife / 5)
+        self.player.score_up(self.staticLife)
 
 
     def death_timer(self):

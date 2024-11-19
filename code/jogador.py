@@ -89,19 +89,23 @@ class Jogador(pygame.sprite.Sprite):
                     if self.direction.y > 0:
                         self.hitbox.bottom = sprite.rect.top
     
-    def leveling(self):
+    def leveling(self, xp_quantity):
         print("+1")
         if self.experience == self.experience_threshold:
             self.upgrading = True
             print(f"subiu de nível! nível atual: {self.actual_level}")
         else:
-            self.experience += 1
+            self.experience += xp_quantity
             print(f"experiencia atual: {self.experience}/{self.experience_threshold} ")
 
+    def score_up(self, xp_quantity):
+        self.score += xp_quantity
+
+    
     def upgrade(self,stat):
         self.actual_level += 1
         self.experience -= self.experience_threshold
-        self.experience_threshold +=3
+        self.experience_threshold +=3   
 
         if(stat == "damage"):
 

@@ -1,4 +1,7 @@
 import pygame
+from login import Login
+import os
+from os.path import join
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -88,7 +91,11 @@ class Menu:
                 pygame.quit()
                 exit()
         
-        elif self.menu_type == "login": #IMPLEMENTAR LOGICA DE CRIAR LOGIN E DE RECUPERAR JOGO SALVO
+        elif self.menu_type == "login": 
+            
+            login = Login()
+            login.cadastrar()
+
             if self.selected_option == 1:  # Voltar para o menu principal
                 self.menu_type = "main"
             else:

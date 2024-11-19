@@ -29,6 +29,7 @@ class Enemy(pygame.sprite.Sprite):
         #life status
         self.damage = damage
         self.dinamicLife = dinamicLife
+        self.staticLife = dinamicLife
         self.alive = True
 
         #timer

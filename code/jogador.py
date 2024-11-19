@@ -23,7 +23,13 @@ class Jogador(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft = position)
         self.level = 1
         self.actual_level = 1
+
         self.upgrading = False
+  
+        self.score = 0
+        self.nickname = None
+        self.password = None
+
         #movimento
         self.direction = pygame.Vector2()
         self.speed = 300
@@ -33,15 +39,16 @@ class Jogador(pygame.sprite.Sprite):
         self.enemy_sprites = enemy_sprites
         self.bullet_sprites = bullet_sprites
         #ajusta tamanho do personagem
+        
         self.hitbox = self.rect.inflate(-30, -30)
         self.alive = True
+
         self.experience = 0
         self.experience_threshold = 1
+        
         self.spell = Spell(self,self.bullet_sprites)
         self.can_shoot = True
-        #self.upgrade()
-        #self.enemy = Enemy()
-    
+        
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -81,20 +88,6 @@ class Jogador(pygame.sprite.Sprite):
                         self.hitbox.top = sprite.rect.bottom
                     if self.direction.y > 0:
                         self.hitbox.bottom = sprite.rect.top
-        """
-        for sprite in self.enemy_sprites:
-            if sprite.rect.colliderect(self.hitbox):
-                if direction == 'horizontal':
-                    if self.direction.x > 0: 
-                        self.hitbox.right = sprite.rect.left
-                    if self.direction.x < 0:
-                        self.hitbox.left = sprite.rect.right
-                else:
-                    if self.direction.y < 0:
-                        self.hitbox.top = sprite.rect.bottom
-                    if self.direction.y > 0:
-                        self.hitbox.bottom = sprite.rect.top
-        """
     
     def leveling(self):
         print("+1")
@@ -111,6 +104,7 @@ class Jogador(pygame.sprite.Sprite):
         self.experience_threshold +=3
 
         if(stat == "damage"):
+
             print("dano aumentado para: " + str(self.spell.damage))
             self.spell.damage += 10
             self.upgrading = False

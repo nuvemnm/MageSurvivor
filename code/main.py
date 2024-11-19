@@ -239,16 +239,10 @@ class Jogo:
                 else:
                     self.menu = UpgradeMenu(self.screen)
                     self.menu.upgrade_menu(player=self.player)
-
             else:
-                self.aux_timer = self.player.upgrade_menu(self.screen) 
-                pygame.display.flip()       
-                self.upgrade_timer += dt
-            
-            if self.upgrade_timer >= 5 or self.aux_timer >= 5:
-                self.player.level = self.player.actual_level 
-                self.upgrade_timer = 0
-                self.aux_timer = 0
+                ## Menu de pause
+                pass
+
             
             #pygame.display.update()
             self.screen.fill('black')

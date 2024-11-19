@@ -85,12 +85,7 @@ class Jogo:
 
 
     def setup(self):
-        """
-        init_time = time.time()
-        actual_time = time.time()
-        elapsed_time = actual_time - init_time
-        """
-        
+
         base_path = os.path.dirname(__file__)
         map_path = os.path.join(base_path, 'maps',"firstMap.tmx")
         map_path = os.path.abspath(map_path) 
@@ -99,7 +94,9 @@ class Jogo:
         for x, y, image in map.get_layer_by_name("grass").tiles():
            Sprite((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
         for x, y, image in map.get_layer_by_name("wall").tiles():
-            Sprite_test((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
+            Sprite_test((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)]
+        
+        # TODO: Objetos no mapa
         """
         for x, y, image in map.get_layer_by_name("SecondFloor").tiles():
            Sprite_test((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
@@ -120,10 +117,6 @@ class Jogo:
             else:
                 self.spawn_positions.append((obj.x,obj.y))
         
-        #scaled_surf = 
-        #caled_rect = 
-
-        #self.display_surface.blit(scaled_surf, scaled_rect)
 
     #def spawnEnemy(self):
     #  self.enemy = Enemy(choice(self.spawn_positions),choice(list(self.enemy_frames.values())),(self.all_sprites,self.enemy_sprites),self.player, self.collision_sprites, self.bullet_sprites)

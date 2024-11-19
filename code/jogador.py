@@ -80,21 +80,7 @@ class Jogador(pygame.sprite.Sprite):
                         self.hitbox.top = sprite.rect.bottom
                     if self.direction.y > 0:
                         self.hitbox.bottom = sprite.rect.top
-        """
-        for sprite in self.enemy_sprites:
-            if sprite.rect.colliderect(self.hitbox):
-                if direction == 'horizontal':
-                    if self.direction.x > 0: 
-                        self.hitbox.right = sprite.rect.left
-                    if self.direction.x < 0:
-                        self.hitbox.left = sprite.rect.right
-                else:
-                    if self.direction.y < 0:
-                        self.hitbox.top = sprite.rect.bottom
-                    if self.direction.y > 0:
-                        self.hitbox.bottom = sprite.rect.top
-        """
-    
+
     def leveling(self):
         print("+1")
         if self.experience >= self.experience_threshold:
@@ -128,24 +114,6 @@ class Jogador(pygame.sprite.Sprite):
             print("dano aumentado para: " + str(self.spell.damage))
 
         return self.upgrade_timer
-
-    """
-    def upgrade(self):
-        #tempo limite para upar
-        
-        actual_time = time.time()
-        limit_time = actual_time - init_time
-        
-        
-
-        
-        
-        while limit_time <= 5:
-                return True
-            else:
-                return False
-
-    """
 
     def shoot(self):
         if self.can_shoot == True:

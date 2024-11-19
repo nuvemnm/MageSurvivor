@@ -1,6 +1,5 @@
 import pygame
-
-#CONFIGURAR A CLASSE MAPA CERTINHO DPS
+# TODO: Configurate class map
 
 class Map():
     def __init__(self, level):

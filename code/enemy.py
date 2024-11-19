@@ -10,9 +10,7 @@ from itertools import chain
 class Enemy(pygame.sprite.Sprite): 
     def __init__(self, pos, frames, groups, player, collision_sprites, bullet_sprites, damage, dinamicLife):
         super().__init__(groups)
-        #yself.player_sprites = player_sprites
         self.player = player
-        #self.bullet = bullet
     
         self.frames, self.frames_index = frames, 0
         self.image = self.frames[self.frames_index]
@@ -45,7 +43,6 @@ class Enemy(pygame.sprite.Sprite):
         self.direction = None
         zero = player_pos == enemy_pos
         if zero:
-            #print("0")
             self.direction = 0
         else:
             self.direction = (player_pos - enemy_pos).normalize()
@@ -55,14 +52,6 @@ class Enemy(pygame.sprite.Sprite):
             self.hitbox_rect.y += self.direction.y * self.speed *dt
             self.collision('vertical')
             self.rect.center = self.hitbox_rect.center
-
-        """
-        self.hitbox_rect.x += self.direction.x * self.speed *dt
-        self.collision('horizontal')
-        self.hitbox_rect.y += self.direction.y * self.speed *dt
-        self.collision('vertical')
-        self.rect.center = self.hitbox_rect.center
-        """   
 
     def collision(self, direction):
         for sprite in self.collision_sprites:

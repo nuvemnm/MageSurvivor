@@ -11,7 +11,7 @@ BLUE = (0, 120, 215)
 class Menu:
     def __init__(self, screen):
         self.screen = screen
-        self.font = pygame.font.Font(None, 74)
+        self.font = pygame.font.Font(None, 60)
         self.selected_option = -1  # Nenhuma opção selecionada inicialmente
         self.width = self.screen.get_width()
         self.height = self.screen.get_height()
@@ -19,10 +19,11 @@ class Menu:
         self.button_size = (400, 70)  # Largura e altura dos botões
         self.spacing = 20  # Espaço entre os botões
         self.start_y = 50  # Deslocamento do topo da tela
-        self.user_rect = pygame.Rect((self.width/2)-200, 200, 400, 50)
-        self.password_rect = pygame.Rect((self.width/2)-200, 280, 400, 50)
+        self.user_rect = pygame.Rect((self.width/2)-150, 200, 300, 50)
+        self.password_rect = pygame.Rect((self.width/2)-150, 280, 300, 50)
         self.user_text = ""
         self.password_text = ""
+        self.title = ""
         self.active_input = None
         
 
@@ -56,23 +57,30 @@ class Menu:
         self.screen.fill(GRAY)  # Limpa a tela para evitar sobreposição
 
         if self.menu_type == "main":
-            title = "MageSurvivor"
+            self.title = "MageSurvivor"
             button_texts = ["New Game", "Login", "Exit"]
+        elif self.menu_type == "new_game":
+            self.title = "Insira nickname e senha"
+            self.draw_imput()
+            button_texts = ["Criar conta", "Voltar"]
         elif self.menu_type == "login":
-            title = "Insira seu login e senha:"
-            self.desenha()
-            self.login_input()
-            button_texts = ["Confirm", "Back"]
+            self.title = "Insira seu login e senha:"
+            self.draw_imput()
+            button_texts = ["Confirm", "Voltar"]
+        """
         elif self.menu_type == "magias":
-            title = "Escolha sua magia:"
+            self.title = "Escolha sua magia:"
             button_texts = ["Magia de fogo", "Magia de gelo", "Magia de raio", "Back"]
+        """
         
         buttons = self.create_buttons(button_texts)
         self.draw_buttons(buttons)
-        self.display(title, 80, (self.width // 3.4, self.height // 8))
+        self.display(self.title, 80, (self.width // 3.4, self.height // 8))
         
         pygame.display.flip()  # Atualiza a tela
         return buttons
+
+
 
     def handle_menu_events(self, buttons):
           # Atualiza a posição do mouse
@@ -103,39 +111,51 @@ class Menu:
                     if event.key == pygame.K_BACKSPACE:
                         self.user_text = self.user_text[:-1]
                     else:
-                        user_text += event.unicode
+                        self.user_text += event.unicode
 
                 elif self.active_input == "password":
                     #pygame.draw.rect(self.screen, BLUE, self.password_rect, 2)
                     if event.key == pygame.K_BACKSPACE:
                         self.password_text = self.password_text[:-1]
                     else:
-                        self.password_text += event.unicod
+                        self.password_text += event.unicode
             
-        
-
         return None
 
+    
     def handle_menu_selection(self):
+        login = Login()
+
         if self.menu_type == "main":
             if self.selected_option == 0:  # New Game
-                self.menu_type ="login"# IMPLEMENTAR LOGICA DE CRIAR CONTA 
+                self.menu_type ="new_game"# IMPLEMENTAR LOGICA DE CRIAR CONTA 
             elif self.selected_option == 1:  # Login
                 self.menu_type = "login" #RETORNAR JOGO SALVO
             elif self.selected_option == 2:  # Quit game
                 pygame.quit()
                 exit()
-        
-        elif self.menu_type == "login": 
-            
-            login = Login()
-            login.cadastrar()
+
+        elif self.menu_type == "new_game": 
 
             if self.selected_option == 1:  # Voltar para o menu principal
                 self.menu_type = "main"
+            
             else:
-                self.menu_type = "magias"
-
+                login.cadastrar(self.user_text, self.password_text)
+                return 1
+                
+        elif self.menu_type == "login":
+            
+            if self.selected_option == 1:  # Voltar para o menu principal
+                self.menu_type = "main"
+            
+            else:
+                
+                if login.verify_login(self.user_text, self.password_text):
+                    return 1
+                else:
+                    self.menu_type = "login"
+        """
         elif self.menu_type == "magias":
             if self.selected_option == 3:  # Voltar para o menu principal
                 self.menu_type = "main"
@@ -148,67 +168,17 @@ class Menu:
                     return 1
                 
         return None
+        """
 
 
-    def login_input(self):
-        user_rect = pygame.Rect((self.width/2)-200, 200, 400, 50)
-        password_rect = pygame.Rect((self.width/2)-200, 280, 400, 50)
-
-        user_text = ""
-        password_text = ""
-        active_input = None
+    
 
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if user_rect.collidepoint(event.pos):
-                    active_input = "user"
-                elif password_rect.collidepoint(event.pos):
-                    active_input = "password"
-                else:
-                    active_input = None
-        
-            if event.type == pygame.KEYDOWN:
-                if active_input == "user":
-                    if event.key == pygame.K_BACKSPACE:
-                        user_text = user_text[:-1]
-                    else:
-                        user_text += event.unicode
-
-                elif active_input == "password":
-                    if event.key == pygame.K_BACKSPACE:
-                        password_text = password_text[:-1]
-                    else:
-                        password_text += event.unicod
+    def draw_imput(self):
 
         # Desenhar as caixas de entrada
-        pygame.draw.rect(self.screen, BLUE if active_input == "user" else BLACK, user_rect, 2)
-        pygame.draw.rect(self.screen, BLUE if active_input == "password" else BLACK, password_rect, 2)
-
-        # Renderizar texto
-        user_surface = self.font.render(user_text, True, BLACK)
-        password_surface = self.font.render("*" * len(password_text), True, BLACK)
-
-        # Blitar texto nas caixas
-        self.screen.blit(user_surface, (user_rect.x + 5, user_rect.y + 5))
-        self.screen.blit(password_surface, (password_rect.x + 5, password_rect.y + 5))
-
-        # Mostrar os títulos
-        self.screen.blit(self.font.render("Usuário:", True, BLACK), (200, 200))
-        self.screen.blit(self.font.render("Senha:", True, BLACK), (200, 300))
-
-
-    def desenha(self):
-        user_rect = pygame.Rect((self.width/2)-200, 200, 400, 50)
-        password_rect = pygame.Rect((self.width/2)-200, 280, 400, 50)
-
-        
-        # Desenhar as caixas de entrada
-        pygame.draw.rect(self.screen, BLUE if self.active_input == "user" else BLACK, user_rect, 2)
-        pygame.draw.rect(self.screen, BLUE if self.active_input == "password" else BLACK, password_rect, 2)
+        pygame.draw.rect(self.screen, BLUE if self.active_input == "user" else BLACK, self.user_rect, 2)
+        pygame.draw.rect(self.screen, BLUE if self.active_input == "password" else BLACK, self.password_rect, 2)
 
         # Renderizar texto
         user_surface = self.font.render(self.user_text, True, BLACK)
@@ -221,3 +191,6 @@ class Menu:
         # Mostrar os títulos
         self.screen.blit(self.font.render("Usuário:", True, BLACK), (200, 200))
         self.screen.blit(self.font.render("Senha:", True, BLACK), (200, 300))
+
+
+    

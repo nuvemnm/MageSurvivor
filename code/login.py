@@ -1,8 +1,8 @@
 import pygame
 import os
 from os.path import join
-print(os.__file__)
 #from jogador import Jogador
+import utils
 
 
 class Login:
@@ -19,15 +19,14 @@ class Login:
             with open(self.archive, 'r', encoding='utf-8') as arquivo:
                 for linha in arquivo:
                     linha = linha.strip()
-                    if linha:
-                        partes = linha.split(",")
-                        if len(partes) == 3:
-                            nickname, score, _ = partes
-                            if nickname == search_name:
-                                print("Usuário encontrado!")
-                                print(f"Nome: {nickname}")
-                                print(f"Score: {score}")
-                                return True
+                    partes = linha.split(",")
+                    if len(partes) == 3:
+                        nickname, score, _ = partes
+                        if nickname == search_name:
+                            print("Usuário encontrado!")
+                            print(f"Nome: {nickname}")
+                            print(f"Score: {score}")
+                            return True
 
                 # Se terminar o loop sem encontrar o usuário
                 print("Usuário não cadastrado.")
@@ -37,13 +36,13 @@ class Login:
             return None
 
 
-    def cadastrar(self):
-        
-        while not self.nickname or not self.password:
-            self.nickname = input("Digite um nickname: ").strip()
-            self.password = input("Digite uma senha: ").strip()
+    def cadastrar(self, nickname, password):
+        self.nickname = nickname
+        self.password = utils.encrypt_password(password)
 
-        linha = f"{self.nickname},{self.score},{self.password}\n"
+        password_hash_str = self.password.decode('utf-8')
+
+        linha = f"{self.nickname},{self.score},{password_hash_str}\n"
         if not self.extrair_dados(self.nickname):
             try:
                 with open(self.archive, 'a', encoding = 'utf-8') as arquivo:
@@ -54,3 +53,31 @@ class Login:
 
 
 
+    def verify_login(self, nick_input, pass_input):
+        try:
+            with open(self.archive, 'r', encoding='utf-8') as arquivo:
+                for linha in arquivo:
+                    linha = linha.strip()
+                    partes = linha.split(",")
+                    if len(partes) == 3:
+                        nickname, score, password = partes
+                        stored_password_bytes = password.encode('utf-8')
+
+                        if nickname == nick_input:
+                            if utils.verify_password(stored_password_bytes, pass_input):
+                                print("Usuário encontrado!")
+                                print(f"Nome: {nickname}")
+                                print(f"Score: {score}")
+                                return True
+                            
+                            else:
+                                print("Senha incorreta tente novamente.")
+                                return False
+                            
+                # Se terminar o loop sem encontrar o usuário
+                print("Usuário não cadastrado.")
+                return False
+            
+        except FileNotFoundError:
+            print("O arquivo não foi encontrado.")
+            return None

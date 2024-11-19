@@ -1,3 +1,3 @@
 Nickname,Score,Password
-matheus,0,pass
-talvanio,0,vampetanu
+
+mat,0,$2b$12$aJi/9NaS7VyKipFm3cjRBeTp3lO951mM3EdcfV3srtG6QThYhfbVW

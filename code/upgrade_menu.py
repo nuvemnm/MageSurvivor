@@ -28,3 +28,20 @@ class UpgradeMenu(Menu):
                 return 0
             elif self.selected_option == 1: 
                 return 1 
+            
+    def upgrade_menu(self,player):    
+        self.display_menu()
+        result = None
+        while result is None:
+            buttons = self.display_menu()
+            result = self.handle_menu_events(buttons)
+        if result == 0:
+            player.upgrade("life")
+            return
+        
+        elif result == 1:
+            player.upgrade("damage")
+            return 
+
+
+        return True

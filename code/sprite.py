@@ -24,37 +24,3 @@ class collision(pygame.sprite.Sprite):
         super().__init__(groups)
         self.image = surf
         self.rect = self.image.get_rect(topleft = position)
-
-class Gun(pygame.sprite.Sprite):
-    def __init__(self, player, groups):
-        # player conection
-        self.player = player
-        self.distance = 60
-        self.player_direction = pygame.Vector2(0,1)
-
-        # sprite setup
-        super(). __init__(groups)
-        # Caminho absoluto para o diretório raiz do projeto
-        base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-
-        # Constrói o caminho absoluto para a imagem
-        image_path = os.path.join(base_path, 'images', 'weapons', 'spot.png')
-
-        # Carrega a imagem usando o caminho absoluto
-        self.gun_surf = pygame.image.load(image_path).convert_alpha()
-        #self.gun_surf = pygame.image.load(join('/home/UFMG.BR/matheusscarv/Downloads/POO-Projeto-de-Jogo/images/weapons/spot.png'))
-        self.image = self.gun_surf
-        self.rect = self.image.get_rect(center = self.player.rect.center + self.player_direction * self.distance)
-
-    def get_direction(self):
-        mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
-        player_pos = pygame.Vector2(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2)
-        self.player_direction = (mouse_pos - player_pos).normalize()
-
-    def rotate_gun(self):
-        angle = degrees(atan2(self.player_direction.x, self.player_direction.y)) - 90
-        self.image = pygame.transform.rotozoom(self.gun_surf, angle, 1)  
-
-    def update(self, _):
-        self.get_direction()
-        self.rect.center = self.player.rect.center + self.player_direction * self.distance

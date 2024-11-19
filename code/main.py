@@ -96,7 +96,7 @@ class Jogo:
         for x, y, image in map.get_layer_by_name("grass").tiles():
            Sprite((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
         for x, y, image in map.get_layer_by_name("wall").tiles():
-            Sprite_test((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)]
+            Sprite_test((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
         
         # TODO: Objetos no mapa
         """

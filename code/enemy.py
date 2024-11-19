@@ -38,6 +38,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image = self.frames[(int(self.frames_index) % len(self.frames))]
 
     def move(self, dt):
+        print("inimigo moveu")
         player_pos = pygame.Vector2(self.player.rect.center)
         enemy_pos = pygame.Vector2(self.rect.center) 
         self.direction = None

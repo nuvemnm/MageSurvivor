@@ -39,7 +39,7 @@ class Jogo:
         self.player_sprites = PlayerSprite()
         self.collision_sprites = pygame.sprite.Group()
         self.bullet_sprites = BulletSprites()
-        self.enemy_sprites = pygame.sprite.Group()
+        self.enemy_sprites = EnemySprites()
 
         #enemy timer
         self.enemy_event = pygame.event.custom_type()
@@ -144,7 +144,7 @@ class Jogo:
         offset_y = self.player.rect.centery - (WINDOW_HEIGHT // (2 * self.zoom_scale))
 
         # Desenha os grupos de sprites ajustando para a câmera
-        for sprite in chain(self.all_sprites, self.player_sprites, self.bullet_sprites):
+        for sprite in chain(self.all_sprites, self.player_sprites, self.bullet_sprites, self.enemy_sprites):
             # Ajusta a posição do sprite para a câmera
             camera_pos = (
                 sprite.rect.x - offset_x,
@@ -197,17 +197,17 @@ class Jogo:
                 if event.type == self.enemy_event:
                     if elapsed_time >= 0:
 
-                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['bat'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 20)
+                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['bat'],self.enemy_sprites, self.player, self.collision_sprites, self.bullet_sprites, 20, 20)
 
                     if elapsed_time >= 5:
-                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['wolf'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 40)
+                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['wolf'],self.enemy_sprites, self.player, self.collision_sprites, self.bullet_sprites, 20, 40)
                     if elapsed_time >= 10:
 
-                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['goblin'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
+                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['goblin'],self.enemy_sprites, self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
 
 
                     if elapsed_time >= 0 and not self.boss_spawned:
-                        self.boss = Enemy(choice(self.spawn_positions),self.enemy_frames['boss'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
+                        self.boss = Enemy(choice(self.spawn_positions),self.enemy_frames['boss'],self.enemy_sprites, self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
                         self.boss_spawned = True
                         
                 if self.player.alive == False:
@@ -225,10 +225,13 @@ class Jogo:
                     self.all_sprites.draw(self.player.rect.center)
                     self.player_sprites.draw(self.player.rect.center)
                     self.bullet_sprites.draw(self.player.rect.center)
-            
+                    self.enemy_sprites.draw(self.player.rect.center)
+
                     self.all_sprites.update(dt)
                     self.player_sprites.update(dt)
                     self.bullet_sprites.update(dt)
+                    self.enemy_sprites.update(dt)
+
                 else:
                     self.menu = UpgradeMenu(self.screen)
                     self.menu.upgrade_menu(player=self.player)

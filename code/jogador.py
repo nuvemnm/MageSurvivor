@@ -23,6 +23,7 @@ class Jogador(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft = position)
         self.level = 1
         self.actual_level = 1
+        self.upgrading = False
         #movimento
         self.direction = pygame.Vector2()
         self.speed = 300
@@ -35,7 +36,7 @@ class Jogador(pygame.sprite.Sprite):
         self.hitbox = self.rect.inflate(-30, -30)
         self.alive = True
         self.experience = 0
-        self.experience_threshold = 5
+        self.experience_threshold = 1
         self.spell = Spell(self,self.bullet_sprites)
         self.can_shoot = True
         #self.upgrade()
@@ -97,55 +98,28 @@ class Jogador(pygame.sprite.Sprite):
     
     def leveling(self):
         print("+1")
-        if self.experience >= self.experience_threshold:
-            self.actual_level += 1
-            self.experience -= self.experience_threshold
-            self.experience_threshold +=3
-
+        if self.experience == self.experience_threshold:
+            self.upgrading = True
             print(f"subiu de nível! nível atual: {self.actual_level}")
         else:
             self.experience += 1
             print(f"experiencia atual: {self.experience}/{self.experience_threshold} ")
 
-    def upgrade_menu(self, screen):
-        running = True
-        self.upgrade_timer = 0
-        self.menu = UpgradeMenu(screen)
+    def upgrade(self,stat):
+        self.actual_level += 1
+        self.experience -= self.experience_threshold
+        self.experience_threshold +=3
 
-        while running:
-            buttons = self.menu.display_menu()
-            result = self.menu.handle_menu_events(buttons)
-            if result is not None:
-                running = False
-                
-        if result == 0:
-            self.staticLife += 20
-            self.upgrade_timer = 5
-            print("vida aumentada para: " + str(self.staticLife))
-        elif result == 1:
-            self.spell.damage += 10
-            self.upgrade_timer = 5
+        if(stat == "damage"):
             print("dano aumentado para: " + str(self.spell.damage))
+            self.spell.damage += 10
+            self.upgrading = False
 
-        return self.upgrade_timer
-
-    """
-    def upgrade(self):
-        #tempo limite para upar
-        
-        actual_time = time.time()
-        limit_time = actual_time - init_time
-        
-        
-
-        
-        
-        while limit_time <= 5:
-                return True
-            else:
-                return False
-
-    """
+        if(stat == "life"):
+            print("vida aumentada para: " + str(self.staticLife))
+            self.staticLife += 20
+            self.dinamicLife += 20
+            self.upgrading = False
 
     def shoot(self):
         if self.can_shoot == True:

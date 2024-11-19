@@ -29,3 +29,10 @@ class BulletSprites(AllSprites):
 class EnemySprites(AllSprites):
     def __init__(self):
         super().__init__()
+    def update(self):
+        super().update()
+        print("inimigo update")
+    def draw(self):
+        super().draw()
+        print("inimigo desenhou")
+

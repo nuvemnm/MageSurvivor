@@ -33,17 +33,21 @@ class Jogo:
         self.pause = False
         self.boss_spawned = False
         
+        self.upgrade_menu = UpgradeMenu(self.screen)
 
         #grupo
         self.all_sprites = AllSprites()
         self.player_sprites = PlayerSprite()
         self.collision_sprites = pygame.sprite.Group()
         self.bullet_sprites = BulletSprites()
-        self.enemy_sprites = EnemySprites()
+        self.enemy_sprites = pygame.sprite.Group()
 
         #enemy timer
         self.enemy_event = pygame.event.custom_type()
         pygame.time.set_timer(self.enemy_event, 1500)
+        
+        self.upgrade_event = pygame.event.custom_type()
+
         self.spawn_positions = []
         self.upgrade_timer = 0
         self.aux_timer = 0
@@ -115,7 +119,7 @@ class Jogo:
 
         for obj in map.get_layer_by_name('Entities'):
             if obj.name == 'player':
-                self.player = Jogador((obj.x,obj.y), self.player_sprites, self.collision_sprites, self.enemy_sprites, self.bullet_sprites)
+                self.player = Jogador((obj.x,obj.y), self.player_sprites, self.collision_sprites, self.enemy_sprites, self.bullet_sprites,self.upgrade_event)
             else:
                 self.spawn_positions.append((obj.x,obj.y))
         
@@ -144,7 +148,7 @@ class Jogo:
         offset_y = self.player.rect.centery - (WINDOW_HEIGHT // (2 * self.zoom_scale))
 
         # Desenha os grupos de sprites ajustando para a câmera
-        for sprite in chain(self.all_sprites, self.player_sprites, self.bullet_sprites, self.enemy_sprites):
+        for sprite in chain(self.all_sprites, self.player_sprites, self.bullet_sprites):
             # Ajusta a posição do sprite para a câmera
             camera_pos = (
                 sprite.rect.x - offset_x,
@@ -158,7 +162,7 @@ class Jogo:
         )
         self.screen.blit(scaled_surface, (0, 0))
 
-        pygame.display.flip()
+        pygame.display.update()
 
 
 
@@ -179,69 +183,69 @@ class Jogo:
                 if result == 1:
                     self.running = True
 
-                pygame.display.flip()#Serve para atulizar "limpar" a tela
             else:
-                pygame.display.flip()
                 self.running = True
+
+        pygame.display.flip()
+
 
         while self.running:
             keys = pygame.key.get_pressed()
             dt = self.clock.tick(60) / 1000
+            print(dt)
             actual_time = time.time()
             elapsed_time = actual_time - init_time
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
-                 
+
+
                 if event.type == self.enemy_event:
                     if elapsed_time >= 0:
 
-                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['bat'],self.enemy_sprites, self.player, self.collision_sprites, self.bullet_sprites, 20, 20)
+                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['bat'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 20)
 
                     if elapsed_time >= 5:
-                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['wolf'],self.enemy_sprites, self.player, self.collision_sprites, self.bullet_sprites, 20, 40)
+                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['wolf'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 40)
                     if elapsed_time >= 10:
 
-                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['goblin'],self.enemy_sprites, self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
+                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['goblin'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
 
 
                     if elapsed_time >= 0 and not self.boss_spawned:
-                        self.boss = Enemy(choice(self.spawn_positions),self.enemy_frames['boss'],self.enemy_sprites, self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
+                        self.boss = Enemy(choice(self.spawn_positions),self.enemy_frames['boss'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
                         self.boss_spawned = True
-                        
-                if self.player.alive == False:
-                    self.running = False
-            
-            
-            
-            #update
-            if self.paused == False:
-                if(self.player.upgrading == False):
-                    #aplica zoom na tela
-                    self.zoom()
 
-                    #Desenha todos os sprites
-                    self.all_sprites.draw(self.player.rect.center)
-                    self.player_sprites.draw(self.player.rect.center)
-                    self.bullet_sprites.draw(self.player.rect.center)
-                    self.enemy_sprites.draw(self.player.rect.center)
-
-                    self.all_sprites.update(dt)
-                    self.player_sprites.update(dt)
-                    self.bullet_sprites.update(dt)
-                    self.enemy_sprites.update(dt)
-
-                else:
-                    self.menu = UpgradeMenu(self.screen)
-                    self.menu.upgrade_menu(player=self.player)
-            else:
-                ## Menu de pause
+            if self.paused == True:
                 pass
+                # Pause menu
 
-            
+            elif self.player.upgrading == True:
+                self.upgrade_menu.display()
+                self.upgrade_menu.input_player(player=self.player)
+
+
+            elif self.player.alive == False:
+                pass
+                # self.game_over()
+
+            else:
+                #aplica zoom na tela
+                self.zoom()
+                        
+                #Desenha todos os sprites
+                self.player_sprites.draw(self.player.rect.center)
+                self.bullet_sprites.draw(self.player.rect.center)
+                self.all_sprites.draw(self.player.rect.center)
+                
+                self.all_sprites.update(dt)
+                self.player_sprites.update(dt)
+                self.bullet_sprites.update(dt)
+
+        
             #pygame.display.update()
-            self.screen.fill('black')
+        self.screen.fill('black')
             
 
             

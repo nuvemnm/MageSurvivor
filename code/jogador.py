@@ -23,7 +23,9 @@ class Jogador(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft = position)
         self.level = 1
         self.actual_level = 1
-        self.experience = 0
+
+        self.upgrading = False
+  
         self.score = 0
         self.nickname = None
         self.password = None
@@ -40,6 +42,10 @@ class Jogador(pygame.sprite.Sprite):
         
         self.hitbox = self.rect.inflate(-30, -30)
         self.alive = True
+
+        self.experience = 0
+        self.experience_threshold = 1
+        
         self.spell = Spell(self,self.bullet_sprites)
         self.can_shoot = True
         
@@ -82,58 +88,32 @@ class Jogador(pygame.sprite.Sprite):
                         self.hitbox.top = sprite.rect.bottom
                     if self.direction.y > 0:
                         self.hitbox.bottom = sprite.rect.top
-        """
-        for sprite in self.enemy_sprites:
-            if sprite.rect.colliderect(self.hitbox):
-                if direction == 'horizontal':
-                    if self.direction.x > 0: 
-                        self.hitbox.right = sprite.rect.left
-                    if self.direction.x < 0:
-                        self.hitbox.left = sprite.rect.right
-                else:
-                    if self.direction.y < 0:
-                        self.hitbox.top = sprite.rect.bottom
-                    if self.direction.y > 0:
-                        self.hitbox.bottom = sprite.rect.top
-        """
     
     def leveling(self):
-        experience_threshold = 10
-        while self.experience >= experience_threshold:
-            self.actual_level += 1
+        print("+1")
+        if self.experience == self.experience_threshold:
+            self.upgrading = True
+            print(f"subiu de nível! nível atual: {self.actual_level}")
+        else:
+            self.experience += 1
+            print(f"experiencia atual: {self.experience}/{self.experience_threshold} ")
 
-            self.experience -= experience_threshold
-            experience_threshold +=20
-            print(self.score)
-            """
-            print(self.experience)
-            print(experience_threshold)
-            print(self.actual_level)
-            print(self.dinamicLife)
-            """
+    def upgrade(self,stat):
+        self.actual_level += 1
+        self.experience -= self.experience_threshold
+        self.experience_threshold +=3
 
-    def upgrade_menu(self, screen):
-        running = True
-        self.upgrade_timer = 0
-        self.menu = UpgradeMenu(screen)
+        if(stat == "damage"):
 
-        while running:
-            buttons = self.menu.display_menu()
-            result = self.menu.handle_menu_events(buttons)
-            if result is not None:
-                running = False
-                
-        if result == 0:
-            self.staticLife += 20
-            self.upgrade_timer = 5
-            print("vida aumentada para: " + str(self.staticLife))
-        elif result == 1:
-            self.spell.damage += 10
-            self.upgrade_timer = 5
             print("dano aumentado para: " + str(self.spell.damage))
+            self.spell.damage += 10
+            self.upgrading = False
 
-        return self.upgrade_timer
-
+        if(stat == "life"):
+            print("vida aumentada para: " + str(self.staticLife))
+            self.staticLife += 20
+            self.dinamicLife += 20
+            self.upgrading = False
 
     def shoot(self):
         if self.can_shoot == True:

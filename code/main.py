@@ -12,7 +12,8 @@ from groups import *
 from menu import Menu
 from random import randint,choice
 from itertools import chain
-#from score import Score
+from upgrade_menu import UpgradeMenu
+
 
 class Jogo:
     def __init__(self):
@@ -28,6 +29,7 @@ class Jogo:
         
         self.clock = pygame.time.Clock()
         self.running = False
+        self.paused = False
         self.load_images()
         self.pause = False
         self.boss_spawned = False
@@ -174,15 +176,15 @@ class Jogo:
         # Cria o menu e exibe a tela de menu
         init_time = time.time()
         print(init_time)
-        menu = Menu(self.screen)
+        self.menu = Menu(self.screen)
         self.running = False
         
         self.boss = None
 
         while not self.running:
             if(ENABLE_MENU == True):
-                buttons = menu.display_menu()
-                result = menu.handle_menu_events(buttons)
+                buttons = self.menu.display_menu()
+                result = self.menu.handle_menu_events(buttons)
 
                 if result == 1:
                     self.running = True
@@ -222,31 +224,28 @@ class Jogo:
             
             
             #update
-            if self.player.level == self.player.actual_level:  
-                #aplica zoom na tela
-                self.zoom()
 
-                #Desenha todos os sprites
-                self.all_sprites.draw(self.player.rect.center)
-                self.player_sprites.draw(self.player.rect.center)
-                self.bullet_sprites.draw(self.player.rect.center)
-          
-                self.all_sprites.update(dt)
-                self.player_sprites.update(dt)
-                self.bullet_sprites.update(dt)
+            if self.paused == False:
+                if(self.player.upgrading == False):
+                    #aplica zoom na tela
+                    self.zoom()
 
-                self.player.leveling()
+                    #Desenha todos os sprites
+                    self.all_sprites.draw(self.player.rect.center)
+                    self.player_sprites.draw(self.player.rect.center)
+                    self.bullet_sprites.draw(self.player.rect.center)
 
-
-            else:
-                self.aux_timer = self.player.upgrade_menu(self.screen) 
-                pygame.display.flip()       
-                self.upgrade_timer += dt
             
-            if self.upgrade_timer >= 5 or self.aux_timer >= 5:
-                self.player.level = self.player.actual_level 
-                self.upgrade_timer = 0
-                self.aux_timer = 0
+                    self.all_sprites.update(dt)
+                    self.player_sprites.update(dt)
+                    self.bullet_sprites.update(dt)
+                else:
+                    self.menu = UpgradeMenu(self.screen)
+                    self.menu.upgrade_menu(player=self.player)
+            else:
+                ## Menu de pause
+                pass
+
             
             #pygame.display.update()
             self.screen.fill('black')

@@ -80,6 +80,8 @@ class Enemy(pygame.sprite.Sprite):
                         self.hitbox_rect.bottom = sprite.rect.top
         
     def take_damage(self,damage):
+        if self.alive == False:
+            return
         self.dinamicLife -= damage
         if self.dinamicLife <= 0:
             self.destroy()
@@ -88,14 +90,15 @@ class Enemy(pygame.sprite.Sprite):
         self.death_time = pygame.time.get_ticks()
         surf = pygame.mask.from_surface(self.frames[0]).to_surface()
         surf.set_colorkey('black')
+        surf.fill((255, 255, 255), special_flags=pygame.BLEND_RGBA_MULT)
         self.image = surf
+        self.alive = False
+        self.player.leveling()
+
 
     def death_timer(self):
         if pygame.time.get_ticks() - self.death_time >= self.death_duration:
             self.kill()
-            #aumenta xp do jogador
-            self.player.experience += 10
-            self.player.score += 2 * self.staticLife
             return True
 
     def update(self, dt):

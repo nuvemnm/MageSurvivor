@@ -1,0 +1,37 @@
+@startuml classes_main
+set namespaceSeparator none
+class "Jogo" as main.Jogo {
+  active_menu : str
+  all_sprites : AllSprites
+  aux_timer : int
+  boss : Enemy, NoneType
+  boss_spawned : bool
+  bullet_damage : int
+  bullet_sprites : BulletSprites
+  camera_surface : NoneType
+  clock
+  collision_sprites
+  enemy : Enemy
+  enemy_event
+  enemy_frames : dict
+  enemy_sprites
+  login_menu_controller : Login_menu
+  main_menu_controller : Main_menu
+  pause : bool
+  paused : bool
+  player : Jogador
+  player_sprites : PlayerSprite
+  running : bool
+  screen
+  spawn_positions : list
+  upgrade_menu_controller : Upgrade_menu
+  upgrade_timer : int
+  zoom_scale : float
+  exit()
+  load_images()
+  player_collision()
+  run()
+  setup()
+  zoom()
+}
+@enduml

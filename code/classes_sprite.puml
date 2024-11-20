@@ -1,0 +1,3 @@
+@startuml classes_sprite
+set namespaceSeparator none
+@enduml

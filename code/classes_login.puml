@@ -1,0 +1,9 @@
+@startuml classes_login
+set namespaceSeparator none
+class "Login" as login.Login {
+  database_path
+  authenticate(username, password)
+  create_database()
+  register_user(username, password)
+}
+@enduml

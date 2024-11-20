@@ -161,6 +161,7 @@ class Jogo:
                 sprite.rect.x - offset_x,
                 sprite.rect.y - offset_y,
             )
+            
             self.camera_surface.blit(sprite.image, camera_pos)
 
         # Escala a superfície da câmera para a tela

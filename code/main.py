@@ -179,7 +179,7 @@ class Jogo:
     def run(self):  
         # Cria o menu e exibe a tela de menu
         init_time = time.time()
-        self.current_state = "main_menu"
+        self.current_state = "running"
         
         self.boss = None
 
@@ -196,7 +196,8 @@ class Jogo:
                     self.current_state = self.register_menu_controller.display_menu()
                 #elif(self.paused == "pause"):
                 #   self.paused = self.pause_menu_controller.pause()
-                elif(self.current_state == "running"):
+            else:
+                if(self.current_state == "running"):
                     #print("ERRO, MENU NAO ENCONTRADO")
                     #pygame.display.flip()
                     #print(self.current_state)

@@ -10,7 +10,7 @@ from enemy import Enemy
 from magias.magia import Spell
 import time
 from config import *
-from upgrade_menu import UpgradeMenu
+from menus import Upgrade_menu
 
 class Jogador(pygame.sprite.Sprite):
     def __init__(self, position, groups, collision_sprites, enemy_sprites, bullet_sprites):
@@ -39,8 +39,6 @@ class Jogador(pygame.sprite.Sprite):
         self.experience_threshold = 1
         self.spell = Spell(self,self.bullet_sprites)
         self.can_shoot = True
-        #self.upgrade()
-        #self.enemy = Enemy()
     
 
     def input(self):

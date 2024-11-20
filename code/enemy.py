@@ -22,7 +22,7 @@ class Enemy(pygame.sprite.Sprite):
         self.collision_sprites = collision_sprites
         self.bullet_sprites = bullet_sprites
         self.direction = pygame.Vector2()
-        self.speed = 1
+        self.speed = 100
 
         #life status
         self.damage = damage
@@ -41,11 +41,10 @@ class Enemy(pygame.sprite.Sprite):
         player_pos = pygame.Vector2(self.player.rect.center)
         enemy_pos = pygame.Vector2(self.rect.center) 
         self.direction = (player_pos - enemy_pos)
+        if self.direction.length() > 0:
+            self.direction = self.direction.normalize()
         # print(self.direction)
-
-        if(self.direction.length() > 0 ):
-            self.direction.normalize()
-            
+    
         self.hitbox_rect.x += self.direction[0] * self.speed * dt
         # self.collision('horizontal')
 

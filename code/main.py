@@ -8,7 +8,6 @@ from Bullet import Bullet
 from jogador import Jogador
 from enemy import Enemy
 from sprite import *
-from pytmx.util_pygame import load_pygame
 from groups import *
 
 from menus.Menu import Menu
@@ -16,14 +15,14 @@ from menus.Main_menu import Main_menu
 from menus.Upgrade_menu import Upgrade_menu
 from menus.Login_menu import Login_menu
 
-from random import randint,choice
+from random import choice
 
 class Jogo:
     def __init__(self):
         #setup
         pygame.init()
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-        self.camera_surface = pygame.Surface((WINDOW_WIDTH // ZOOM_SCALE, WINDOW_HEIGHT // ZOOM_SCALE))
+        self.camera_surface = pygame.Surface((WINDOW_WIDTH // (2 * ZOOM_SCALE), WINDOW_HEIGHT // (2 * ZOOM_SCALE)))
 
         pygame.display.set_caption('Mage Survivor')
 
@@ -44,64 +43,36 @@ class Jogo:
         self.active_menu = "main_menu"
 
         #grupo
-        self.all_sprites = AllSprites()
-        self.player_sprites = PlayerSprite()
-        self.collision_sprites = pygame.sprite.Group()
-        self.bullet_sprites = BulletSprites()
-        self.enemy_sprites = pygame.sprite.Group()
+        self.grass_sprites = SpritesGroup(self.camera_surface)
+        self.obstacle_sprites = SpritesGroup(self.camera_surface)
+
+        self.player_sprites = SpritesGroup(self.camera_surface)
+
+        self.bullet_sprites = SpritesGroup(self.camera_surface)
+
+        self.enemy_sprites = SpritesGroup(self.camera_surface)
+        self.all_sprites = SpritesGroup(self.camera_surface)
+        self.collision_sprites = SpritesGroup(self.camera_surface)
 
         #enemy timer
         self.enemy_event = pygame.event.custom_type()
         pygame.time.set_timer(self.enemy_event, 1500)
-        
 
         self.spawn_positions = []
         self.upgrade_timer = 0
         self.aux_timer = 0
 
         self.bullet_damage = 10 #variavel auxiliar para atualizar o dano da magia
-        self.setup()
         if not self.spawn_positions:
             print("Erro: Nenhuma posição de spawn foi carregada!")
 
-    def setup(self):
 
-        base_path = os.path.dirname(__file__)
-        map_path = os.path.join(base_path, 'maps',"firstMap.tmx")
-        map_path = os.path.abspath(map_path) 
-        #map_path = os.path.abspath(join('/home/UFMG.BR/matheusscarv/Downloads/POO-Projeto-de-Jogo/code/maps/firstMap.tmx'))
-        map = load_pygame(map_path)
-        for x, y, image in map.get_layer_by_name("grass").tiles():
-           Sprite((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
-        for x, y, image in map.get_layer_by_name("wall").tiles():
-            Sprite_test((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
-        
-        # TODO: Objetos no mapa
-        """
-        for x, y, image in map.get_layer_by_name("SecondFloor").tiles():
-           Sprite_test((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
-        for x, y, image in map.get_layer_by_name("Objects").tiles():
-            Sprite_test((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
-        for x, y, image in map.get_layer_by_name("Objects2").tiles():
-            Sprite_test((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
-        for x, y, image in map.get_layer_by_name("Details").tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
-        """
-
-        for obj in map.get_layer_by_name('collisions'):
-            collision((obj.x, obj.y), pygame.Surface((obj.width, obj.height)), self.collision_sprites)
-
-        for obj in map.get_layer_by_name('Entities'):
-            if obj.name == 'player':
-                self.player = Jogador((obj.x,obj.y), self.player_sprites, self.collision_sprites, self.enemy_sprites, self.bullet_sprites)
-            else:
-                self.spawn_positions.append((obj.x,obj.y))    
-                
     def run(self):  
         # Cria o menu e exibe a tela de menu
         init_time = time.time()
         self.running = False
-        
+        utils.setup(self)
+
         self.boss = None
 
         while not self.running:
@@ -115,6 +86,7 @@ class Jogo:
                 else:
                     print("ERRO, MENU NAO ENCONTRADO")
                     ## Tratar erro de menu nao encontrado
+            jogo.running = True
         pygame.display.flip()
 
 
@@ -132,17 +104,17 @@ class Jogo:
                 if event.type == self.enemy_event:
                     if elapsed_time >= 0:
 
-                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['bat'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 20)
+                        self.enemy = Enemy(choice(self.map.enemies_spawn_positions),self.enemy_frames['bat'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 20)
 
                     if elapsed_time >= 5:
-                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['wolf'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 40)
+                        self.enemy = Enemy(choice(self.map.enemies_spawn_positions),self.enemy_frames['wolf'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 40)
                     if elapsed_time >= 10:
 
-                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['goblin'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
+                        self.enemy = Enemy(choice(self.map.enemies_spawn_positions),self.enemy_frames['goblin'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
 
 
                     if elapsed_time >= 0 and not self.boss_spawned:
-                        self.boss = Enemy(choice(self.spawn_positions),self.enemy_frames['boss'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
+                        self.boss = Enemy(choice(self.map.enemies_spawn_positions),self.enemy_frames['boss'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
                         self.boss_spawned = True
 
             if self.paused == True:
@@ -160,21 +132,29 @@ class Jogo:
 
             else:
                 #aplica zoom na tela
-                utils.zoom(self.player,self.camera_surface,self.screen,self.all_sprites,self.player_sprites,self.bullet_sprites)
-                        
-                #Desenha todos os sprites
-                self.player_sprites.draw(self.player.rect.center)
-                self.bullet_sprites.draw(self.player.rect.center)
-                self.all_sprites.draw(self.player.rect.center)
-                
+                # utils.zoom(self.player,self.screen,[self.all_sprites,self.player_sprites,self.bullet_sprites])
+
                 self.all_sprites.update(dt)
+                self.grass_sprites.update(dt)
+                self.obstacle_sprites.update(dt)
                 self.player_sprites.update(dt)
                 self.bullet_sprites.update(dt)
+                self.camera_surface.fill((0, 0, 0))  
 
-        
-            #pygame.display.update()
-        self.screen.fill('black')
+                #Desenha todos os sprites
+                self.grass_sprites.draw(self.player.rect.center)
+                self.player_sprites.draw(self.player.rect.center)
+                self.obstacle_sprites.draw(self.player.rect.center)
+                self.bullet_sprites.draw(self.player.rect.center)
+                self.all_sprites.draw(self.player.rect.center)
+
+
+                utils.draw_camera(self.screen,self.camera_surface)
+
+            pygame.display.update()
             
+        self.screen.fill('black')
+
 
             
             

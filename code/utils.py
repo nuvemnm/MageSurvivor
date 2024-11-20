@@ -1,7 +1,12 @@
 from itertools import chain
 import os
+from jogador import Jogador
+from map import Map
+from sprite import Sprite
 from config import *
 import pygame
+from pytmx.util_pygame import load_pygame
+
 
 def get_mouse_direction_relative_to_center():
     mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
@@ -38,27 +43,20 @@ def load_enemy_images():
                 enemy_frames[folder].append(surf)
     return enemy_frames
 
-def zoom(player, camera_surface, screen, all_sprites, player_sprites, bullet_sprites):
-    # Limpa a superfície da câmera
-    camera_surface.fill((0, 0, 0))
-
-    # Define o deslocamento da câmera com base no jogador
-    offset_x = player.rect.centerx - (WINDOW_WIDTH // (2 * ZOOM_SCALE))
-    offset_y = player.rect.centery - (WINDOW_HEIGHT // (2 * ZOOM_SCALE))
-
-    # Desenha os grupos de sprites ajustando para a câmera
-    for sprite in chain(all_sprites, player_sprites, bullet_sprites):
-        # Ajusta a posição do sprite para a câmera
-        camera_pos = (
-            sprite.rect.x - offset_x,
-            sprite.rect.y - offset_y,
-        )
-        camera_surface.blit(sprite.image, camera_pos)
-
-    # Escala a superfície da câmera para a tela
+def draw_camera(screen,camera_surface):
+    
+    # Escala a superfície da câmera para a tela principal
     scaled_surface = pygame.transform.scale(
         camera_surface, (WINDOW_WIDTH, WINDOW_HEIGHT)
     )
     screen.blit(scaled_surface, (0, 0))
 
-    pygame.display.update()
+def load_map(jogo):
+    map_path = os.path.normpath(MAP_PATH)
+    jogo.map = Map(map_path)
+
+def setup(jogo):
+    load_map(jogo)
+    jogo.map.instantiate_grass_sprites(jogo.grass_sprites)
+    jogo.map.isntantiate_obstacles_sprites(jogo.obstacle_sprites)
+    jogo.player = Jogador(jogo.map.player_spawn_position, jogo.player_sprites, jogo.collision_sprites, jogo.enemy_sprites, jogo.bullet_sprites)

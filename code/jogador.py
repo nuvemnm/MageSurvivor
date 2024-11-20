@@ -13,6 +13,21 @@ from config import *
 from menus import Upgrade_menu
 
 class Jogador(pygame.sprite.Sprite):
+## TODO: 
+    # def player_collision(self):
+    #     if self.enemy_sprites:
+    #         for enemy in self.enemy_sprites:
+    #             player_sprites = pygame.sprite.spritecollide(enemy, self.player_sprites, False, pygame.sprite.collide_mask)
+    #             if player_sprites:
+    #                 for player in player_sprites:
+    #                     player.dinamicLife -= enemy.damage
+    #                     print(player.dinamicLife)
+    #                     if player.dinamicLife <=0:
+    #                         self.running = False
+
+
+
+
     def __init__(self, position, groups, collision_sprites, enemy_sprites, bullet_sprites):
         super().__init__(groups) 
         

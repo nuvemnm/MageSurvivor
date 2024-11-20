@@ -10,10 +10,10 @@ from enemy import Enemy
 from magias.magia import Spell
 import time
 from config import *
-from upgrade_menu import UpgradeMenu
+from menus import Upgrade_menu
 
 class Jogador(pygame.sprite.Sprite):
-    def __init__(self, position, groups, collision_sprites, enemy_sprites, bullet_sprites, upgrade_event):
+    def __init__(self, position, groups, collision_sprites, enemy_sprites, bullet_sprites):
         super().__init__(groups) 
         
         base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -39,9 +39,6 @@ class Jogador(pygame.sprite.Sprite):
         self.experience_threshold = 1
         self.spell = Spell(self,self.bullet_sprites)
         self.can_shoot = True
-        self.upgrade_event = upgrade_event
-        #self.upgrade()
-        #self.enemy = Enemy()
     
 
     def input(self):
@@ -86,7 +83,6 @@ class Jogador(pygame.sprite.Sprite):
     def leveling(self):
         print("+1")
         if self.experience == self.experience_threshold:
-            pygame.event.post(pygame.event.Event(self.upgrade_event))
             self.upgrading = True
             print(f"subiu de nível! nível atual: {self.actual_level}")
         else:

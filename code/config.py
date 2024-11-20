@@ -4,4 +4,5 @@ from os import walk
 
 WINDOW_WIDTH, WINDOW_HEIGHT = 1080, 760
 TILE_SIZE = 32
-ENABLE_MENU = False
+ENABLE_MENU = True
+ZOOM_SCALE = 1.5

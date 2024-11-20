@@ -2,6 +2,7 @@ import os
 import time
 from os.path import join
 from os import walk
+import utils
 from config import *
 from Bullet import Bullet
 from jogador import Jogador
@@ -16,24 +17,23 @@ from menus.Upgrade_menu import Upgrade_menu
 from menus.Login_menu import Login_menu
 
 from random import randint,choice
-from itertools import chain
 
 class Jogo:
     def __init__(self):
         #setup
         pygame.init()
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-        self.zoom_scale = 1.5
-        self.camera_surface = pygame.Surface(
-            (WINDOW_WIDTH // self.zoom_scale, WINDOW_HEIGHT // self.zoom_scale)
-        )
+        self.camera_surface = pygame.Surface((WINDOW_WIDTH // ZOOM_SCALE, WINDOW_HEIGHT // ZOOM_SCALE))
+
         pygame.display.set_caption('Mage Survivor')
-        
+
+        self.enemy_frames = utils.load_enemy_images()
+
         
         self.clock = pygame.time.Clock()
+
         self.running = False
         self.paused = False
-        self.load_images()
         self.pause = False
         self.boss_spawned = False
 
@@ -59,43 +59,10 @@ class Jogo:
         self.upgrade_timer = 0
         self.aux_timer = 0
 
-        #player event
-        #self.player_event = pygame.event.custom_type()
-        #self.death_event = pygame.event.custom_type()
-        
-        #gun event
-        #self.gun_event = pygame.event.custom_type()
         self.bullet_damage = 10 #variavel auxiliar para atualizar o dano da magia
         self.setup()
         if not self.spawn_positions:
             print("Erro: Nenhuma posição de spawn foi carregada!")
-
-
-    def load_images(self):
-        # Caminho absoluto para o diretório raiz do projeto
-        base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-
-        # Constrói o caminho absoluto para os inimigos
-        subfolder_path = os.path.join(base_path, 'images','inimigos')
-
-        folders = list(walk(subfolder_path))
-        if folders:
-            folders = folders[0][1]  # Obtém apenas as subpastas
-            print("Pastas encontradas:", folders)
-
-        else:
-            folders = []
-            print("Nenhuma pasta encontrada dentro de 'images/inimigos'.")
-
-        self.enemy_frames = {}
-        for folder in folders:
-            for folder_path,_,file_names in walk(join(subfolder_path, folder)):
-                self.enemy_frames[folder] = []
-                for file_name in sorted(file_names,key = lambda name: int(name.split('.')[0])):
-                    full_path = join(folder_path,file_name)
-                    surf = pygame.image.load(full_path).convert_alpha()
-                    self.enemy_frames[folder].append(surf)
-
 
     def setup(self):
 
@@ -128,51 +95,8 @@ class Jogo:
             if obj.name == 'player':
                 self.player = Jogador((obj.x,obj.y), self.player_sprites, self.collision_sprites, self.enemy_sprites, self.bullet_sprites)
             else:
-                self.spawn_positions.append((obj.x,obj.y))
-        
-
-    #def spawnEnemy(self):
-    #  self.enemy = Enemy(choice(self.spawn_positions),choice(list(self.enemy_frames.values())),(self.all_sprites,self.enemy_sprites),self.player, self.collision_sprites, self.bullet_sprites)
-    
-    def player_collision(self):
-        if self.enemy_sprites:
-            for enemy in self.enemy_sprites:
-                player_sprites = pygame.sprite.spritecollide(enemy, self.player_sprites, False, pygame.sprite.collide_mask)
-                if player_sprites:
-                    for player in player_sprites:
-                        player.dinamicLife -= enemy.damage
-                        print(player.dinamicLife)
-                        if player.dinamicLife <=0:
-                            self.running = False
-    
-
-    def zoom(self):
-        # Limpa a superfície da câmera
-        self.camera_surface.fill((0, 0, 0))
-
-        # Define o deslocamento da câmera com base no jogador
-        offset_x = self.player.rect.centerx - (WINDOW_WIDTH // (2 * self.zoom_scale))
-        offset_y = self.player.rect.centery - (WINDOW_HEIGHT // (2 * self.zoom_scale))
-
-        # Desenha os grupos de sprites ajustando para a câmera
-        for sprite in chain(self.all_sprites, self.player_sprites, self.bullet_sprites):
-            # Ajusta a posição do sprite para a câmera
-            camera_pos = (
-                sprite.rect.x - offset_x,
-                sprite.rect.y - offset_y,
-            )
-            self.camera_surface.blit(sprite.image, camera_pos)
-
-        # Escala a superfície da câmera para a tela
-        scaled_surface = pygame.transform.scale(
-            self.camera_surface, (WINDOW_WIDTH, WINDOW_HEIGHT)
-        )
-        self.screen.blit(scaled_surface, (0, 0))
-
-        pygame.display.update()
-
-
-
+                self.spawn_positions.append((obj.x,obj.y))    
+                
     def run(self):  
         # Cria o menu e exibe a tela de menu
         init_time = time.time()
@@ -236,7 +160,7 @@ class Jogo:
 
             else:
                 #aplica zoom na tela
-                self.zoom()
+                utils.zoom(self.player,self.camera_surface,self.screen,self.all_sprites,self.player_sprites,self.bullet_sprites)
                         
                 #Desenha todos os sprites
                 self.player_sprites.draw(self.player.rect.center)

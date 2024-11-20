@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36" version="24.8.6">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="1717" dy="815" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2641" dy="1984" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -115,6 +115,34 @@
         </mxCell>
         <mxCell id="yxBQXZHaBap9HhFSkt2I-37" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.311;entryY=1.063;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=12;startSize=8;endSize=8;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="yxBQXZHaBap9HhFSkt2I-25" target="yxBQXZHaBap9HhFSkt2I-24">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="yxBQXZHaBap9HhFSkt2I-38" value="ENEMY" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-350" y="-160" width="230" height="390" as="geometry">
+            <mxRectangle x="550" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yxBQXZHaBap9HhFSkt2I-39" value="     +player: Player&#xa;    +frames: list&#xa;    +frames_index: int&#xa;    +image: pygame.Surface&#xa;    +animation_speed: int&#xa;    +rect: pygame.Rect&#xa;    +hitbox_rect: pygame.Rect&#xa;    +collision_sprites: pygame.sprite.Group&#xa;    +bullet_sprites: pygame.sprite.Group&#xa;    +direction: pygame.Vector2&#xa;    +speed: int&#xa;    +damage: int&#xa;    +dinamicLife: int&#xa;    +alive: bool&#xa;    +death_time: int&#xa;    +death_duration: int" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="yxBQXZHaBap9HhFSkt2I-38">
+          <mxGeometry y="26" width="230" height="244" as="geometry" />
+        </mxCell>
+        <mxCell id="yxBQXZHaBap9HhFSkt2I-40" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="yxBQXZHaBap9HhFSkt2I-38">
+          <mxGeometry y="270" width="230" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="yxBQXZHaBap9HhFSkt2I-41" value="    +animate(dt: float): None&#xa;    +move(dt: float): None&#xa;    +take_damage(damage: int): None&#xa;    +destroy(): None&#xa;    +death_timer(): bool&#xa;    +update(dt: float): None" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="yxBQXZHaBap9HhFSkt2I-38">
+          <mxGeometry y="278" width="230" height="112" as="geometry" />
+        </mxCell>
+        <mxCell id="yxBQXZHaBap9HhFSkt2I-42" value="JOGADOR" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="299" y="-210" width="230" height="420" as="geometry">
+            <mxRectangle x="550" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yxBQXZHaBap9HhFSkt2I-43" value="    +image: pygame.Surface&#xa;    +rect: pygame.Rect&#xa;    +level: int&#xa;    +actual_level: int&#xa;    +upgrading: bool&#xa;    +direction: pygame.Vector2&#xa;    +speed: int&#xa;    +staticLife: int&#xa;    +dinamicLife: int&#xa;    +collision_sprites: pygame.sprite.Group&#xa;    +enemy_sprites: pygame.sprite.Group&#xa;    +bullet_sprites: pygame.sprite.Group&#xa;    +hitbox: pygame.Rect&#xa;    +alive: bool&#xa;    +experience: int&#xa;    +experience_threshold: int&#xa;    +spell: Spell&#xa;    +can_shoot: bool" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="yxBQXZHaBap9HhFSkt2I-42">
+          <mxGeometry y="26" width="230" height="264" as="geometry" />
+        </mxCell>
+        <mxCell id="yxBQXZHaBap9HhFSkt2I-44" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="yxBQXZHaBap9HhFSkt2I-42">
+          <mxGeometry y="290" width="230" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="yxBQXZHaBap9HhFSkt2I-45" value="    +input(): None&#xa;    +move(dt): None&#xa;    +collision(direction): None&#xa;    +leveling(): None&#xa;    +upgrade(stat): None&#xa;    +shoot(): None&#xa;    +update(dt): None" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="yxBQXZHaBap9HhFSkt2I-42">
+          <mxGeometry y="298" width="230" height="112" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

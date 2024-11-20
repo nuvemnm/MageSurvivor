@@ -13,7 +13,8 @@ from groups import *
 from menus.Menu import Menu
 from menus.Main_menu import Main_menu
 from menus.Upgrade_menu import Upgrade_menu
-from menus.Login_menu import Login_menu
+from menus.Register_menu import Register_menu
+from menus.Pause_menu import Pause_menu
 
 from random import randint,choice
 from itertools import chain
@@ -31,7 +32,7 @@ class Jogo:
         
         
         self.clock = pygame.time.Clock()
-        self.running = False
+        #self.running = False
         self.paused = False
         self.load_images()
         self.pause = False
@@ -39,9 +40,10 @@ class Jogo:
 
         self.upgrade_menu_controller = Upgrade_menu(self.screen)
         self.main_menu_controller = Main_menu(self.screen)
-        self.login_menu_controller = Login_menu(self.screen)
+        self.register_menu_controller = Register_menu(self.screen)
+        self.pause_menu_controller = Pause_menu(self.screen)
 
-        self.active_menu = "main_menu"
+        self.current_state = "main_menu"
 
         #grupo
         self.all_sprites = AllSprites()
@@ -52,7 +54,7 @@ class Jogo:
 
         #enemy timer
         self.enemy_event = pygame.event.custom_type()
-        pygame.time.set_timer(self.enemy_event, 1500)
+        pygame.time.set_timer(self.enemy_event, 1000)
         
 
         self.spawn_positions = []
@@ -143,7 +145,7 @@ class Jogo:
                         player.dinamicLife -= enemy.damage
                         print(player.dinamicLife)
                         if player.dinamicLife <=0:
-                            self.running = False
+                            self.current_state = "end"
     
 
     def zoom(self):
@@ -176,25 +178,24 @@ class Jogo:
     def run(self):  
         # Cria o menu e exibe a tela de menu
         init_time = time.time()
-        self.running = False
+        self.current_state = "running"
         
         self.boss = None
 
-        while not self.running:
+        while self.current_state != "running":
+            #print(self.current_state)
             if(ENABLE_MENU == True):
-                if(self.active_menu == "main_menu"):
-                    self.main_menu_controller.display_menu(self)
-                elif(self.active_menu == "login_menu"):
-                    self.login_menu_controller.display_menu(self)
-                elif(self.active_menu == "register_menu"):
-                    self.register_menu_controller.display_menu(self)
+                if(self.current_state == "main_menu"):
+                    self.current_state = self.main_menu_controller.display_menu()
+                elif(self.current_state == "register_menu"):
+                    self.current_state = self.register_menu_controller.display_menu()
                 else:
                     print("ERRO, MENU NAO ENCONTRADO")
                     ## Tratar erro de menu nao encontrado
         pygame.display.flip()
 
 
-        while self.running:
+        while self.current_state == "running":
             keys = pygame.key.get_pressed()
             dt = self.clock.tick(60) / 1000
             actual_time = time.time()
@@ -202,16 +203,17 @@ class Jogo:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.running = False
+                    self.current_state = "end"
 
 
                 if event.type == self.enemy_event:
                     if elapsed_time >= 0:
 
                         self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['bat'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 20)
-
+                    """
                     if elapsed_time >= 5:
                         self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['wolf'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 40)
+                    
                     if elapsed_time >= 10:
 
                         self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['goblin'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
@@ -220,14 +222,16 @@ class Jogo:
                     if elapsed_time >= 0 and not self.boss_spawned:
                         self.boss = Enemy(choice(self.spawn_positions),self.enemy_frames['boss'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
                         self.boss_spawned = True
+                    """
 
-            if self.paused == True:
-                pass
+            while keys[pygame.K_p]:
+                if self.pause_menu_controller.pause():
+                    break
+                
                 # Pause menu
 
-            elif self.player.upgrading == True:
-                self.active_menu = "upgrade_menu"
-                self.upgrade_menu_controller.display_menu(self)
+            if self.player.upgrading == True:
+                self.upgrade_menu_controller.upgrade_choice(self.player)
 
 
             elif self.player.alive == False:
@@ -252,9 +256,9 @@ class Jogo:
         self.screen.fill('black')
             
 
-            
-            
-        pygame.quit()
+           
+        if(self.current_state == "end"):    
+            pygame.quit()
             
     def exit(self):
         pygame.quit()

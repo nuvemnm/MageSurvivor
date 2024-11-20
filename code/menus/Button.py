@@ -8,7 +8,7 @@ class Button:
     def __init__(self,text : str, rect : pygame.Rect, option : str):
         self.text = text
         self.rect = rect
-        self.font = pygame.font.Font(None, 74)
+        self.font = pygame.font.Font(None, 60)
         self.option = option
 
     def draw(self,screen):

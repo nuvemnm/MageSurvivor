@@ -1,0 +1,3 @@
+Nickname,Score,Password
+mat,0,$2b$12$87953h/KTKQbsavpkLioFu81MsFANBE.vm/u/nEfeqMnqdaI1l3Q.
+123,0,$2b$12$AMRArvBpqS2A.sc/YlcEke.Dn4P.H0whdZu/7R6uEpVpbcX4F1wRu

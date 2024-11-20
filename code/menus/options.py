@@ -6,6 +6,7 @@ class Options():
         self.exit = "exit"
 
         self.confirm = "confirm"
+        self.continuar = "continuar"
         self.back = "back"
 
         self.upgrade_life = "upgrade_life"

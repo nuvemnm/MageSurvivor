@@ -37,6 +37,7 @@ class Jogo:
         self.load_images()
         self.pause = False
         self.boss_spawned = False
+        self.running = True
 
         self.upgrade_menu_controller = Upgrade_menu(self.screen)
         self.main_menu_controller = Main_menu(self.screen)
@@ -178,80 +179,85 @@ class Jogo:
     def run(self):  
         # Cria o menu e exibe a tela de menu
         init_time = time.time()
-        self.current_state = "running"
+        self.current_state = "main_menu"
         
         self.boss = None
 
-        while self.current_state != "running":
+                    ## Tratar erro de menu nao encontrado
+
+
+        while self.running:
+            
             #print(self.current_state)
             if(ENABLE_MENU == True):
                 if(self.current_state == "main_menu"):
                     self.current_state = self.main_menu_controller.display_menu()
                 elif(self.current_state == "register_menu"):
                     self.current_state = self.register_menu_controller.display_menu()
-                else:
-                    print("ERRO, MENU NAO ENCONTRADO")
-                    ## Tratar erro de menu nao encontrado
-        pygame.display.flip()
+                #elif(self.paused == "pause"):
+                #   self.paused = self.pause_menu_controller.pause()
+                elif(self.current_state == "running"):
+                    #print("ERRO, MENU NAO ENCONTRADO")
+                    #pygame.display.flip()
+                    #print(self.current_state)
+                    keys = pygame.key.get_pressed()
+                    dt = self.clock.tick(60) / 1000
+                    actual_time = time.time()
+                    elapsed_time = actual_time - init_time
+
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            self.running = False
 
 
-        while self.current_state == "running":
-            keys = pygame.key.get_pressed()
-            dt = self.clock.tick(60) / 1000
-            actual_time = time.time()
-            elapsed_time = actual_time - init_time
+                        if event.type == self.enemy_event:
+                            if elapsed_time >= 0:
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.current_state = "end"
+                                self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['bat'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 20)
+                            """
+                            if elapsed_time >= 5:
+                                self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['wolf'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 40)
+                            
+                            if elapsed_time >= 10:
 
-
-                if event.type == self.enemy_event:
-                    if elapsed_time >= 0:
-
-                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['bat'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 20)
-                    """
-                    if elapsed_time >= 5:
-                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['wolf'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 40)
-                    
-                    if elapsed_time >= 10:
-
-                        self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['goblin'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
+                                self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['goblin'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
 
 
-                    if elapsed_time >= 0 and not self.boss_spawned:
-                        self.boss = Enemy(choice(self.spawn_positions),self.enemy_frames['boss'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
-                        self.boss_spawned = True
-                    """
+                            if elapsed_time >= 0 and not self.boss_spawned:
+                                self.boss = Enemy(choice(self.spawn_positions),self.enemy_frames['boss'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
+                                self.boss_spawned = True
+                            """
 
-            while keys[pygame.K_p]:
-                if self.pause_menu_controller.pause():
-                    break
-                
-                # Pause menu
+                    #if keys[pygame.K_p]:
+                    #    self.current_state = "pause"
+                            
 
-            if self.player.upgrading == True:
-                self.upgrade_menu_controller.upgrade_choice(self.player)
-
-
-            elif self.player.alive == False:
-                pass
-                # self.game_over()
-
-            else:
-                #aplica zoom na tela
-                self.zoom()
                         
-                #Desenha todos os sprites
-                self.player_sprites.draw(self.player.rect.center)
-                self.bullet_sprites.draw(self.player.rect.center)
-                self.all_sprites.draw(self.player.rect.center)
-                
-                self.all_sprites.update(dt)
-                self.player_sprites.update(dt)
-                self.bullet_sprites.update(dt)
+                        # Pause menu
 
-        
+                    if self.player.upgrading == True:
+                        self.upgrade_menu_controller.upgrade_choice(self.player)
+
+
+                    elif self.player.alive == False:
+                        pass
+                        # self.game_over()
+
+                    else:
+                        #aplica zoom na tela
+                        self.zoom()
+                                
+                        #Desenha todos os sprites
+                        self.player_sprites.draw(self.player.rect.center)
+                        self.bullet_sprites.draw(self.player.rect.center)
+                        self.all_sprites.draw(self.player.rect.center)
+                        
+                        self.all_sprites.update(dt)
+                        self.player_sprites.update(dt)
+                        self.bullet_sprites.update(dt)
+            
+
+            
             #pygame.display.update()
         self.screen.fill('black')
             

@@ -18,12 +18,14 @@ class Main_menu(Menu):
 
         if selected_option == self.options.confirm:
             if self.login.verify_login(self.user_text, self.password_text):
+                
                 self.current_state = "running"
                 return self.current_state
+          
             else: 
                 self.current_state = "main_menu"
                 return self.current_state
-        
+
         elif selected_option == self.options.new_game:
             self.current_state = "register_menu"
             return self.current_state

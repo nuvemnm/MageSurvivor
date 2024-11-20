@@ -19,7 +19,7 @@ class Register_menu(Menu):
             self.login.cadastrar(self.user_text, self.password_text)
             self.current_state = "running"
             return self.current_state
-        
+            
         elif selected_option == self.options.back:
             self.current_state = "main_menu"
             return self.current_state

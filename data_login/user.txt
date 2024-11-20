@@ -1,3 +1,5 @@
 Nickname,Score,Password
 mat,0,$2b$12$87953h/KTKQbsavpkLioFu81MsFANBE.vm/u/nEfeqMnqdaI1l3Q.
 123,0,$2b$12$AMRArvBpqS2A.sc/YlcEke.Dn4P.H0whdZu/7R6uEpVpbcX4F1wRu
+wer,0,$2b$12$kz1Jf5Xo8n18.4VYdw1b8eRqz.vohRgRYRHpYtB9qRjWZHr3BJyU6
+toda,0,$2b$12$PFKM.wPAApk7Lhu25V7K3ewYhpeM3eAsfg.iNlVAFRhDiuRbN7dl6

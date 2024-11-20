@@ -41,9 +41,9 @@ class Pause_menu(Menu):
         selected_option = self.display_menu()
         
         if selected_option == self.options.continuar:
-            return  True
-            
-         
+            #self.current_state = "running"
+            return False
 
         elif selected_option == self.options.exit:
+            #self.current_state = "main_menu"
             return False

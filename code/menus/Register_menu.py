@@ -17,13 +17,13 @@ class Register_menu(Menu):
         if selected_option == self.options.confirm:
             
             self.login.cadastrar(self.user_text, self.password_text)
-            jogo.current_state = "running"
-            #return self.current_state
+            jogo.active_state = "running"
+            #return self.active_state
             
         elif selected_option == self.options.back:
-            jogo.current_state = "main_menu"
-            #return self.current_state
+            jogo.active_state = "main_menu"
+            #return self.active_state
         
         else:
-            jogo.current_state = "register_menu"
-            #return self.current_state
+            jogo.active_state = "register_menu"
+            #return self.active_state

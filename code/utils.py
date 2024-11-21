@@ -6,6 +6,7 @@ from sprite import Sprite
 from config import *
 import pygame
 from pytmx.util_pygame import load_pygame
+import bcrypt
 
 
 def get_mouse_direction_relative_to_center():
@@ -16,6 +17,20 @@ def get_mouse_direction_relative_to_center():
 
 
     return mouse_relative_pos
+
+
+
+def encrypt_password(password):
+    salt = bcrypt.gensalt()
+
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
+    return hashed_password
+
+def verify_password(stored_password, provided_password):
+    return bcrypt.checkpw(provided_password.encode('utf-8'), stored_password)
+
+
+
 
 def load_enemy_images():
     # Caminho absoluto para o diretório raiz do projeto
@@ -60,3 +75,4 @@ def setup(jogo):
     jogo.map.instantiate_grass_sprites(jogo.grass_sprites)
     jogo.map.isntantiate_obstacles_sprites(jogo.obstacle_sprites)
     jogo.player = Jogador(jogo.map.player_spawn_position, jogo.player_sprites, jogo.obstacle_sprites, jogo.enemy_sprites, jogo.bullet_sprites)
+

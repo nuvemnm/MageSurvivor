@@ -41,11 +41,11 @@ class Pause_menu(Menu):
             selected_option = self.display_menu()
             
             if selected_option == self.options.continuar:
-                jogo.current_state = "running"
+                jogo.active_state = "running"
                 break
-                #return self.current_state
+                #return self.active_state
 
             elif selected_option == self.options.exit:
-                jogo.current_state = "main_menu"
+                jogo.active_state = "main_menu"
                 break
-                #return self.current_state
+                #return self.active_state

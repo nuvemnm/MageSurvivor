@@ -20,7 +20,6 @@ class Menu:
         self.start_y = 170  # Deslocamento do topo da tela
         self.user_text = ""
         self.password_text = ""
-        self.current_state = ""
         self.active_input = None
         self.buttons = []
         self.user_rect = pygame.Rect((self.width/2)-200, 260, 400, 50)

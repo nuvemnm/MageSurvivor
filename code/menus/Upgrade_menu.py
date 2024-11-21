@@ -37,17 +37,17 @@ class Upgrade_menu(Menu):
     
 
     
-    def upgrade_choice(self, player):
+    def upgrade_choice(self, jogo):
 
         selected_option = self.display_menu()
         
         if selected_option == self.options.upgrade_life:
-            player.upgrade("life")
+            jogo.player.upgrade("life")
             
          
 
         elif selected_option == self.options.upgrade_damage:
-            player.upgrade("damage")
+            jogo.player.upgrade("damage")
             
         
         

@@ -11,7 +11,7 @@ class Login_menu(Menu):
         self.title = "Insira seu login e senha:"
         self.button_infos = {"Confirm":self.options.confirm, "Back":self.options.back}
 
-    def display_menu(self,active_menu):
+    def display_menu(self,jogo):
         selected_option = super().display_menu(self.title,self.button_infos)
 
         if selected_option == self.options.back:

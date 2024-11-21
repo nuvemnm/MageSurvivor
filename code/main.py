@@ -205,17 +205,17 @@ class Jogo:
     def run(self):  
         # Cria o menu e exibe a tela de menu
         init_time = time.time()
-        self.current_state = "main_menu"
+        #self.current_state = "main_menu"
 
         while self.running:
             
             #print(self.current_state)
             if(ENABLE_MENU == True):
                 if(self.current_state == "main_menu"):
-                    self.current_state = self.main_menu_controller.display_menu()
+                    self.main_menu_controller.display_menu(self)
                     self.player.nickname = self.main_menu_controller.user_text
                 elif(self.current_state == "register_menu"):
-                    self.current_state = self.register_menu_controller.display_menu()
+                    self.register_menu_controller.display_menu(self)
                     self.player.nickname = self.register_menu_controller.user_text
                 #elif(self.paused == "pause"):
                 #   self.paused = self.pause_menu_controller.pause()

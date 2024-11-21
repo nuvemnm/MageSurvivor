@@ -1,7 +1,6 @@
 import pygame
 import sqlite3 
 
-#GPT CRIOPU MAS NAO TESTEI COLOQUEI SO PRA DAR DE EX
 
 class Login:
     def __init__(self, database_path):

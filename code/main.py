@@ -13,8 +13,6 @@ from groups import *
 from menus.Menu import Menu
 from menus.Main_menu import Main_menu
 from menus.Upgrade_menu import Upgrade_menu
-from menus.Login_menu import Login_menu
-
 from random import choice
 
 class Jogo:

@@ -59,4 +59,4 @@ def setup(jogo):
     load_map(jogo)
     jogo.map.instantiate_grass_sprites(jogo.grass_sprites)
     jogo.map.isntantiate_obstacles_sprites(jogo.obstacle_sprites)
-    jogo.player = Jogador(jogo.map.player_spawn_position, jogo.player_sprites, jogo.collision_sprites, jogo.enemy_sprites, jogo.bullet_sprites)
+    jogo.player = Jogador(jogo.map.player_spawn_position, jogo.player_sprites, jogo.obstacle_sprites, jogo.enemy_sprites, jogo.bullet_sprites)

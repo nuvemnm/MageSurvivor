@@ -4,6 +4,7 @@ class Options():
         self.new_game = "new_game"
         self.login = "login"
         self.exit = "exit"
+        self.menu = "Main_menu"
 
         self.confirm = "confirm"
         self.continuar = "continuar"

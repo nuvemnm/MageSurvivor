@@ -57,6 +57,7 @@ class Jogador(pygame.sprite.Sprite):
         self.alive = True
         self.experience = 0
         self.experience_threshold = 1
+        self.score = 0
         self.spell = Spell(self,self.bullet_sprites)
         self.can_shoot = True
     
@@ -127,6 +128,12 @@ class Jogador(pygame.sprite.Sprite):
         else:
             self.experience += 1
             print(f"experiencia atual: {self.experience}/{self.experience_threshold} ")
+
+    def score_up(self, xp_quantity):
+        print(self.nickname)
+        print(self.score)
+        self.score += xp_quantity
+        self.login.write_score(self.nickname, self.score)
 
     def upgrade(self,stat):
         self.actual_level += 1
@@ -213,3 +220,11 @@ class Jogador(pygame.sprite.Sprite):
 
 
 
+    def reset_player(self):
+        self.score = 0
+        self.actual_level = 1
+        self.speed = 300
+        self.staticLife = 50
+        self.rect = self.right_image.get_rect(topleft = self.position)
+        self.experience = 0
+        self.experience_threshold = 1

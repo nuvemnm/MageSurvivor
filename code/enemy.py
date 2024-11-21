@@ -27,6 +27,7 @@ class Enemy(pygame.sprite.Sprite):
         #life status
         self.damage = damage
         self.dinamicLife = dinamicLife
+        self.staticLife = dinamicLife
         self.alive = True
 
         #timer
@@ -81,6 +82,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image = surf
         self.alive = False
         self.player.leveling()
+        self.player.score_up(self.staticLife)
 
 
     def death_timer(self):

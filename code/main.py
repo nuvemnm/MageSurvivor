@@ -15,6 +15,7 @@ from menus.Main_menu import Main_menu
 from menus.Upgrade_menu import Upgrade_menu
 from menus.Register_menu import Register_menu
 from menus.Pause_menu import Pause_menu
+from menus.Game_over_menu import Game_over
 
 from random import choice
 
@@ -41,6 +42,7 @@ class Jogo:
         self.main_menu_controller = Main_menu(self.screen)
         self.register_menu_controller = Register_menu(self.screen)
         self.pause_menu_controller = Pause_menu(self.screen)
+        self.gameover_menu_controller = Game_over(self.screen)
 
         self.active_state = "main_menu"
 
@@ -131,7 +133,7 @@ class Jogo:
 
 
                     elif self.player.alive == False:
-                        pass
+                        self.active_state = "game_over"
                         # self.game_over()
 
                     else:
@@ -156,6 +158,9 @@ class Jogo:
                         utils.draw_camera(self.screen,self.camera_surface)
 
                     pygame.display.update()
+
+                elif(self.active_state == "game_over"):
+                    self.gameover_menu_controller.gameover_options(self)
                     
         self.screen.fill('black')          
         pygame.quit()

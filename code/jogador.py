@@ -40,6 +40,7 @@ class Jogador(pygame.sprite.Sprite):
         self.image = self.right_image
 
         self.rect = self.right_image.get_rect(topleft = position)
+        self.position = position
         self.level = 1
         self.actual_level = 1
         self.upgrading = False
@@ -220,11 +221,4 @@ class Jogador(pygame.sprite.Sprite):
 
 
 
-    def reset_player(self):
-        self.score = 0
-        self.actual_level = 1
-        self.speed = 300
-        self.staticLife = 50
-        self.rect = self.right_image.get_rect(topleft = self.position)
-        self.experience = 0
-        self.experience_threshold = 1
+    

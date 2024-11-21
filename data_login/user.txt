@@ -1,2 +1,3 @@
 123,340,$2b$12$HQknd6rBcAc38la8Zpuhw.n5tESx/5U/wyZro85KkF4BVFWEohZAy
 matheus,0,$2b$12$zsanii2ecz3OPXxLB0YvQOmZp.zm0C3kq/UQiV5g41vx.RhndrD7a
+321,100,$2b$12$b.u8i/TupkVQOsjrUclnF.O/sFaE.gp5lAq9fo6CY6LmdJehRJizq

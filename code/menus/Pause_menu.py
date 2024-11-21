@@ -36,14 +36,16 @@ class Pause_menu(Menu):
                         return button.click()
     
 
-    def pause(self):
+    def pause(self, jogo):
+        while True:
+            selected_option = self.display_menu()
+            
+            if selected_option == self.options.continuar:
+                jogo.current_state = "running"
+                break
+                #return self.current_state
 
-        selected_option = self.display_menu()
-        
-        if selected_option == self.options.continuar:
-            #self.current_state = "running"
-            return False
-
-        elif selected_option == self.options.exit:
-            #self.current_state = "main_menu"
-            return False
+            elif selected_option == self.options.exit:
+                jogo.current_state = "main_menu"
+                break
+                #return self.current_state

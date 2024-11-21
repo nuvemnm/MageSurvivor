@@ -35,7 +35,6 @@ class Jogo:
         #self.running = False
         self.paused = False
         self.load_images()
-        self.pause = False
         self.boss_spawned = False
         self.running = True
 
@@ -205,7 +204,6 @@ class Jogo:
     def run(self):  
         # Cria o menu e exibe a tela de menu
         init_time = time.time()
-        #self.current_state = "main_menu"
 
         while self.running:
             
@@ -217,13 +215,8 @@ class Jogo:
                 elif(self.current_state == "register_menu"):
                     self.register_menu_controller.display_menu(self)
                     self.player.nickname = self.register_menu_controller.user_text
-                #elif(self.paused == "pause"):
-                #   self.paused = self.pause_menu_controller.pause()
             
                 elif(self.current_state == "running"):
-                    #print("ERRO, MENU NAO ENCONTRADO")
-                    #pygame.display.flip()
-                    #print(self.current_state)
                     keys = pygame.key.get_pressed()
                     dt = self.clock.tick(60) / 1000
                     actual_time = time.time()
@@ -235,13 +228,11 @@ class Jogo:
 
                         self.enemy_spawn(event, elapsed_time)
 
-                    #if keys[pygame.K_p]:
-                    #    self.current_state = "pause"
-  
-                        # Pause menu
-
-                    #print(self.player.upgrading)
-                    if self.player.upgrading == True:
+                    if keys[pygame.K_p]:
+                        self.pause_menu_controller.pause(self)
+                        #self.current_state = "paused"  # Muda o estado para pausa
+                    
+                    elif self.player.upgrading == True:
                         self.upgrade_menu_controller.upgrade_choice(self.player)
 
 
@@ -262,15 +253,13 @@ class Jogo:
                         self.player_sprites.update(dt)
                         self.bullet_sprites.update(dt)
             
-
+                #elif(self.curret_state == "paused"):
+                #    self.pause_menu_controller.pause(self)
+                   
             
             #pygame.display.update()
         self.screen.fill('black')
-            
-
-           
-        if(self.current_state == "end"):    
-            pygame.quit()
+        pygame.quit()
             
     def exit(self):
         pygame.quit()

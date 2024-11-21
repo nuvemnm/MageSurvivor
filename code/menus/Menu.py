@@ -1,7 +1,7 @@
 import pygame
 
 from menus.Button import Button
-from login import Login
+from data_manager import Login
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)

@@ -10,7 +10,8 @@ from enemy import Enemy
 from magias.magia import Spell
 import time
 from config import *
-from menus import Upgrade_menu
+
+from data_manager import Login
 
 class Jogador(pygame.sprite.Sprite):
     def __init__(self, position, groups, collision_sprites, enemy_sprites, bullet_sprites):
@@ -36,9 +37,13 @@ class Jogador(pygame.sprite.Sprite):
         self.hitbox = self.rect.inflate(-30, -30)
         self.alive = True
         self.experience = 0
-        self.experience_threshold = 1
+        self.experience_threshold = 10
+        self.score = 0
         self.spell = Spell(self,self.bullet_sprites)
         self.can_shoot = True
+        
+        self.login = Login()
+        self.nickname = ""
     
 
     def input(self):
@@ -80,14 +85,22 @@ class Jogador(pygame.sprite.Sprite):
                     if self.direction.y > 0:
                         self.hitbox.bottom = sprite.rect.top
 
-    def leveling(self):
+    def leveling(self, xp_quantity):
         print("+1")
-        if self.experience == self.experience_threshold:
+        if self.experience >= self.experience_threshold:
             self.upgrading = True
             print(f"subiu de nível! nível atual: {self.actual_level}")
         else:
-            self.experience += 1
+            self.experience += xp_quantity
             print(f"experiencia atual: {self.experience}/{self.experience_threshold} ")
+
+    def score_up(self, xp_quantity):
+        print(self.nickname)
+        print(self.score)
+        self.score += xp_quantity
+        self.login.write_score(self.nickname, self.score)
+
+
 
     def upgrade(self,stat):
         self.actual_level += 1

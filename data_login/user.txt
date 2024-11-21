@@ -1,5 +1,2 @@
-Nickname,Score,Password
-mat,0,$2b$12$87953h/KTKQbsavpkLioFu81MsFANBE.vm/u/nEfeqMnqdaI1l3Q.
-123,0,$2b$12$AMRArvBpqS2A.sc/YlcEke.Dn4P.H0whdZu/7R6uEpVpbcX4F1wRu
-wer,0,$2b$12$kz1Jf5Xo8n18.4VYdw1b8eRqz.vohRgRYRHpYtB9qRjWZHr3BJyU6
-toda,0,$2b$12$PFKM.wPAApk7Lhu25V7K3ewYhpeM3eAsfg.iNlVAFRhDiuRbN7dl6
+123,340,$2b$12$HQknd6rBcAc38la8Zpuhw.n5tESx/5U/wyZro85KkF4BVFWEohZAy
+matheus,0,$2b$12$zsanii2ecz3OPXxLB0YvQOmZp.zm0C3kq/UQiV5g41vx.RhndrD7a

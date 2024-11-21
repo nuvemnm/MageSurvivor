@@ -54,13 +54,20 @@ class Jogo:
         self.enemy_sprites = pygame.sprite.Group()
 
         #enemy timer
-        self.enemy_event = pygame.event.custom_type()
-        pygame.time.set_timer(self.enemy_event, 1000)
+        #self.enemy_event = pygame.event.custom_type()
+        #pygame.time.set_timer(self.enemy_event, 1000)
         
+        self.weak_enemy_event = pygame.event.custom_type()
+        pygame.time.set_timer(self.weak_enemy_event, 700)
+
+        self.mid_enemy_event = pygame.event.custom_type()
+        pygame.time.set_timer(self.mid_enemy_event, 1000)
+
+        self.strong_enemy_event = pygame.event.custom_type()
+        pygame.time.set_timer(self.strong_enemy_event, 1300)   
 
         self.spawn_positions = []
-        self.upgrade_timer = 0
-        self.aux_timer = 0
+        
 
         #player event
         #self.player_event = pygame.event.custom_type()
@@ -174,17 +181,31 @@ class Jogo:
 
         pygame.display.update()
 
+    def enemy_spawn(self, event, timer):
 
+            if timer >= 0:
+                if event.type == self.weak_enemy_event:
+                    self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['bat'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 20)
+            
+            if timer >= 10:
+                if event.type == self.mid_enemy_event:
+                    self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['wolf'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 40)
+            
+            if timer >= 20:
+                if event.type == self.strong_enemy_event:
+                    self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['goblin'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
+
+            
+            if timer >= 100 and not self.boss_spawned:
+                self.boss = Enemy(choice(self.spawn_positions),self.enemy_frames['boss'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
+                self.boss_spawned = True
+            
+            
 
     def run(self):  
         # Cria o menu e exibe a tela de menu
         init_time = time.time()
-        self.current_state = "running"
-        
-        self.boss = None
-
-                    ## Tratar erro de menu nao encontrado
-
+        self.current_state = "main_menu"
 
         while self.running:
             
@@ -192,12 +213,14 @@ class Jogo:
             if(ENABLE_MENU == True):
                 if(self.current_state == "main_menu"):
                     self.current_state = self.main_menu_controller.display_menu()
+                    self.player.nickname = self.main_menu_controller.user_text
                 elif(self.current_state == "register_menu"):
                     self.current_state = self.register_menu_controller.display_menu()
+                    self.player.nickname = self.register_menu_controller.user_text
                 #elif(self.paused == "pause"):
                 #   self.paused = self.pause_menu_controller.pause()
-            else:
-                if(self.current_state == "running"):
+            
+                elif(self.current_state == "running"):
                     #print("ERRO, MENU NAO ENCONTRADO")
                     #pygame.display.flip()
                     #print(self.current_state)
@@ -210,32 +233,14 @@ class Jogo:
                         if event.type == pygame.QUIT:
                             self.running = False
 
-
-                        if event.type == self.enemy_event:
-                            if elapsed_time >= 0:
-
-                                self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['bat'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 20)
-                            """
-                            if elapsed_time >= 5:
-                                self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['wolf'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 40)
-                            
-                            if elapsed_time >= 10:
-
-                                self.enemy = Enemy(choice(self.spawn_positions),self.enemy_frames['goblin'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
-
-
-                            if elapsed_time >= 0 and not self.boss_spawned:
-                                self.boss = Enemy(choice(self.spawn_positions),self.enemy_frames['boss'],(self.all_sprites,self.enemy_sprites), self.player, self.collision_sprites, self.bullet_sprites, 20, 80)
-                                self.boss_spawned = True
-                            """
+                        self.enemy_spawn(event, elapsed_time)
 
                     #if keys[pygame.K_p]:
                     #    self.current_state = "pause"
-                            
-
-                        
+  
                         # Pause menu
 
+                    #print(self.player.upgrading)
                     if self.player.upgrading == True:
                         self.upgrade_menu_controller.upgrade_choice(self.player)
 

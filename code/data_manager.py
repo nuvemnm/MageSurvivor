@@ -60,13 +60,13 @@ class Login:
                     linha = linha.strip()
                     partes = linha.split(",")
                     if len(partes) == 3:
-                        nickname, score, password = partes
-                        stored_password_bytes = password.encode('utf-8')
+                        self.nickname, score, self.password = partes
+                        stored_password_bytes = self.password.encode('utf-8')
 
-                        if nickname == nick_input:
+                        if self.nickname == nick_input:
                             if utils.verify_password(stored_password_bytes, pass_input):
                                 print("Usuário encontrado!")
-                                print(f"Nome: {nickname}")
+                                print(f"Nome: {self.nickname}")
                                 print(f"Score: {score}")
                                 return True
                             
@@ -81,3 +81,47 @@ class Login:
         except FileNotFoundError:
             print("O arquivo não foi encontrado.")
             return None
+        
+    
+    def write_score(self, nick_input, score_input):
+        try:
+            # Ler todas as linhas do arquivo
+            with open(self.archive, 'r', encoding='utf-8') as arquivo:
+                linhas = arquivo.readlines()
+
+            # Reescrever o arquivo com as alterações
+            with open(self.archive, 'w', encoding='utf-8') as arquivo:
+                usuario_encontrado = False
+                for linha in linhas:
+                    linha = linha.strip()
+                    partes = linha.split(",")
+                    if len(partes) == 3:
+                        nickname, score, password = partes
+                        score = int(score)  # Converte o score armazenado para inteiro
+
+                        if nick_input == nickname:
+                            usuario_encontrado = True
+                            if score_input > score:
+                                # Atualiza o score somente se for maior
+                                new_line = f"{nickname},{score_input},{password}\n"
+                                arquivo.write(new_line)
+                                print(f"Score atualizado para {score_input}!")
+                            else:
+                                # Mantém a linha inalterada se o novo score não for maior
+                                arquivo.write(linha + "\n")
+                                print("O novo score não é maior que o atual. Nenhuma alteração feita.")
+                        else:
+                            # Mantém a linha inalterada
+                            arquivo.write(linha + "\n")
+                    else:
+                        # Caso a linha não seja válida, mantém como está
+                        arquivo.write(linha + "\n")
+
+                if not usuario_encontrado:
+                    print("Usuário não encontrado!")
+
+        except FileNotFoundError:
+            print("O arquivo não foi encontrado.")
+        except Exception as e:
+            print(f"Erro: {e}")
+

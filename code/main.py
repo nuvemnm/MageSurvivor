@@ -81,15 +81,12 @@ class Jogo:
         self.enemy = None
 
         self.bullet_damage = 10 #variavel auxiliar para atualizar o dano da magia
-        if not self.spawn_positions:
-            print("Erro: Nenhuma posição de spawn foi carregada!")
+
 
 
     def run(self):  
         # Cria o menu e exibe a tela de menu
         utils.setup(self)
-
-        #self.boss = None
 
         while self.running:
             if(ENABLE_MENU == True):

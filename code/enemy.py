@@ -8,7 +8,7 @@ import os
 from itertools import chain
 
 class Enemy(pygame.sprite.Sprite): 
-    def __init__(self, pos, frames, groups, player, collision_sprites, bullet_sprites, damage, dinamicLife):
+    def __init__(self, pos, frames, groups, player, collision_sprites, bullet_sprites, damage, dinamicLife,speed):
         super().__init__(groups)
         self.player = player
     
@@ -22,7 +22,7 @@ class Enemy(pygame.sprite.Sprite):
         self.collision_sprites = collision_sprites
         self.bullet_sprites = bullet_sprites
         self.direction = pygame.Vector2()
-        self.speed = 50
+        self.speed = speed
 
         #life status
         self.damage = damage
@@ -53,20 +53,6 @@ class Enemy(pygame.sprite.Sprite):
         # self.collision('vertical')
         self.rect.center = self.hitbox_rect.center
 
-    # def collision(self, direction):
-    #     for sprite in self.collision_sprites:
-    #         if sprite.rect.colliderect(self.hitbox_rect):
-    #             if direction == 'horizontal':
-    #                 if self.direction.x > 0: 
-    #                     self.hitbox_rect.right = sprite.rect.left
-    #                 if self.direction.x < 0:
-    #                     self.hitbox_rect.left = sprite.rect.right
-    #             else:
-    #                 if self.direction.y < 0:
-    #                     self.hitbox_rect.top = sprite.rect.bottom
-    #                 if self.direction.y > 0:
-    #                     self.hitbox_rect.bottom = sprite.rect.top
-        
     def take_damage(self,damage):
         if self.alive == False:
             print("tomou dano")

@@ -16,9 +16,7 @@ class Game_over(Menu):
         base_path = os.path.dirname(__file__)  # Diretório atual do arquivo
         image_path = os.path.join(base_path, '..','..', 'images', 'menu', 'magesurvivorgameover.png')
         image_path = os.path.abspath(image_path)  # Converte para um caminho absoluto
-    # Verifique o caminho da imagem
-
-        # Carrega e ajusta a imagem ao tamanho da tela
+  
         self.background = pygame.image.load(image_path).convert()
         self.background = pygame.transform.scale(self.background, (screen.get_width(), screen.get_height()))
 
@@ -32,7 +30,7 @@ class Game_over(Menu):
 
         pygame.display.flip()  # Atualiza a tela
         return self.handle_menu_events()
-    
+
 
     def handle_menu_events(self):
           # Atualiza a posição do mouse

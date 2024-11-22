@@ -47,7 +47,7 @@ class Login:
             try:
                 with open(self.archive, 'a', encoding = 'utf-8') as arquivo:
                     arquivo.write(linha)
-                print(f"Dados salvos com sucesso: {linha.strip()}")
+                print(f"Usuário cadastrado com sucesso!")
             except Exception as e:
                 print(f"Erro ao escrever no arquivo: {e}")
 
@@ -67,7 +67,7 @@ class Login:
                             if utils.verify_password(stored_password_bytes, pass_input):
                                 print("Usuário encontrado!")
                                 print(f"Nome: {self.nickname}")
-                                print(f"Score: {score}")
+                                print(f"Score máximo registrado: {score}")
                                 return True
                             
                             else:

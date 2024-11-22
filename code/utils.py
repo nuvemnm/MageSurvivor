@@ -116,12 +116,18 @@ def spawn_enemy(jogo, event, timer):
     if timer >= 120:
         if event.type == jogo.mid_enemy_event:
             jogo.enemy = MidEnemy(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['wolf'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 40, 40)
+            pygame.time.set_timer(jogo.weak_enemy_event, 1000)
             
     if timer >= 240:
         if event.type == jogo.strong_enemy_event:
             jogo.enemy = StrongEnemy(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['goblin'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 80, 80)
+            pygame.time.set_timer(jogo.weak_enemy_event, 500)
+            pygame.time.set_timer(jogo.mid_enemy_event, 1500)
 
             
     if timer >= 360 and not jogo.boss_spawned:
         jogo.boss = Boss(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['boss'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 300, 1000)
         jogo.boss_spawned = True
+        pygame.time.set_timer(jogo.weak_enemy_event, 500)
+        pygame.time.set_timer(jogo.mid_enemy_event, 1000)
+        pygame.time.set_timer(jogo.strong_enemy_event, 2000) 

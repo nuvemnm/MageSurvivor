@@ -2,7 +2,10 @@ from itertools import chain
 import pygame
 import os
 from jogador import Jogador
-from enemy import Enemy
+from Enemies.WeakEnemy import WeakEnemy
+from Enemies.MidEnemy import MidEnemy
+from Enemies.StrongEnemy import StrongEnemy
+from Enemies.Boss import Boss
 from map import Map
 from sprite import Sprite
 from config import *
@@ -108,17 +111,23 @@ def spawn_enemy(jogo, event, timer):
   
     if timer >= 0:
         if event.type == jogo.weak_enemy_event:
-            jogo.enemy = Enemy(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['bat'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 20, 20)
+            jogo.enemy = WeakEnemy(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['bat'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 20, 20)
             
     if timer >= 120:
         if event.type == jogo.mid_enemy_event:
-            jogo.enemy = Enemy(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['wolf'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 40, 40)
+            jogo.enemy = MidEnemy(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['wolf'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 40, 40)
+            pygame.time.set_timer(jogo.weak_enemy_event, 1000)
             
     if timer >= 240:
         if event.type == jogo.strong_enemy_event:
-            jogo.enemy = Enemy(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['goblin'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 80, 80)
+            jogo.enemy = StrongEnemy(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['goblin'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 80, 80)
+            pygame.time.set_timer(jogo.weak_enemy_event, 500)
+            pygame.time.set_timer(jogo.mid_enemy_event, 1500)
 
             
     if timer >= 360 and not jogo.boss_spawned:
-        jogo.boss = Enemy(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['boss'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 300, 1000)
+        jogo.boss = Boss(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['boss'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 300, 1000)
         jogo.boss_spawned = True
+        pygame.time.set_timer(jogo.weak_enemy_event, 500)
+        pygame.time.set_timer(jogo.mid_enemy_event, 1000)
+        pygame.time.set_timer(jogo.strong_enemy_event, 2000) 

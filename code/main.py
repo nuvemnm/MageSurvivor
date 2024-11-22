@@ -6,7 +6,7 @@ import utils
 from config import *
 from Bullet import Bullet
 from jogador import Jogador
-from enemy import Enemy
+from Enemies.enemy import Enemy
 from sprite import *
 from groups import *
 WHITE = (255, 255, 255)
@@ -60,19 +60,14 @@ class Jogo:
         self.all_sprites = SpritesGroup(self.camera_surface)
         self.collision_sprites = SpritesGroup(self.camera_surface)
 
-
-        self.weak_enemy_interval = 2000
-        self.mid_enemy_interval = 3000
-        self.strong_enemy_interval = 4000
-
         self.weak_enemy_event = pygame.event.custom_type()
-        pygame.time.set_timer(self.weak_enemy_event, self.weak_enemy_interval)
+        pygame.time.set_timer(self.weak_enemy_event, 2000)
 
         self.mid_enemy_event = pygame.event.custom_type()
-        pygame.time.set_timer(self.mid_enemy_event, self.mid_enemy_interval)
+        pygame.time.set_timer(self.mid_enemy_event, 3000)
 
         self.strong_enemy_event = pygame.event.custom_type()
-        pygame.time.set_timer(self.strong_enemy_event, self.strong_enemy_interval) 
+        pygame.time.set_timer(self.strong_enemy_event, 4000) 
 
         self.spawn_positions = []
         self.upgrade_timer = 0

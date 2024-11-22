@@ -6,7 +6,7 @@ from sprite import *
 from pytmx.util_pygame import load_pygame
 from groups import *
 from itertools import chain
-from enemy import Enemy
+from Enemies.enemy import Enemy
 from magias.magia import Spell
 import time
 from config import *
@@ -50,7 +50,7 @@ class Jogador(pygame.sprite.Sprite):
         #movimento
         self.direction = pygame.Vector2()
         self.speed = 100
-        self.staticLife = 10
+        self.staticLife = 50
         self.dinamicLife = self.staticLife
         self.obstacle_sprites = obstacle_sprites
         self.enemy_sprites = enemy_sprites

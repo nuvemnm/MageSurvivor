@@ -1,6 +1,7 @@
 import pygame
 import os
 from Bullet import Bullet
+import utils
 
 
 class Spell(pygame.sprite.Sprite):
@@ -11,9 +12,10 @@ class Spell(pygame.sprite.Sprite):
         self.cooldown = 80
         self.damage = 5
         self.player = player
+        #self.spell_frames = utils.load_spell_images()
     
     def shoot(self, bullet_initial_pos, bullet_direction,enemy_sprites):
-        bullet = Bullet(player=self.player, pos=bullet_initial_pos,direction=bullet_direction,groups=self.bullet_sprites,enemy_sprites=enemy_sprites,damage=self.damage)
+        bullet = Bullet(player=self.player, pos=bullet_initial_pos, direction=bullet_direction,groups=self.bullet_sprites,enemy_sprites=enemy_sprites,damage=self.damage)
         
 
     

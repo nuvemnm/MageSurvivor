@@ -113,7 +113,7 @@
             <mxPoint x="-475" y="-819.9999999999999" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="yxBQXZHaBap9HhFSkt2I-47" value="SPRITE_GROUP" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+        <mxCell id="yxBQXZHaBap9HhFSkt2I-47" value="SPRITESGROUP" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="-575" y="-950" width="200" height="118" as="geometry">
             <mxRectangle x="550" y="140" width="160" height="26" as="alternateBounds" />
           </mxGeometry>
@@ -302,12 +302,6 @@
             <mxPoint x="823" y="-530" as="sourcePoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="yxBQXZHaBap9HhFSkt2I-143" value="" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;endArrow=none;endFill=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" edge="1">
-          <mxGeometry width="120" relative="1" as="geometry">
-            <mxPoint x="-700" y="-990" as="sourcePoint" />
-            <mxPoint x="-699" y="-950" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
         <mxCell id="yxBQXZHaBap9HhFSkt2I-145" value="" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;endArrow=none;endFill=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" edge="1">
           <mxGeometry width="120" relative="1" as="geometry">
             <mxPoint x="-280" y="-990" as="sourcePoint" />
@@ -316,12 +310,6 @@
         </mxCell>
         <mxCell id="yxBQXZHaBap9HhFSkt2I-150" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;fontSize=12;startSize=8;endSize=8;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="yxBQXZHaBap9HhFSkt2I-38" target="yxBQXZHaBap9HhFSkt2I-38" edge="1">
           <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="yxBQXZHaBap9HhFSkt2I-154" value="" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;endArrow=none;endFill=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" edge="1">
-          <mxGeometry width="120" relative="1" as="geometry">
-            <mxPoint x="-900" y="-619" as="sourcePoint" />
-            <mxPoint x="-490" y="-820" as="targetPoint" />
-          </mxGeometry>
         </mxCell>
         <mxCell id="yxBQXZHaBap9HhFSkt2I-161" value="" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;endArrow=none;endFill=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.459;entryY=0.001;entryDx=0;entryDy=0;entryPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" target="yxBQXZHaBap9HhFSkt2I-38" edge="1">
           <mxGeometry width="120" relative="1" as="geometry">
@@ -407,7 +395,7 @@
         </mxCell>
         <mxCell id="2EsYWq2DzqXfXQ-LN_QN-29" value="" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;endArrow=none;endFill=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
           <mxGeometry width="80" relative="1" as="geometry">
-            <mxPoint x="-700" y="-990" as="sourcePoint" />
+            <mxPoint x="-470" y="-990" as="sourcePoint" />
             <mxPoint x="-10" y="-990" as="targetPoint" />
           </mxGeometry>
         </mxCell>
@@ -516,6 +504,11 @@
         <mxCell id="2EsYWq2DzqXfXQ-LN_QN-59" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;endArrow=none;endFill=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="yxBQXZHaBap9HhFSkt2I-12" target="yxBQXZHaBap9HhFSkt2I-43">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="2EsYWq2DzqXfXQ-LN_QN-77" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;endArrow=none;endFill=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="2EsYWq2DzqXfXQ-LN_QN-62">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-1130" y="-1040" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="2EsYWq2DzqXfXQ-LN_QN-62" value="MAP" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
           <mxGeometry x="-1150" y="-920" width="395" height="188" as="geometry">
             <mxRectangle x="550" y="140" width="160" height="26" as="alternateBounds" />
@@ -530,19 +523,40 @@
         <mxCell id="2EsYWq2DzqXfXQ-LN_QN-65" value="&lt;div&gt;+ instantiate_grass_sprites(grass_group: SpritesGroup): void&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; + isntantiate_obstacles_sprites(obstacles_group: SpritesGroup): void&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&amp;nbsp; &amp;nbsp; + get_player_spawn_pos(): pygame.Vector2&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&amp;nbsp; &amp;nbsp; + get_enemies_spawn_pos(): list&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="2EsYWq2DzqXfXQ-LN_QN-62">
           <mxGeometry y="118" width="395" height="70" as="geometry" />
         </mxCell>
+        <mxCell id="2EsYWq2DzqXfXQ-LN_QN-76" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;endArrow=none;endFill=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="2EsYWq2DzqXfXQ-LN_QN-67">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-890" y="-990" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="2EsYWq2DzqXfXQ-LN_QN-67" value="SPRITE" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="-1150" y="-1130" width="395" height="188" as="geometry">
+          <mxGeometry x="-1150" y="-1130" width="160" height="100" as="geometry">
             <mxRectangle x="550" y="140" width="160" height="26" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="2EsYWq2DzqXfXQ-LN_QN-68" value=" - grass: list&#xa;    - walls: list&#xa;    - enemies_spawn_positions: list&#xa;    - player_spawn_position: pygame.Vector2" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="2EsYWq2DzqXfXQ-LN_QN-67">
-          <mxGeometry y="26" width="395" height="74" as="geometry" />
+        <mxCell id="2EsYWq2DzqXfXQ-LN_QN-68" value=" - image: Surface&#xa;    - rect: Rect" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="2EsYWq2DzqXfXQ-LN_QN-67">
+          <mxGeometry y="26" width="160" height="44" as="geometry" />
         </mxCell>
         <mxCell id="2EsYWq2DzqXfXQ-LN_QN-69" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="2EsYWq2DzqXfXQ-LN_QN-67">
-          <mxGeometry y="100" width="395" height="18" as="geometry" />
+          <mxGeometry y="70" width="160" height="18" as="geometry" />
         </mxCell>
-        <mxCell id="2EsYWq2DzqXfXQ-LN_QN-70" value="&lt;div&gt;+ instantiate_grass_sprites(grass_group: SpritesGroup): void&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; + isntantiate_obstacles_sprites(obstacles_group: SpritesGroup): void&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&amp;nbsp; &amp;nbsp; + get_player_spawn_pos(): pygame.Vector2&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&amp;nbsp; &amp;nbsp; + get_enemies_spawn_pos(): list&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="2EsYWq2DzqXfXQ-LN_QN-67">
-          <mxGeometry y="118" width="395" height="70" as="geometry" />
+        <mxCell id="2EsYWq2DzqXfXQ-LN_QN-75" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="2EsYWq2DzqXfXQ-LN_QN-72" target="yxBQXZHaBap9HhFSkt2I-48">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-890" y="-990" />
+              <mxPoint x="-575" y="-990" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2EsYWq2DzqXfXQ-LN_QN-72" value="COLLISION" style="swimlane;fontStyle=0;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="-970" y="-1130" width="160" height="100" as="geometry">
+            <mxRectangle x="550" y="140" width="160" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2EsYWq2DzqXfXQ-LN_QN-73" value=" - image: Surface&#xa;    - rect: Rect" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="2EsYWq2DzqXfXQ-LN_QN-72">
+          <mxGeometry y="26" width="160" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="2EsYWq2DzqXfXQ-LN_QN-74" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" vertex="1" parent="2EsYWq2DzqXfXQ-LN_QN-72">
+          <mxGeometry y="70" width="160" height="18" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

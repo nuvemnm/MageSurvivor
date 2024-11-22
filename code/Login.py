@@ -2,8 +2,7 @@ import pygame
 import os
 from os.path import join
 #from jogador import Jogador
-import utils
-
+import bcrypt
 
 class Login:
     def __init__(self):
@@ -38,7 +37,7 @@ class Login:
 
     def cadastrar(self, nickname, password):
         self.nickname = nickname
-        self.password = utils.encrypt_password(password)
+        self.password = self.encrypt_password(password)
 
         password_hash_str = self.password.decode('utf-8')
 
@@ -64,7 +63,7 @@ class Login:
                         stored_password_bytes = self.password.encode('utf-8')
 
                         if self.nickname == nick_input:
-                            if utils.verify_password(stored_password_bytes, pass_input):
+                            if self.verify_password(stored_password_bytes, pass_input):
                                 print("Usuário encontrado!")
                                 print(f"Nome: {self.nickname}")
                                 print(f"Score: {score}")
@@ -124,3 +123,14 @@ class Login:
             print("O arquivo não foi encontrado.")
         except Exception as e:
             print(f"Erro: {e}")
+
+        
+    def encrypt_password(password):
+        salt = bcrypt.gensalt()
+
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
+        return hashed_password
+
+    def verify_password(stored_password, provided_password):
+        return bcrypt.checkpw(provided_password.encode('utf-8'), stored_password)
+        

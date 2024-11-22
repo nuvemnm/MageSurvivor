@@ -1,7 +1,7 @@
 import pygame
 
 from menus.Button import Button
-from data_manager import Login
+from Login import Login
 import os
 
 WHITE = (255, 255, 255)
@@ -31,22 +31,19 @@ class Menu:
         base_path = os.path.dirname(__file__)  # Diretório atual do arquivo
         image_path = os.path.join(base_path, '..','..', 'images', 'menu', 'magesurvivorlogin.png')
         image_path = os.path.abspath(image_path)  # Converte para um caminho absoluto
-    # Verifique o caminho da imagem
-
+    
+    
         # Carrega e ajusta a imagem ao tamanho da tela
         self.background = pygame.image.load(image_path).convert()
         self.background = pygame.transform.scale(self.background, (screen.get_width(), screen.get_height()))
 
     def display_menu(self, title, button_infos):   
-        self.screen.blit(self.background, (0, 0))  # Limpa a tela para evitar sobreposição # Limpa a tela para evitar sobreposição
-        
-        self.draw_imput()
+        self.screen.blit(self.background, (0, 0))  # Limpa a tela para evitar sobreposição
         
         self.create_buttons(button_infos=button_infos)
-        #self.display_text(title, 80, (self.width // 3.4, self.height // 38))
         self.draw_buttons()
 
-        pygame.display.flip()  # Atualiza a tela
+        pygame.display.flip() # Atualiza a tela
         return self.handle_menu_events()
 
 
@@ -113,9 +110,6 @@ class Menu:
 
     
     def draw_imput(self):
-        
-        
-
         # Desenhar as caixas de entrada
         pygame.draw.rect(self.screen, BLUE if self.active_input == "user" else BLACK, self.user_rect, 2)
         pygame.draw.rect(self.screen,  BLUE if self.active_input == "password" else BLACK, self.password_rect, 2)

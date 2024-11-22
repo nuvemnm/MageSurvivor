@@ -12,12 +12,9 @@ class Pause_menu(Menu):
         self.title = "Pause"
         self.button_infos = {"Continuar":self.options.continuar, "Exit":self.options.exit}
         
-
-    def display_menu(self):   
-        self.screen.fill(COLORS["GRAY"])  # Limpa a tela para evitar sobreposição
-        
+    def display_menu(self): 
         self.create_buttons(button_infos = self.button_infos)
-        self.display_text(self.title, 80, (self.width // 3.4, self.height // 38))
+        self.display_text(self.title, 200, (self.width/3.5, self.height /5))
         self.draw_buttons()
 
         pygame.display.flip()  # Atualiza a tela
@@ -34,7 +31,6 @@ class Pause_menu(Menu):
                 for button in self.buttons:
                     if button.rect.collidepoint(mouse_pos):
                         return button.click()
-    
 
     def pause(self, jogo):
         while True:

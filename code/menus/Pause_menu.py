@@ -1,28 +1,28 @@
 import pygame
 from menus.Menu import Menu
+from menus.Menu import COLORS
 from menus.options import Options
 
-from menus.Menu import COLORS
 
-
-class Upgrade_menu(Menu):
+class Pause_menu(Menu):
     def __init__(self, screen):
         super().__init__(screen)
+
         self.options = Options()
-        self.title = "Escolha uma melhoria"
-        self.button_infos = {"+10 de vida":self.options.upgrade_life, "+5 de dano":self.options.upgrade_damage, "+10 de velocidade":self.options.speed}
+        self.title = "Pause"
+        self.button_infos = {"Continuar":self.options.continuar, "Exit":self.options.exit}
+        
 
     def display_menu(self):   
-        self.screen.fill(COLORS["GRAY"])  # Limpa a tela para evitar sobreposição 
+        self.screen.fill(COLORS["GRAY"])  # Limpa a tela para evitar sobreposição
         
         self.create_buttons(button_infos = self.button_infos)
-        self.display_text(self.title, 80, (self.width // 6, self.height // 4))
+        self.display_text(self.title, 80, (self.width // 3.4, self.height // 38))
         self.draw_buttons()
 
         pygame.display.flip()  # Atualiza a tela
         return self.handle_menu_events()
     
-
     def handle_menu_events(self):
           # Atualiza a posição do mouse
         for event in pygame.event.get():
@@ -36,19 +36,16 @@ class Upgrade_menu(Menu):
                         return button.click()
     
 
-    
-    def upgrade_choice(self, jogo):
-
-        selected_option = self.display_menu()
-        
-        if selected_option == self.options.upgrade_life:
-            jogo.player.upgrade("life")
+    def pause(self, jogo):
+        while True:
+            selected_option = self.display_menu()
             
-        elif selected_option == self.options.upgrade_damage:
-            jogo.player.upgrade("damage")
+            if selected_option == self.options.continuar:
+                jogo.active_state = "running"
+                break
+                #return self.active_state
 
-        elif selected_option  == self.options.speed:
-            jogo.player.upgrade("speed")
-            
-        
-        
+            elif selected_option == self.options.exit:
+                jogo.active_state = "main_menu"
+                break
+                #return self.active_state

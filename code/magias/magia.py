@@ -9,7 +9,7 @@ class Spell(pygame.sprite.Sprite):
         self.bullet_sprites = bullet_sprites
         ## Cooldown padrão:
         self.cooldown = 80
-        self.damage = 10
+        self.damage = 5
         self.player = player
     
     def shoot(self, bullet_initial_pos, bullet_direction,enemy_sprites):

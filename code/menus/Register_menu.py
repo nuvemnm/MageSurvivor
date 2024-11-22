@@ -11,9 +11,19 @@ class Register_menu(Menu):
         self.title = "Crie um novo login e senha:"
         self.button_infos = {"Confirm":self.options.confirm, "Back":self.options.back}
 
-    def display_menu(self,jogo):
+    def display_menu(self, jogo):
         selected_option = super().display_menu(self.title,self.button_infos)
-        if selected_option == self.options.back:
-            jogo.tela_logon = False
-            jogo.mm = True
+
+        if selected_option == self.options.confirm:
+            
+            self.login.cadastrar(self.user_text, self.password_text)
+            jogo.active_state = "running"
+            #return self.active_state
+            
+        elif selected_option == self.options.back:
+            jogo.active_state = "main_menu"
+            #return self.active_state
         
+        else:
+            jogo.active_state = "register_menu"
+            #return self.active_state

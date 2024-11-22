@@ -4,8 +4,8 @@ from os.path import join
 #from jogador import Jogador
 import utils
 
-
-class Login:
+#Clasee responsável por lidar com o banco de dados que armazna nome de usuário, pontuação e senha
+class DataManager:
     def __init__(self):
         self.base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
         self.archive = os.path.join(self.base_path, 'data_login', 'user.txt')
@@ -13,7 +13,7 @@ class Login:
         self.password = None
         self.score = 0
         
-    
+    #Verifica se certo usuário existe
     def extrair_dados(self, search_name):
         try:
             with open(self.archive, 'r', encoding='utf-8') as arquivo:
@@ -28,14 +28,14 @@ class Login:
                             print(f"Score: {score}")
                             return True
 
-                # Se terminar o loop sem encontrar o usuário
+                #Se terminar o loop sem encontrar o usuário
                 print("Usuário não cadastrado.")
                 return False
         except FileNotFoundError:
             print("O arquivo não foi encontrado.")
             return None
 
-
+    #Insere os dados do jogador no banco de dados
     def cadastrar(self, nickname, password):
         self.nickname = nickname
         self.password = utils.encrypt_password(password)
@@ -52,7 +52,7 @@ class Login:
                 print(f"Erro ao escrever no arquivo: {e}")
 
 
-
+    #Verifica se nome usuáio e senha existem no banco de dados
     def verify_login(self, nick_input, pass_input):
         try:
             with open(self.archive, 'r', encoding='utf-8') as arquivo:
@@ -82,7 +82,7 @@ class Login:
             print("O arquivo não foi encontrado.")
             return None
         
-    
+    #Atuliza a pontuação do jogador caso ela seja maior que a pontuação armazenada no banco de dados
     def write_score(self, nick_input, score_input):
         try:
             # Ler todas as linhas do arquivo

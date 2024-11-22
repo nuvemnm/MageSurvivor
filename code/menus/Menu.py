@@ -1,8 +1,8 @@
 import pygame
-import os
 
 from menus.Button import Button
 from data_manager import Login
+import os
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -13,16 +13,7 @@ COLORS = {"WHITE":WHITE,"BLACK":BLACK,"GRAY":GRAY, "BLUE": BLUE}
 class Menu:
     def __init__(self, screen):
         self.screen = screen
-        self.screen = screen
-      
-        base_path = os.path.dirname(__file__)  # Diretório atual do arquivo
-        image_path = os.path.join(base_path, '..','..', 'images', 'menu', 'magesurvivor.png')
-        image_path = os.path.abspath(image_path)  # Converte para um caminho absoluto
-    # Verifique o caminho da imagem
-
-        # Carrega e ajusta a imagem ao tamanho da tela
-        self.background = pygame.image.load(image_path).convert()
-        self.background = pygame.transform.scale(self.background, (screen.get_width(), screen.get_height()))
+        self.font = pygame.font.Font(None, 60)
         self.width = self.screen.get_width()
         self.height = self.screen.get_height()
         self.button_size = (400, 70)  # Largura e altura dos botões
@@ -37,11 +28,22 @@ class Menu:
         self.login = Login()
 
 
+        base_path = os.path.dirname(__file__)  # Diretório atual do arquivo
+        image_path = os.path.join(base_path, '..','..', 'images', 'menu', 'magesurvivorlogin.png')
+        image_path = os.path.abspath(image_path)  # Converte para um caminho absoluto
+    # Verifique o caminho da imagem
+
+        # Carrega e ajusta a imagem ao tamanho da tela
+        self.background = pygame.image.load(image_path).convert()
+        self.background = pygame.transform.scale(self.background, (screen.get_width(), screen.get_height()))
+
     def display_menu(self, title, button_infos):   
-        self.screen.blit(self.background, (0, 0))  # Limpa a tela para evitar sobreposição
+        self.screen.blit(self.background, (0, 0))  # Limpa a tela para evitar sobreposição # Limpa a tela para evitar sobreposição
+        
+        self.draw_imput()
         
         self.create_buttons(button_infos=button_infos)
-        #self.display_text(title, 80, (self.width // 3.4, self.height // 4))
+        #self.display_text(title, 80, (self.width // 3.4, self.height // 38))
         self.draw_buttons()
 
         pygame.display.flip()  # Atualiza a tela

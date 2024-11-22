@@ -61,9 +61,9 @@ class Jogo:
         self.collision_sprites = SpritesGroup(self.camera_surface)
 
 
-        self.weak_enemy_interval = 700
-        self.mid_enemy_interval = 1000
-        self.strong_enemy_interval = 1300
+        self.weak_enemy_interval = 2000
+        self.mid_enemy_interval = 3000
+        self.strong_enemy_interval = 4000
 
         self.weak_enemy_event = pygame.event.custom_type()
         pygame.time.set_timer(self.weak_enemy_event, self.weak_enemy_interval)
@@ -81,12 +81,13 @@ class Jogo:
         self.enemy = None
 
         self.bullet_damage = 10 #variavel auxiliar para atualizar o dano da magia
-
-
+ 
 
     def run(self):  
         # Cria o menu e exibe a tela de menu
         utils.setup(self)
+
+        #self.boss = None
 
         while self.running:
             if(ENABLE_MENU == True):
@@ -119,7 +120,7 @@ class Jogo:
 
                     if keys[pygame.K_p]:
                         self.pause_menu_controller.pause(self)
-            
+                        # Pause menu
 
                     elif self.player.upgrading == True:
                         self.upgrade_menu_controller.upgrade_choice(self)
@@ -127,9 +128,11 @@ class Jogo:
 
                     elif self.player.alive == False:
                         self.active_state = "game_over"
-        
+                        # self.game_over()
 
                     else:
+                       
+
                         self.all_sprites.update(dt)
                         self.grass_sprites.update(dt)
                         self.obstacle_sprites.update(dt)

@@ -110,8 +110,7 @@ class Login:
                             else:
                                 # Mantém a linha inalterada se o novo score não for maior
                                 arquivo.write(linha + "\n")
-                                print("O novo score não é maior que o atual. Nenhuma alteração feita.")
-                        else:
+                               
                             # Mantém a linha inalterada
                             arquivo.write(linha + "\n")
                     else:

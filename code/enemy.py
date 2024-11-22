@@ -14,7 +14,7 @@ class Enemy(pygame.sprite.Sprite):
     
         self.frames, self.frames_index = frames, 0
         self.image = self.frames[self.frames_index]
-        self.animation_speed = 6
+        self.animation_speed = 8
         
         #rect
         self.rect = self.image.get_rect(center = pos)
@@ -55,7 +55,6 @@ class Enemy(pygame.sprite.Sprite):
 
     def take_damage(self,damage):
         if self.alive == False:
-            print("tomou dano")
             return
         self.dinamicLife -= damage
         if self.dinamicLife <= 0:
@@ -83,4 +82,3 @@ class Enemy(pygame.sprite.Sprite):
             self.animate(dt)
         else:
             self.death_timer()
-

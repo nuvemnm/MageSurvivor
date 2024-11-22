@@ -9,7 +9,7 @@ class Map:
     def __init__(self,map_path):
         map = load_pygame(map_path)
         teste = map.get_layer_by_name("grass").tiles()
-        print(f"teste: {teste}")
+
         self.grass = map.get_layer_by_name("grass").tiles()
         self.walls = map.get_layer_by_name("wall").tiles()
         self.enemies_spawn_positions = []
@@ -31,6 +31,7 @@ class Map:
     def isntantiate_obstacles_sprites(self,obstacles_group):
         for x,y, image in self.walls:
             Sprite((x * config.TILE_SIZE, y * config.TILE_SIZE), image, obstacles_group)
+
 
     def get_player_spawn_pos(self):
         return self.player_spawn_position

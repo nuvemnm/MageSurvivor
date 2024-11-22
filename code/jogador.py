@@ -14,21 +14,6 @@ from menus import Upgrade_menu
 from data_manager import Login
 
 class Jogador(pygame.sprite.Sprite):
-## TODO: 
-    # def player_collision(self):
-    #     if self.enemy_sprites:
-    #         for enemy in self.enemy_sprites:
-    #             player_sprites = pygame.sprite.spritecollide(enemy, self.player_sprites, False, pygame.sprite.collide_mask)
-    #             if player_sprites:
-    #                 for player in player_sprites:
-    #                     player.dinamicLife -= enemy.damage
-    #                     print(player.dinamicLife)
-    #                     if player.dinamicLife <=0:
-    #                         self.running = False
-
-
-
-
     def __init__(self, position, groups, obstacle_sprites, enemy_sprites, bullet_sprites):
         super().__init__(groups) 
         
@@ -122,16 +107,18 @@ class Jogador(pygame.sprite.Sprite):
                 if self.hitbox.colliderect(enemy.rect):
                     self.push_enemy_away(enemy)
                     self.take_damage(enemy.damage)
-                    print(f"Vida atual: {self.dinamicLife}")
-
+                    if self.dinamicLife>0:
+                        print(f"Vida atual: {self.dinamicLife}")
+                    else:
+                        print(f"Você morreu! :(")
     def leveling(self):
         print("+1")
         if self.experience == self.experience_threshold:
             self.upgrading = True
-            print(f"subiu de nível! nível atual: {self.actual_level}")
+            print(f"Subiu de nível! Nível atual: {self.actual_level}")
         else:
             self.experience += 1
-            print(f"experiencia atual: {self.experience}/{self.experience_threshold} ")
+            print(f"Experiência atual: {self.experience}/{self.experience_threshold} ")
 
     def score_up(self, xp_quantity):
         print(self.nickname)
@@ -146,18 +133,18 @@ class Jogador(pygame.sprite.Sprite):
         self.experience_threshold +=3
 
         if(stat == "damage"):
-            print("dano aumentado para: " + str(self.spell.damage))
+            print("Você teve o dano aumentado para: " + str(self.spell.damage))
             self.spell.damage += 5
             self.upgrading = False
         if(stat == "life"):
             self.staticLife += 10
             self.dinamicLife += 10
-            print("vida aumentado para: " + str(self.staticLife))
+            print("Você teve a vida aumentada para: " + str(self.staticLife))
             self.upgrading = False
         if(stat == "speed"):
             self.speed += 10
             self.upgrading = False
-
+            print("Você teve a velocidade aumentada para: " + str(self.staticLife))
         return
     
     def shoot(self):

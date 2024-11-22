@@ -122,7 +122,7 @@ class Jogo:
 
                     if keys[pygame.K_p]:
                         self.pause_menu_controller.pause(self)
-                        # Pause menu
+            
 
                     elif self.player.upgrading == True:
                         self.upgrade_menu_controller.upgrade_choice(self)
@@ -130,12 +130,9 @@ class Jogo:
 
                     elif self.player.alive == False:
                         self.active_state = "game_over"
-                        # self.game_over()
+        
 
                     else:
-                        #aplica zoom na tela
-                        # utils.zoom(self.player,self.screen,[self.all_sprites,self.player_sprites,self.bullet_sprites])
-
                         self.all_sprites.update(dt)
                         self.grass_sprites.update(dt)
                         self.obstacle_sprites.update(dt)

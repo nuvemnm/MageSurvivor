@@ -17,7 +17,6 @@ def get_mouse_direction_relative_to_center():
     mouse_relative_pos = pygame.Vector2(mouse_pos) - center_pos
     #print(f"mouse_pos: {mouse_pos},center_pos: {center_pos}, mouse_relative_pos:{mouse_relative_pos}")
 
-
     return mouse_relative_pos
 
 

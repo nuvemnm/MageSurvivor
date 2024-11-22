@@ -69,6 +69,7 @@ class Enemy(pygame.sprite.Sprite):
         
     def take_damage(self,damage):
         if self.alive == False:
+            print("tomou dano")
             return
         self.dinamicLife -= damage
         if self.dinamicLife <= 0:

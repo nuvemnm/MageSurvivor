@@ -11,6 +11,7 @@ from magias.magia import Spell
 import time
 from config import *
 from menus import Upgrade_menu
+from data_manager import Login
 
 class Jogador(pygame.sprite.Sprite):
 ## TODO: 
@@ -38,6 +39,7 @@ class Jogador(pygame.sprite.Sprite):
         left_image_path = os.path.join(base_path, 'images', 'personagem', 'magomenor.png')
         self.left_image = pygame.image.load(left_image_path).convert_alpha()
         self.image = self.right_image
+        self.login = Login()
 
         self.rect = self.right_image.get_rect(topleft = position)
         self.position = position
@@ -48,7 +50,7 @@ class Jogador(pygame.sprite.Sprite):
         #movimento
         self.direction = pygame.Vector2()
         self.speed = 300
-        self.staticLife = 50
+        self.staticLife = 10
         self.dinamicLife = self.staticLife
         self.obstacle_sprites = obstacle_sprites
         self.enemy_sprites = enemy_sprites

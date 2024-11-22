@@ -84,11 +84,11 @@ def spawn_enemy(jogo, event, timer):
         if event.type == jogo.weak_enemy_event:
             jogo.enemy = Enemy(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['bat'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 20, 20)
             
-    if timer >= 10:
+    if timer >= 20:
         if event.type == jogo.mid_enemy_event:
             jogo.enemy = Enemy(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['wolf'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 20, 40)
             
-    if timer >= 20:
+    if timer >= 30:
         if event.type == jogo.strong_enemy_event:
             jogo.enemy = Enemy(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['goblin'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 20, 80)
 

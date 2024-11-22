@@ -84,18 +84,18 @@ class Jogo:
 
     def run(self):  
         # Cria o menu e exibe a tela de menu
-        self.init_time = time.time()
         utils.setup(self)
 
         #self.boss = None
 
         while self.running:
-            print(self.enemy)
+            
             if(ENABLE_MENU == True):
                 if(self.active_state == "main_menu"):
                     self.main_menu_controller.display_menu(self)
                     self.player.nickname = self.main_menu_controller.user_text
                     self.main_menu_controller.reset(self)
+                    self.init_time = time.time()
                 
                 elif(self.active_state == "register_menu"):
                     self.register_menu_controller.display_menu(self)
@@ -106,6 +106,7 @@ class Jogo:
                     dt = self.clock.tick(60) / 1000
                     self.actual_time = time.time()
                     self.elapsed_time = self.actual_time - self.init_time
+                    print(self.elapsed_time)
 
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:

@@ -47,10 +47,12 @@ class Main_menu(Menu):
         jogo.player.speed = 300
         jogo.player.staticLife = 50
         jogo.player.dinamicLife = jogo.player.staticLife
-        jogo.player.rect = jogo.player.right_image.get_rect(topleft = jogo.player.position)
+        jogo.player.rect = jogo.player.right_image.get_rect(topleft = jogo.map.player_spawn_position)
         jogo.player.experience = 0
         jogo.player.experience_threshold = 1
-
-        #jogo.elapsed_time = 0
-        jogo.init_time = 0
-        #jogo.enemy.kill()
+        
+        jogo.actual_time = 0
+        jogo.elapsed_time = 0
+        #jogo.init_time = 0
+        for enemy in jogo.enemy_sprites:
+            enemy.kill()

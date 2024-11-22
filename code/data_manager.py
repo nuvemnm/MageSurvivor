@@ -98,6 +98,7 @@ class Login:
                     if len(partes) == 3:
                         nickname, score, password = partes
                         score = int(score)  # Converte o score armazenado para inteiro
+                        self.score = score
 
                         if nick_input == nickname:
                             usuario_encontrado = True

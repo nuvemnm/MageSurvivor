@@ -10,13 +10,15 @@ class Game_over(Menu):
         super().__init__(screen)
         self.options = Options()
         self.title = "Game Over"
+        self.score = f"Pontuação: {self.login.score}"
         self.button_infos = {"Main menu":self.options.menu, "Exit":self.options.exit}
 
     def display_menu(self):   
         self.screen.fill(COLORS["GRAY"])  # Limpa a tela para evitar sobreposição 
         
         self.create_buttons(button_infos = self.button_infos)
-        self.display_text(self.title, 80, (self.width // 8, self.height // 4))
+        self.display_text(self.title, 80, (self.width // 3, self.height // 4))
+        self.display_text(self.score, 80, (self.width // 3, self.height // 2.5))
         self.draw_buttons()
 
         pygame.display.flip()  # Atualiza a tela

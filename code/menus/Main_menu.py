@@ -50,7 +50,8 @@ class Main_menu(Menu):
         jogo.player.position = jogo.map.player_spawn_position
         jogo.player.experience = 0
         jogo.player.experience_threshold = 1
-        jogo.player.spell.damage = 10
+        jogo.player.spell.damage = 5
+        jogo.player.spell_cadence = 1500
         
         jogo.actual_time = 0
         jogo.elapsed_time = 0

@@ -10,7 +10,7 @@ class Upgrade_menu(Menu):
         super().__init__(screen)
         self.options = Options()
         self.title = "Escolha uma melhoria"
-        self.button_infos = {"+20 de vida":self.options.upgrade_life, "+10 de dano":self.options.upgrade_damage, "+10 de velocidade":self.options.speed}
+        self.button_infos = {"+10 de vida":self.options.upgrade_life, "+5 de dano":self.options.upgrade_damage, "+10 de velocidade":self.options.speed}
 
     def display_menu(self):   
         self.screen.fill(COLORS["GRAY"])  # Limpa a tela para evitar sobreposição 

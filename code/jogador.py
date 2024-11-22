@@ -67,6 +67,7 @@ class Jogador(pygame.sprite.Sprite):
         self.invulnerable = False
         self.invulnerable_time = 0
         self.invulnerable_duration = 1000  # Tempo de invulnerabilidade em milissegundos 
+        self.spell_cadence = 1500
 
 
     def input(self):
@@ -140,16 +141,17 @@ class Jogador(pygame.sprite.Sprite):
 
     def upgrade(self,stat):
         self.actual_level += 1
+        self.spell_cadence -= 100
         self.experience -= self.experience_threshold
         self.experience_threshold +=3
 
         if(stat == "damage"):
             print("dano aumentado para: " + str(self.spell.damage))
-            self.spell.damage += 10
+            self.spell.damage += 5
             self.upgrading = False
         if(stat == "life"):
-            self.staticLife += 20
-            self.dinamicLife += 20
+            self.staticLife += 10
+            self.dinamicLife += 10
             print("vida aumentado para: " + str(self.staticLife))
             self.upgrading = False
         if(stat == "speed"):
@@ -184,7 +186,7 @@ class Jogador(pygame.sprite.Sprite):
         # Verifica se 0.3 segundos passaram desde o último disparo
         if not self.can_shoot:
             current_time = pygame.time.get_ticks()
-            if current_time - self.shoot_time >= 300:  
+            if current_time - self.shoot_time >= self.spell_cadence:  
                 self.can_shoot = True  
 
     def push_enemy_away(self, enemy):

@@ -60,18 +60,19 @@ class Jogo:
         self.all_sprites = SpritesGroup(self.camera_surface)
         self.collision_sprites = SpritesGroup(self.camera_surface)
 
-        #enemy timer
-        self.enemy_event = pygame.event.custom_type()
-        pygame.time.set_timer(self.enemy_event, 1500)
+
+        self.weak_enemy_interval = 700
+        self.mid_enemy_interval = 1000
+        self.strong_enemy_interval = 1300
 
         self.weak_enemy_event = pygame.event.custom_type()
-        pygame.time.set_timer(self.weak_enemy_event, 700)
+        pygame.time.set_timer(self.weak_enemy_event, self.weak_enemy_interval)
 
         self.mid_enemy_event = pygame.event.custom_type()
-        pygame.time.set_timer(self.mid_enemy_event, 1000)
+        pygame.time.set_timer(self.mid_enemy_event, self.mid_enemy_interval)
 
         self.strong_enemy_event = pygame.event.custom_type()
-        pygame.time.set_timer(self.strong_enemy_event, 1300) 
+        pygame.time.set_timer(self.strong_enemy_event, self.strong_enemy_interval) 
 
         self.spawn_positions = []
         self.upgrade_timer = 0
@@ -91,7 +92,6 @@ class Jogo:
         #self.boss = None
 
         while self.running:
-            
             if(ENABLE_MENU == True):
                 if(self.active_state == "main_menu"):
                     self.main_menu_controller.display_menu(self)
@@ -106,10 +106,10 @@ class Jogo:
                 elif(self.active_state == "running"):
                     keys = pygame.key.get_pressed()
                     dt = self.clock.tick(60) / 1000
-                    print(self.player.spell.damage)
                     self.actual_time = time.time()
                     self.elapsed_time = self.actual_time - self.init_time
                     #print(self.elapsed_time)
+
                     
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:

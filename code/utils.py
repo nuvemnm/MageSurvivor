@@ -1,13 +1,15 @@
 from itertools import chain
+import pygame
 import os
 from jogador import Jogador
+from enemy import Enemy
 from map import Map
 from sprite import Sprite
 from config import *
 import pygame
 from pytmx.util_pygame import load_pygame
 import bcrypt
-
+from random import choice
 
 def get_mouse_direction_relative_to_center():
     mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
@@ -76,3 +78,21 @@ def setup(jogo):
     jogo.map.isntantiate_obstacles_sprites(jogo.obstacle_sprites)
     jogo.player = Jogador(jogo.map.player_spawn_position, jogo.player_sprites, jogo.obstacle_sprites, jogo.enemy_sprites, jogo.bullet_sprites)
 
+def spawn_enemy(jogo, event, timer):
+  
+    if timer >= 0:
+        if event.type == jogo.weak_enemy_event:
+            jogo.enemy = Enemy(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['bat'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 20, 20)
+            
+    if timer >= 10:
+        if event.type == jogo.mid_enemy_event:
+            jogo.enemy = Enemy(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['wolf'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 20, 40)
+            
+    if timer >= 20:
+        if event.type == jogo.strong_enemy_event:
+            jogo.enemy = Enemy(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['goblin'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 20, 80)
+
+            
+    if timer >= 100 and not jogo.boss_spawned:
+        jogo.boss = Enemy(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['boss'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 20, 80)
+        jogo.boss_spawned = True

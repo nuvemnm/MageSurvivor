@@ -6,7 +6,7 @@ from sprite import *
 from pytmx.util_pygame import load_pygame
 from groups import *
 from itertools import chain
-from enemy import Enemy
+from Enemies.enemy import Enemy
 from magias.magia import Spell
 import time
 from config import *

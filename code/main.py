@@ -6,7 +6,7 @@ import utils
 from config import *
 from Bullet import Bullet
 from jogador import Jogador
-from enemy import Enemy
+from Enemies.enemy import Enemy
 from sprite import *
 from groups import *
 WHITE = (255, 255, 255)

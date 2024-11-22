@@ -122,7 +122,7 @@ class Jogador(pygame.sprite.Sprite):
                 if self.hitbox.colliderect(enemy.rect):
                     self.push_enemy_away(enemy)
                     self.take_damage(enemy.damage)
-                    print(f"Vida atual: {self.dinamicLife}")
+                    #print(f"Vida atual: {self.dinamicLife}")
 
     def leveling(self):
         print("+1")

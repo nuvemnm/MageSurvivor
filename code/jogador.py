@@ -11,7 +11,7 @@ from magias.magia import Spell
 import time
 from config import *
 from menus import Upgrade_menu
-from data_manager import Login
+from data_manager import DataManager
 
 class Jogador(pygame.sprite.Sprite):
 ## TODO: 
@@ -39,7 +39,7 @@ class Jogador(pygame.sprite.Sprite):
         left_image_path = os.path.join(base_path, 'images', 'personagem', 'magomenor.png')
         self.left_image = pygame.image.load(left_image_path).convert_alpha()
         self.image = self.right_image
-        self.login = Login()
+        self.data = DataManager()
 
         self.rect = self.right_image.get_rect(topleft = position)
         self.position = position
@@ -137,7 +137,7 @@ class Jogador(pygame.sprite.Sprite):
         print(self.nickname)
         print(self.score)
         self.score += xp_quantity
-        self.login.write_score(self.nickname, self.score)
+        self.data.write_score(self.nickname, self.score)
 
     def upgrade(self,stat):
         self.actual_level += 1

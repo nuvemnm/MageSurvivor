@@ -1,7 +1,7 @@
 import pygame
 
 from menus.Button import Button
-from data_manager import Login
+from data_manager import DataManager
 import os
 
 WHITE = (255, 255, 255)
@@ -25,7 +25,7 @@ class Menu:
         self.buttons = []
         self.user_rect = pygame.Rect((self.width/2)-200, 260, 400, 50)
         self.password_rect = pygame.Rect((self.width/2)-200, 340, 400, 50)
-        self.login = Login()
+        self.data = DataManager()
 
 
         base_path = os.path.dirname(__file__)  # Diretório atual do arquivo

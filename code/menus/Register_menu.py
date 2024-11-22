@@ -16,7 +16,7 @@ class Register_menu(Menu):
 
         if selected_option == self.options.confirm:
             
-            self.login.cadastrar(self.user_text, self.password_text)
+            self.data.cadastrar(self.user_text, self.password_text)
             jogo.active_state = "running"
             #return self.active_state
             

@@ -49,7 +49,7 @@ class Jogador(pygame.sprite.Sprite):
 
         #movimento
         self.direction = pygame.Vector2()
-        self.speed = 300
+        self.speed = 100
         self.staticLife = 10
         self.dinamicLife = self.staticLife
         self.obstacle_sprites = obstacle_sprites
@@ -151,6 +151,9 @@ class Jogador(pygame.sprite.Sprite):
             self.staticLife += 20
             self.dinamicLife += 20
             print("vida aumentado para: " + str(self.staticLife))
+            self.upgrading = False
+        if(stat == "speed"):
+            self.speed += 10
             self.upgrading = False
 
         return

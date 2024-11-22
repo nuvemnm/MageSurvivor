@@ -11,7 +11,6 @@ class Game_over(Menu):
         super().__init__(screen)
         self.options = Options()
         self.title = "Game Over"
-        self.score = f"Pontuação: {self.login.score}"
         self.button_infos = {"Main menu":self.options.menu, "Exit":self.options.exit}
 
         base_path = os.path.dirname(__file__)  # Diretório atual do arquivo
@@ -24,12 +23,11 @@ class Game_over(Menu):
         self.background = pygame.transform.scale(self.background, (screen.get_width(), screen.get_height()))
 
 
-    def display_menu(self):   
+    def display_menu(self, jogo):   
         self.screen.blit(self.background, (0, 0)) # Limpa a tela para evitar sobreposição 
         
         self.create_buttons(button_infos = self.button_infos)
-        self.display_text(self.title, 80, (self.width // 3, self.height // 4))
-        self.display_text(self.score, 80, (self.width // 3, self.height // 2.5))
+        self.display_text(f"Pontuação: {jogo.player.score}", 80, (self.width // 3, self.height // 2))
         self.draw_buttons()
 
         pygame.display.flip()  # Atualiza a tela
@@ -52,7 +50,7 @@ class Game_over(Menu):
     
     def gameover_options(self, jogo):
 
-        selected_option = self.display_menu()
+        selected_option = self.display_menu(jogo)
         
         if selected_option == self.options.menu:
             jogo.active_state = "main_menu"

@@ -51,7 +51,7 @@ class Menu:
 
 
     def display_text(self, text, size, position):
-        font = pygame.font.SysFont('Corbel', size)
+        font = pygame.font.Font(None, size)
         text_surface = font.render(text, True, WHITE)
         self.screen.blit(text_surface, position)
 

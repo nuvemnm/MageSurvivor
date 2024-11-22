@@ -10,7 +10,7 @@ class Upgrade_menu(Menu):
         super().__init__(screen)
         self.options = Options()
         self.title = "Escolha uma melhoria"
-        self.button_infos = {"+20 de vida":self.options.upgrade_life, "+10 de dano":self.options.upgrade_damage, "+0.5 de vel. de ataque":self.options.attack_speed}
+        self.button_infos = {"+20 de vida":self.options.upgrade_life, "+10 de dano":self.options.upgrade_damage, "+10 de velocidade":self.options.speed}
 
     def display_menu(self):   
         self.screen.fill(COLORS["GRAY"])  # Limpa a tela para evitar sobreposição 
@@ -44,10 +44,11 @@ class Upgrade_menu(Menu):
         if selected_option == self.options.upgrade_life:
             jogo.player.upgrade("life")
             
-         
-
         elif selected_option == self.options.upgrade_damage:
             jogo.player.upgrade("damage")
+
+        elif selected_option  == self.options.speed:
+            jogo.player.upgrade("speed")
             
         
         

@@ -12,4 +12,4 @@ class Options():
 
         self.upgrade_life = "upgrade_life"
         self.upgrade_damage = "upgrade_damage"
-        self.attack_speed = "attack_speed"
+        self.speed = "speed"

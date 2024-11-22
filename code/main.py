@@ -9,7 +9,7 @@ from jogador import Jogador
 from enemy import Enemy
 from sprite import *
 from groups import *
-
+WHITE = (255, 255, 255)
 from menus.Menu import Menu
 from menus.Main_menu import Main_menu
 from menus.Upgrade_menu import Upgrade_menu
@@ -43,6 +43,8 @@ class Jogo:
         self.register_menu_controller = Register_menu(self.screen)
         self.pause_menu_controller = Pause_menu(self.screen)
         self.gameover_menu_controller = Game_over(self.screen)
+
+        self.text = Menu(self.screen)
 
         self.active_state = "main_menu"
 
@@ -104,10 +106,11 @@ class Jogo:
                 elif(self.active_state == "running"):
                     keys = pygame.key.get_pressed()
                     dt = self.clock.tick(60) / 1000
+                    print(self.player.spell.damage)
                     self.actual_time = time.time()
                     self.elapsed_time = self.actual_time - self.init_time
-                    print(self.elapsed_time)
-
+                    #print(self.elapsed_time)
+                    
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:
                             self.running = False
@@ -149,6 +152,10 @@ class Jogo:
 
 
                         utils.draw_camera(self.screen,self.camera_surface)
+
+                        self.text.display_text(f"Life: {self.player.dinamicLife}", 60, (10,10))
+                        self.text.display_text(f"Level: {self.player.actual_level}", 60, (10,50))
+                        self.text.display_text(f"Score: {self.player.score}", 60, (10,90))
 
                     pygame.display.update()
 

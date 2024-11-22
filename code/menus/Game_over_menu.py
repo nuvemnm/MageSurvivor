@@ -1,6 +1,7 @@
 import pygame
 from menus.Menu import Menu
 from menus.options import Options
+import os
 
 from menus.Menu import COLORS
 
@@ -12,11 +13,21 @@ class Game_over(Menu):
         self.title = "Game Over"
         self.button_infos = {"Main menu":self.options.menu, "Exit":self.options.exit}
 
+        base_path = os.path.dirname(__file__)  # Diretório atual do arquivo
+        image_path = os.path.join(base_path, '..','..', 'images', 'menu', 'magesurvivorgameover.png')
+        image_path = os.path.abspath(image_path)  # Converte para um caminho absoluto
+    # Verifique o caminho da imagem
+
+        # Carrega e ajusta a imagem ao tamanho da tela
+        self.background = pygame.image.load(image_path).convert()
+        self.background = pygame.transform.scale(self.background, (screen.get_width(), screen.get_height()))
+
+
     def display_menu(self):   
-        self.screen.fill(COLORS["GRAY"])  # Limpa a tela para evitar sobreposição 
+        self.screen.blit(self.background, (0, 0)) # Limpa a tela para evitar sobreposição 
         
         self.create_buttons(button_infos = self.button_infos)
-        self.display_text(self.title, 80, (self.width // 8, self.height // 4))
+        #self.display_text(self.title, 80, (self.width // 8, self.height // 4))
         self.draw_buttons()
 
         pygame.display.flip()  # Atualiza a tela

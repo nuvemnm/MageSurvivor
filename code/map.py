@@ -33,19 +33,6 @@ class Map:
         for x,y, image in self.walls:
             Sprite((x * config.TILE_SIZE, y * config.TILE_SIZE), image, obstacles_group)
 
-        
-        # TODO: Objetos no mapa
-        """
-        for x, y, image in map.get_layer_by_name("SecondFloor").tiles():
-           Sprite_test((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
-        for x, y, image in map.get_layer_by_name("Objects").tiles():
-            Sprite_test((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
-        for x, y, image in map.get_layer_by_name("Objects2").tiles():
-            Sprite_test((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
-        for x, y, image in map.get_layer_by_name("Details").tiles():
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), image, self.all_sprites)
-        """
-
     def get_player_spawn_pos(self):
         return self.player_spawn_position
 

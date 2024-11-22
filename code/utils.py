@@ -23,8 +23,6 @@ def get_mouse_direction_relative_to_center():
 
     return mouse_relative_pos
 
-
-
 def encrypt_password(password):
     salt = bcrypt.gensalt()
 

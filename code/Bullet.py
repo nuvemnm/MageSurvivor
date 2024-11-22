@@ -13,11 +13,6 @@ class Bullet(pygame.sprite.Sprite):
         self.image = pygame.image.load(image_path)
         self.angle = math.degrees(math.atan2(-direction[1], direction[0]))
         self.image = pygame.transform.rotate(self.image, self.angle)
-        
-        
-        #self.image = self.frames[self.frames_index]
-        #self.frames, self.frames_index = frames, 0
-        #self.animation_speed = 4
 
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = pos

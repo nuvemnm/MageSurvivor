@@ -43,7 +43,6 @@ class Menu:
         self.draw_imput()
         
         self.create_buttons(button_infos=button_infos)
-        #self.display_text(title, 80, (self.width // 3.4, self.height // 38))
         self.draw_buttons()
 
         pygame.display.flip()  # Atualiza a tela

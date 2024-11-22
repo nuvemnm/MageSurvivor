@@ -60,6 +60,32 @@ def load_enemy_images():
                 enemy_frames[folder].append(surf)
     return enemy_frames
 
+def load_spell_images():
+    # Caminho absoluto para o diretório raiz do projeto
+    base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+    # Constrói o caminho absoluto para os inimigos
+    subfolder_path = os.path.join(base_path, 'images','magias')
+
+    folders = list(walk(subfolder_path))
+    if folders:
+        folders = folders[0][1]  # Obtém apenas as subpastas
+        print("Pastas encontradas:", folders)
+
+    else:
+        folders = []
+        print("Nenhuma pasta encontrada dentro de 'images/magias'.")
+
+    spell_frames = {}
+    for folder in folders:
+        for folder_path,_,file_names in walk(join(subfolder_path, folder)):
+            spell_frames[folder] = []
+            for file_name in sorted(file_names,key = lambda name: int(name.split('.')[0])):
+                full_path = join(folder_path,file_name)
+                surf = pygame.image.load(full_path).convert_alpha()
+                spell_frames[folder].append(surf)
+    return spell_frames
+
 def draw_camera(screen,camera_surface):
     
     # Escala a superfície da câmera para a tela principal
@@ -84,15 +110,15 @@ def spawn_enemy(jogo, event, timer):
         if event.type == jogo.weak_enemy_event:
             jogo.enemy = Enemy(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['bat'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 20, 20)
             
-    if timer >= 60:
+    if timer >= 120:
         if event.type == jogo.mid_enemy_event:
             jogo.enemy = Enemy(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['wolf'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 40, 40)
             
-    if timer >= 180:
+    if timer >= 240:
         if event.type == jogo.strong_enemy_event:
             jogo.enemy = Enemy(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['goblin'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 80, 80)
 
             
-    if timer >= 300 and not jogo.boss_spawned:
+    if timer >= 360 and not jogo.boss_spawned:
         jogo.boss = Enemy(choice(jogo.map.enemies_spawn_positions),jogo.enemy_frames['boss'],(jogo.all_sprites,jogo.enemy_sprites), jogo.player, jogo.collision_sprites, jogo.bullet_sprites, 300, 1000)
         jogo.boss_spawned = True

@@ -13,6 +13,11 @@ class Bullet(pygame.sprite.Sprite):
         self.image = pygame.image.load(image_path)
         self.angle = math.degrees(math.atan2(-direction[1], direction[0]))
         self.image = pygame.transform.rotate(self.image, self.angle)
+        
+        
+        #self.image = self.frames[self.frames_index]
+        #self.frames, self.frames_index = frames, 0
+        #self.animation_speed = 4
 
         self.rect = self.image.get_rect()
         self.rect.x, self.rect.y = pos
@@ -26,17 +31,21 @@ class Bullet(pygame.sprite.Sprite):
         self.lifetime = 3000
 
         self.direction = direction
-        self.speed = 400
+        self.speed = 200
         self.damage = damage
     
     def move(self, dt):
         self.rect.x += self.direction[0] * self.speed * dt
         self.rect.y += self.direction[1] * self.speed * dt
+    
+    #def animate(self, dt):
+    #    self.frames_index += self.animation_speed * dt
+    #    self.image = self.frames[(int(self.frames_index) % len(self.frames))]
 
     def update(self,dt):
         # Movimenta a bala
         self.move(dt)
-
+        #self.animate(dt)
         self.check_collision(self.enemy_sprites)
         # Remove a bala após seu tempo de vida
         if pygame.time.get_ticks() - self.spawn_time > self.lifetime:

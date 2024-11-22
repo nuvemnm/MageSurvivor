@@ -61,9 +61,9 @@ class Jogo:
         self.collision_sprites = SpritesGroup(self.camera_surface)
 
 
-        self.weak_enemy_interval = 700
-        self.mid_enemy_interval = 1000
-        self.strong_enemy_interval = 1300
+        self.weak_enemy_interval = 2000
+        self.mid_enemy_interval = 3000
+        self.strong_enemy_interval = 4000
 
         self.weak_enemy_event = pygame.event.custom_type()
         pygame.time.set_timer(self.weak_enemy_event, self.weak_enemy_interval)

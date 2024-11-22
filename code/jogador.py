@@ -14,20 +14,6 @@ from menus import Upgrade_menu
 from data_manager import DataManager
 
 class Jogador(pygame.sprite.Sprite):
-## TODO: 
-    # def player_collision(self):
-    #     if self.enemy_sprites:
-    #         for enemy in self.enemy_sprites:
-    #             player_sprites = pygame.sprite.spritecollide(enemy, self.player_sprites, False, pygame.sprite.collide_mask)
-    #             if player_sprites:
-    #                 for player in player_sprites:
-    #                     player.dinamicLife -= enemy.damage
-    #                     print(player.dinamicLife)
-    #                     if player.dinamicLife <=0:
-    #                         self.running = False
-
-
-
 
     def __init__(self, position, groups, obstacle_sprites, enemy_sprites, bullet_sprites):
         super().__init__(groups) 
@@ -122,7 +108,7 @@ class Jogador(pygame.sprite.Sprite):
                 if self.hitbox.colliderect(enemy.rect):
                     self.push_enemy_away(enemy)
                     self.take_damage(enemy.damage)
-                    print(f"Vida atual: {self.dinamicLife}")
+                    #print(f"Vida atual: {self.dinamicLife}")
 
     def leveling(self):
         print("+1")

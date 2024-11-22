@@ -1,6 +1,7 @@
 import pygame
 from menus.Menu import Menu
 from menus.options import Options
+import os
 
 from menus.Menu import COLORS
 
@@ -11,6 +12,12 @@ class Upgrade_menu(Menu):
         self.options = Options()
         self.title = "Escolha uma melhoria"
         self.button_infos = {"+10 de vida":self.options.upgrade_life, "+5 de dano":self.options.upgrade_damage, "+10 de velocidade":self.options.speed}
+        base_path = os.path.dirname(__file__)  # Diretório atual do arquivo
+        image_path = os.path.join(base_path, '..','..', 'images', 'menu', 'magesurvivorhabilidades.png')
+        image_path = os.path.abspath(image_path)  # Converte para um caminho absoluto
+
+        self.background = pygame.image.load(image_path).convert()
+        self.background = pygame.transform.scale(self.background, (screen.get_width(), screen.get_height()))
 
     def display_menu(self):   
         self.screen.fill(COLORS["GRAY"])  # Limpa a tela para evitar sobreposição 

@@ -22,11 +22,12 @@ class Enemy(pygame.sprite.Sprite):
         self.collision_sprites = collision_sprites
         self.bullet_sprites = bullet_sprites
         self.direction = pygame.Vector2()
-        self.speed = 100
+        self.speed = 50
 
         #life status
         self.damage = damage
         self.dinamicLife = dinamicLife
+        self.staticLife = dinamicLife
         self.alive = True
 
         #timer
@@ -81,6 +82,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image = surf
         self.alive = False
         self.player.leveling()
+        self.player.score_up(self.staticLife)
 
 
     def death_timer(self):
